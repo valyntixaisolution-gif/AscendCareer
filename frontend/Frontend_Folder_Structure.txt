@@ -1,0 +1,85 @@
+frontend/
+│
+├── public/
+│   └── index.html
+│
+├── src/
+│   │
+│   ├── main.jsx                 # React entry
+│   ├── App.jsx                  # App routes
+│   │
+│   ├── api/
+│   │   ├── axios.js              # Axios config
+│   │   ├── auth.api.js
+│   │   ├── user.api.js
+│   │   ├── course.api.js
+│   │   ├── project.api.js
+│   │   ├── job.api.js
+│   │   ├── admin.api.js
+│   │
+│   ├── auth/
+│   │   ├── Login.jsx
+│   │   ├── Register.jsx
+│   │   └── ProtectedRoute.jsx
+│   │
+│   ├── layouts/
+│   │   ├── StudentLayout.jsx
+│   │   ├── TrainerLayout.jsx
+│   │   ├── CompanyLayout.jsx
+│   │   └── AdminLayout.jsx
+│   │
+│   ├── pages/
+│   │   ├── student/
+│   │   │   ├── Dashboard.jsx
+│   │   │   ├── Courses.jsx
+│   │   │   ├── Projects.jsx
+│   │   │   ├── Jobs.jsx
+│   │   │   └── Profile.jsx
+│   │   │
+│   │   ├── trainer/
+│   │   │   ├── Dashboard.jsx
+│   │   │   ├── Courses.jsx
+│   │   │   ├── Assignments.jsx
+│   │   │   └── Students.jsx
+│   │   │
+│   │   ├── company/
+│   │   │   ├── Dashboard.jsx
+│   │   │   ├── Jobs.jsx
+│   │   │   ├── Projects.jsx
+│   │   │   └── Applicants.jsx
+│   │   │
+│   │   └── admin/
+│   │       ├── Dashboard.jsx
+│   │       ├── Users.jsx
+│   │       ├── Courses.jsx
+│   │       ├── Payments.jsx
+│   │       └── Reports.jsx
+│   │
+│   ├── components/
+│   │   ├── navbar/
+│   │   │   ├── StudentNavbar.jsx
+│   │   │   ├── TrainerNavbar.jsx
+│   │   │   ├── CompanyNavbar.jsx
+│   │   │   └── AdminSidebar.jsx
+│   │   │
+│   │   ├── common/
+│   │   │   ├── Loader.jsx
+│   │   │   ├── Modal.jsx
+│   │   │   └── Button.jsx
+│   │
+│   ├── context/
+│   │   └── AuthContext.jsx
+│   │
+│   ├── hooks/
+│   │   └── useAuth.js
+│   │
+│   ├── utils/
+│   │   ├── constants.js
+│   │   └── helpers.js
+│   │
+│   └── styles/
+│       └── main.css
+│
+├── .env
+├── package.json
+└── README.md

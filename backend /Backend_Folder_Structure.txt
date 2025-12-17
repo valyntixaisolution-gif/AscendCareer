@@ -1,0 +1,64 @@
+backend/
+│
+├── src/
+│   │
+│   ├── app.js                 # Express app config
+│   ├── server.js              # Server start
+│   │
+│   ├── config/
+│   │   ├── db.js              # MongoDB connection
+│   │   └── env.js             # Environment variables
+│   │
+│   ├── models/
+│   │   ├── user.model.js
+│   │   ├── course.model.js
+│   │   ├── assignment.model.js
+│   │   ├── project.model.js
+│   │   ├── internship.model.js
+│   │   ├── job.model.js
+│   │   ├── certificate.model.js
+│   │   ├── payment.model.js
+│   │   └── notification.model.js
+│   │
+│   ├── routes/
+│   │   ├── auth.routes.js
+│   │   ├── user.routes.js
+│   │   ├── course.routes.js
+│   │   ├── assignment.routes.js
+│   │   ├── project.routes.js
+│   │   ├── internship.routes.js
+│   │   ├── job.routes.js
+│   │   ├── certificate.routes.js
+│   │   ├── payment.routes.js
+│   │   ├── notification.routes.js
+│   │   └── admin.routes.js
+│   │
+│   ├── controllers/
+│   │   ├── auth.controller.js
+│   │   ├── user.controller.js
+│   │   ├── course.controller.js
+│   │   ├── assignment.controller.js
+│   │   ├── project.controller.js
+│   │   ├── internship.controller.js
+│   │   ├── job.controller.js
+│   │   ├── certificate.controller.js
+│   │   ├── payment.controller.js
+│   │   ├── notification.controller.js
+│   │   └── admin.controller.js
+│   │
+│   ├── middleware/
+│   │   ├── auth.middleware.js     # JWT auth
+│   │   ├── role.middleware.js     # RBAC
+│   │   └── error.middleware.js
+│   │
+│   ├── utils/
+│   │   ├── jwt.js
+│   │   ├── hash.js
+│   │   ├── email.js
+│   │   └── response.js
+│   │
+│   └── uploads/                # Local uploads (optional)
+│
+├── .env
+├── package.json
+└── README.md

@@ -1,25 +1,3 @@
-export class APIError extends Error {
-  constructor(
-    statusCode = 500,
-    message = 'Internal Server Error',
-    error,
-    stack
-  ) {
-    super(message);
-    this.name = this.constructor.name;
-    this.statusCode = statusCode;
-    this.message = message;
-    this.success = false;
-    this.error = error;
-
-    if (stack) {
-      this.stack = stack;
-    } else {
-      Error.captureStackTrace(this, this.constructor);
-    }
-  }
-}
-
 export function successResponse(res, statusCode, message, data) {
   res.status(statusCode).json({
     success: true,
@@ -28,3 +6,20 @@ export function successResponse(res, statusCode, message, data) {
     data,
   });
 }
+
+function formatIssues(issues) {
+  return issues.map((issue) => ({
+    field: issue.path.join('.'),
+    message: issue.message,
+  }));
+}
+
+export const validateEnv = (schema, config) => {
+  const parsedEnv = schema.safeParse(config);
+  if (!parsedEnv.success) {
+    const issues = formatIssues(parsedEnv.error.issues);
+    console.error('ValidateIssues: ', issues);
+  }
+
+  return parsedEnv.data;
+};

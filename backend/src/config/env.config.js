@@ -16,6 +16,4 @@ const envConfig = {
 
 const config = validateEnv(envSchema, envConfig);
 
-console.log('Environment Config:', config);
-
 export default config;

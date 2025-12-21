@@ -1,20 +1,35 @@
-import mongoose from "mongoose";
+import mongoose from 'mongoose';
+import logger from '../lib/logger.lib.js';
+import config from './env.config.js';
+
+mongoose.connection.on('error', (err) => {
+  logger.error('MongoDB runtime error', {
+    error: err,
+    label: 'DatabaseConfig',
+  });
+});
+
+mongoose.connection.on('disconnected', () => {
+  logger.warn('MongoDB disconnected', {
+    label: 'DatabaseConfig',
+  });
+});
 
 async function connectToDatabase() {
-    try {
+  try {
+    await mongoose.connect(config.DATABASE_URL);
 
-        mongoose.connection.on(() => {
-            console.log("Database Connected Successfully");
-        });
+    logger.info('MongoDB connected successfully', {
+      label: 'DatabaseConfig',
+    });
+  } catch (error) {
+    logger.error('MongoDB initial connection failed', {
+      error,
+      label: 'DatabaseConfig',
+    });
 
-        mongoose.connection.on((error) => {
-            console.log("Error Connecting to the database");
-        })
-
-        await mongoose.connect(database);
-    } catch (error) {
-        console.log("Database connection error", error);
-    }
-};
+    process.exit(1);
+  }
+}
 
 export default connectToDatabase;

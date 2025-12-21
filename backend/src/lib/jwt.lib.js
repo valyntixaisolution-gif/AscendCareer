@@ -1,7 +1,7 @@
 import jwt from 'jsonwebtoken';
-import config from '../config/env.config';
-import logger from './logger.lib';
-import APIError from './api-error.lib';
+import config from '../config/env.config.js';
+import logger from './logger.lib.js';
+import APIError from './api-error.lib.js';
 
 function signToken(payload, secret, options = {}) {
   return jwt.sign(payload, secret, options);

@@ -1,7 +1,6 @@
 // src/pages/LandingPage.jsx
 import React from 'react';
-import { AnimatedCounter } from '../hooks/useCountUp.jsx';  // Changed from "./hooks"
-import CompanyLogos from '../components/CompanyLogos';  // Changed from "./components"
+import { AnimatedCounter } from '../hooks/useCountUp.jsx';
 import { useNavigate } from 'react-router-dom';
 
 const LandingPage = () => {
@@ -258,15 +257,21 @@ const LandingPage = () => {
 
       {/* ===== COMPANIES SECTION ===== */}
       <section className="py-16 bg-gray-50">
-  <div className="container mx-auto px-6">
-    <div className="text-center mb-12">
-      <h3 className="text-2xl font-semibold text-gray-700 mb-4">
-        Trusted by Leading Companies Worldwide
-      </h3>
-    </div>
-    <CompanyLogos />
-  </div>
-</section>
+        <div className="container mx-auto px-6">
+          <div className="text-center mb-12">
+            <h3 className="text-2xl font-semibold text-gray-700 mb-4">
+              Trusted by Leading Companies Worldwide
+            </h3>
+            <div className="flex flex-wrap justify-center items-center gap-8 opacity-60">
+              <div className="text-2xl font-bold text-gray-600">Google</div>
+              <div className="text-2xl font-bold text-gray-600">Microsoft</div>
+              <div className="text-2xl font-bold text-gray-600">Amazon</div>
+              <div className="text-2xl font-bold text-gray-600">Apple</div>
+              <div className="text-2xl font-bold text-gray-600">Meta</div>
+            </div>
+          </div>
+        </div>
+      </section>
 
       {/* ===== FINAL CTA ===== */}
       <section className="py-20 bg-gradient-to-r from-blue-800 to-indigo-900 text-white">

@@ -1,6 +1,9 @@
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import { AuthProvider } from './context/AuthContext';
-import Navbar from './components/Navbar';
+import StudentNavbar from './components/navbar/StudentNavbar';
+import TrainerNavbar from './components/navbar/TrainerNavbar';
+import CompanyNavbar from './components/navbar/CompanyNavbar';
+import AdminSidebar from './components/navbar/AdminSidebar';
 import LandingPage from './pages/LandingPage';
 import Login from './auth/Login';
 import Register from './auth/Register';
@@ -22,7 +25,7 @@ function App() {
           {/* Public routes */}
           <Route path="/" element={
             <>
-              <Navbar />
+              <StudentNavbar />
               <LandingPage />
             </>
           } />
@@ -32,7 +35,10 @@ function App() {
           {/* Protected routes */}
           <Route path="/student/dashboard" element={
             <ProtectedRoute allowedRoles={['student']}>
-              <StudentDashboard />
+              <>
+                <StudentNavbar />
+                <StudentDashboard />
+              </>
             </ProtectedRoute>
           } />
 
@@ -50,13 +56,19 @@ function App() {
 
           <Route path="/company/dashboard" element={
             <ProtectedRoute allowedRoles={['company']}>
-              <CompanyDashboard />
+              <>
+                <CompanyNavbar />
+                <CompanyDashboard />
+              </>
             </ProtectedRoute>
           } />
 
           <Route path="/admin/dashboard" element={
             <ProtectedRoute allowedRoles={['admin']}>
-              <AdminDashboard />
+              <div className="flex">
+                <AdminSidebar />
+                <AdminDashboard />
+              </div>
             </ProtectedRoute>
           } />
 

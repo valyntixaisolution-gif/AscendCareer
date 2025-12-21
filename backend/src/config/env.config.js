@@ -12,6 +12,7 @@ const envConfig = {
   JWT_ACCESS_TOKEN_EXPIRATION: process.env.JWT_ACCESS_TOKEN_EXPIRATION,
   JWT_REFRESH_TOKEN_EXPIRATION: process.env.JWT_REFRESH_TOKEN_EXPIRATION,
   DATABASE_URL: process.env.DATABASE_URL,
+  APP_VERSION: process.env.APP_VERSION,
 };
 
 const config = validateEnv(envSchema, envConfig);

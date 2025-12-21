@@ -12,4 +12,5 @@ export const envSchema = z.object({
   JWT_ACCESS_TOKEN_EXPIRATION: z.string().default('15m'),
   JWT_REFRESH_TOKEN_EXPIRATION: z.string().default('7d'),
   DATABASE_URL: z.string().min(1),
+  APP_VERSION: z.string().default('1.0.0'),
 });

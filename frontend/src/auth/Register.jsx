@@ -1,6 +1,7 @@
-// src/auth/Register.jsx
-import React, { useState } from 'react';
+import { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
+import { motion } from 'framer-motion';
+import { FaGoogle, FaLinkedin, FaEye, FaEyeSlash, FaArrowRight, FaUser, FaChalkboardTeacher, FaBuilding, FaCheck } from 'react-icons/fa';
 import { useAuth } from '../context/AuthContext';
 
 const Register = () => {
@@ -9,258 +10,513 @@ const Register = () => {
     email: '',
     password: '',
     confirmPassword: '',
-    role: 'student', // Default role
+    role: 'student',
     phone: ''
   });
   
+  const [showPassword, setShowPassword] = useState(false);
+  const [showConfirmPassword, setShowConfirmPassword] = useState(false);
+  const [agreedToTerms, setAgreedToTerms] = useState(false);
   const [error, setError] = useState('');
   const [loading, setLoading] = useState(false);
+  const [fieldErrors, setFieldErrors] = useState({});
+  
   const { register } = useAuth();
   const navigate = useNavigate();
 
   const roles = [
-    { value: 'student', label: 'Student', description: 'Learn skills and build career' },
-    { value: 'trainer', label: 'Trainer', description: 'Create courses and mentor students' },
-    { value: 'company', label: 'Company', description: 'Hire talent and post projects' }
+    { 
+      value: 'student', 
+      label: 'Student', 
+      description: 'Start learning & building skills',
+      icon: FaUser,
+      color: 'blue'
+    },
+    { 
+      value: 'trainer', 
+      label: 'Trainer', 
+      description: 'Teach, mentor, and earn',
+      icon: FaChalkboardTeacher,
+      color: 'green'
+    },
+    { 
+      value: 'company', 
+      label: 'Company', 
+      description: 'Hire verified talent',
+      icon: FaBuilding,
+      color: 'purple'
+    }
   ];
+
+  const validateField = (name, value) => {
+    const errors = { ...fieldErrors };
+    
+    switch (name) {
+      case 'name':
+        if (value.length < 2) {
+          errors.name = 'Name must be at least 2 characters';
+        } else {
+          delete errors.name;
+        }
+        break;
+      case 'email':
+        const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+        if (!emailRegex.test(value)) {
+          errors.email = 'Please enter a valid email address';
+        } else {
+          delete errors.email;
+        }
+        break;
+      case 'password':
+        if (value.length < 6) {
+          errors.password = 'Password must be at least 6 characters';
+        } else {
+          delete errors.password;
+        }
+        break;
+      case 'confirmPassword':
+        if (value !== formData.password) {
+          errors.confirmPassword = 'Passwords do not match';
+        } else {
+          delete errors.confirmPassword;
+        }
+        break;
+    }
+    
+    setFieldErrors(errors);
+  };
 
   const handleChange = (e) => {
     const { name, value } = e.target;
     setFormData(prev => ({ ...prev, [name]: value }));
+    
+    if (value) {
+      validateField(name, value);
+    }
   };
 
-  // In Register.jsx, update handleSubmit:
-// In Register.jsx, update the handleSubmit function:
-const handleSubmit = async (e) => {
-  e.preventDefault();
-  setError('');
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    setError('');
 
-  // Validation
-  if (formData.password !== formData.confirmPassword) {
-    setError('Passwords do not match');
-    return;
-  }
-
-  if (formData.password.length < 6) {
-    setError('Password must be at least 6 characters');
-    return;
-  }
-
-  setLoading(true);
-
-  try {
-    const userData = {
-      name: formData.name,
-      email: formData.email,
-      password: formData.password,
-      role: formData.role,
-      phone: formData.phone || null
-    };
-
-    console.log('Registering user:', userData); // Debug log
-    
-    const result = await register(userData);
-    
-    console.log('Registration result:', result); // Debug log
-    
-    if (result.success) {
-      // Navigate based on role
-      switch(result.role) {
-        case 'student':
-          navigate('/student/dashboard');
-          break;
-        case 'trainer':
-          navigate('/trainer/dashboard');
-          break;
-        case 'company':
-          navigate('/company/dashboard');
-          break;
-        default:
-          navigate('/');
-      }
-    } else {
-      setError(result.error || 'Registration failed');
+    if (!agreedToTerms) {
+      setError('Please agree to the Terms of Service and Privacy Policy');
+      return;
     }
-  } catch (err) {
-    console.error('Registration error:', err); // Debug log
-    setError(`Registration error: ${err.message}`);
-  } finally {
-    setLoading(false);
-  }
-};
+
+    if (formData.password !== formData.confirmPassword) {
+      setError('Passwords do not match');
+      return;
+    }
+
+    if (formData.password.length < 6) {
+      setError('Password must be at least 6 characters');
+      return;
+    }
+
+    if (Object.keys(fieldErrors).length > 0) {
+      setError('Please fix all errors before submitting');
+      return;
+    }
+
+    setLoading(true);
+
+    try {
+      const userData = {
+        name: formData.name,
+        email: formData.email,
+        password: formData.password,
+        role: formData.role,
+        phone: formData.phone || null
+      };
+      
+      const result = await register(userData);
+      
+      if (result.success) {
+        switch(result.role) {
+          case 'student':
+            navigate('/student/dashboard');
+            break;
+          case 'trainer':
+            navigate('/trainer/dashboard');
+            break;
+          case 'company':
+            navigate('/company/dashboard');
+            break;
+          default:
+            navigate('/');
+        }
+      } else {
+        setError(result.error || 'Registration failed');
+      }
+    } catch (err) {
+      setError(`Registration error: ${err.message}`);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const getRoleHelperText = () => {
+    const selectedRole = roles.find(role => role.value === formData.role);
+    return selectedRole ? selectedRole.description : '';
+  };
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-gray-50 py-12 px-4 sm:px-6 lg:px-8">
-      <div className="max-w-md w-full space-y-8">
-        <div>
-          <h2 className="mt-6 text-center text-3xl font-extrabold text-gray-900">
-            Create your account
-          </h2>
-          <p className="mt-2 text-center text-sm text-gray-600">
-            Or{' '}
-            <Link to="/login" className="font-medium text-blue-600 hover:text-blue-500">
-              sign in to existing account
-            </Link>
-          </p>
-        </div>
-
-        <form className="mt-8 space-y-6" onSubmit={handleSubmit}>
-          {error && (
-            <div className="bg-red-50 border border-red-200 text-red-700 px-4 py-3 rounded">
-              {error}
-            </div>
-          )}
-
-          <div className="space-y-4">
-            <div>
-              <label htmlFor="name" className="block text-sm font-medium text-gray-700">
-                Full Name
-              </label>
-              <input
-                id="name"
-                name="name"
-                type="text"
-                required
-                className="mt-1 appearance-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-md focus:outline-none focus:ring-blue-500 focus:border-blue-500 focus:z-10 sm:text-sm"
-                placeholder=""
-                value={formData.name}
-                onChange={handleChange}
-                disabled={loading}
-              />
-            </div>
-
-            <div>
-              <label htmlFor="email" className="block text-sm font-medium text-gray-700">
-                Email Address
-              </label>
-              <input
-                id="email"
-                name="email"
-                type="email"
-                autoComplete="email"
-                required
-                className="mt-1 appearance-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-md focus:outline-none focus:ring-blue-500 focus:border-blue-500 focus:z-10 sm:text-sm"
-                placeholder="you@example.com"
-                value={formData.email}
-                onChange={handleChange}
-                disabled={loading}
-              />
-            </div>
-
-            <div>
-              <label htmlFor="phone" className="block text-sm font-medium text-gray-700">
-                Phone Number (Optional)
-              </label>
-              <input
-                id="phone"
-                name="phone"
-                type="tel"
-                className="mt-1 appearance-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-md focus:outline-none focus:ring-blue-500 focus:border-blue-500 focus:z-10 sm:text-sm"
-                placeholder="+1234567890"
-                value={formData.phone}
-                onChange={handleChange}
-                disabled={loading}
-              />
-            </div>
-
-            <div>
-              <label className="block text-sm font-medium text-gray-700 mb-2">
-                I want to join as:
-              </label>
-              <div className="grid grid-cols-1 gap-3">
-                {roles.map((role) => (
-                  <label
-                    key={role.value}
-                    className={`relative border rounded-lg p-4 cursor-pointer transition-all ${
-                      formData.role === role.value
-                        ? 'border-blue-500 bg-blue-50'
-                        : 'border-gray-300 hover:border-blue-300'
-                    }`}
-                  >
-                    <input
-                      type="radio"
-                      name="role"
-                      value={role.value}
-                      checked={formData.role === role.value}
-                      onChange={handleChange}
-                      className="sr-only"
-                    />
-                    <div className="flex items-center">
-                      <div className={`w-4 h-4 border rounded-full mr-3 flex items-center justify-center ${
-                        formData.role === role.value
-                          ? 'border-blue-500 bg-blue-500'
-                          : 'border-gray-300'
-                      }`}>
-                        {formData.role === role.value && (
-                          <div className="w-2 h-2 bg-white rounded-full"></div>
-                        )}
-                      </div>
-                      <div>
-                        <div className="font-medium text-gray-900">{role.label}</div>
-                        <div className="text-sm text-gray-500">{role.description}</div>
-                      </div>
-                    </div>
-                  </label>
-                ))}
-              </div>
-            </div>
-
-            <div>
-              <label htmlFor="password" className="block text-sm font-medium text-gray-700">
-                Password
-              </label>
-              <input
-                id="password"
-                name="password"
-                type="password"
-                required
-                className="mt-1 appearance-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-md focus:outline-none focus:ring-blue-500 focus:border-blue-500 focus:z-10 sm:text-sm"
-                placeholder="••••••••"
-                value={formData.password}
-                onChange={handleChange}
-                disabled={loading}
-              />
-            </div>
-
-            <div>
-              <label htmlFor="confirmPassword" className="block text-sm font-medium text-gray-700">
-                Confirm Password
-              </label>
-              <input
-                id="confirmPassword"
-                name="confirmPassword"
-                type="password"
-                required
-                className="mt-1 appearance-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-md focus:outline-none focus:ring-blue-500 focus:border-blue-500 focus:z-10 sm:text-sm"
-                placeholder="••••••••"
-                value={formData.confirmPassword}
-                onChange={handleChange}
-                disabled={loading}
-              />
-            </div>
-          </div>
-
-          <div>
-            <button
-              type="submit"
-              disabled={loading}
-              className="group relative w-full flex justify-center py-2 px-4 border border-transparent text-sm font-medium rounded-md text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 disabled:opacity-50 disabled:cursor-not-allowed"
+    <div className="min-h-screen bg-gradient-to-br from-slate-50 via-white to-slate-100">
+      <div className="flex min-h-screen">
+        {/* Left Panel - Branding */}
+        <motion.div 
+          initial={{ opacity: 0, x: -50 }}
+          animate={{ opacity: 1, x: 0 }}
+          transition={{ duration: 0.6 }}
+          className="hidden lg:flex lg:w-1/2 bg-gradient-to-br from-slate-900 via-slate-800 to-slate-900 relative overflow-hidden"
+        >
+          <div className="absolute inset-0 bg-gradient-to-br from-blue-600/20 to-purple-600/20" />
+          <div className="relative z-10 flex flex-col justify-center px-12 xl:px-16">
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: 0.3, duration: 0.6 }}
             >
-              {loading ? 'Creating account...' : 'Create Account'}
-            </button>
+              <h1 className="text-4xl xl:text-5xl font-bold text-white mb-6">
+                Join the future of
+                <span className="block bg-gradient-to-r from-blue-400 to-purple-400 bg-clip-text text-transparent">
+                  Career Growth
+                </span>
+              </h1>
+              <p className="text-xl text-slate-300 mb-8 leading-relaxed">
+                Create your account and unlock access to premium learning, networking, and career opportunities.
+              </p>
+              <div className="space-y-4">
+                <div className="flex items-center text-slate-300">
+                  <div className="w-2 h-2 bg-blue-400 rounded-full mr-3" />
+                  <span>Join 50,000+ professionals worldwide</span>
+                </div>
+                <div className="flex items-center text-slate-300">
+                  <div className="w-2 h-2 bg-purple-400 rounded-full mr-3" />
+                  <span>Access exclusive courses and certifications</span>
+                </div>
+                <div className="flex items-center text-slate-300">
+                  <div className="w-2 h-2 bg-green-400 rounded-full mr-3" />
+                  <span>Connect with industry leaders</span>
+                </div>
+              </div>
+            </motion.div>
           </div>
+        </motion.div>
 
-          <div className="text-xs text-gray-500">
-            By creating an account, you agree to our{' '}
-            <Link to="/terms" className="text-blue-600 hover:text-blue-500">
-              Terms of Service
-            </Link>{' '}
-            and{' '}
-            <Link to="/privacy" className="text-blue-600 hover:text-blue-500">
-              Privacy Policy
-            </Link>
-          </div>
-        </form>
+        {/* Right Panel - Register Form */}
+        <div className="flex-1 flex items-center justify-center px-4 sm:px-6 lg:px-8 py-12">
+          <motion.div 
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.6, delay: 0.2 }}
+            className="w-full max-w-md space-y-8"
+          >
+            {/* Mobile Logo */}
+            <div className="lg:hidden text-center">
+              <h1 className="text-3xl font-bold bg-gradient-to-r from-slate-900 to-slate-700 bg-clip-text text-transparent">
+                Ascend Career
+              </h1>
+            </div>
+
+            <div className="text-center lg:text-left">
+              <h2 className="text-3xl font-bold text-slate-900">
+                Create your account
+              </h2>
+              <p className="mt-2 text-slate-600">
+                Start your career journey today
+              </p>
+            </div>
+
+            <form className="space-y-6" onSubmit={handleSubmit}>
+              {error && (
+                <motion.div
+                  initial={{ opacity: 0, scale: 0.95 }}
+                  animate={{ opacity: 1, scale: 1 }}
+                  className="bg-red-50 border border-red-200 text-red-700 px-4 py-3 rounded-lg text-sm"
+                >
+                  {error}
+                </motion.div>
+              )}
+
+              <div className="space-y-4">
+                <div>
+                  <label htmlFor="name" className="block text-sm font-medium text-slate-700 mb-2">
+                    Full Name
+                  </label>
+                  <motion.input
+                    whileFocus={{ scale: 1.01 }}
+                    id="name"
+                    name="name"
+                    type="text"
+                    required
+                    className={`w-full px-4 py-3 border rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all duration-200 ${
+                      fieldErrors.name ? 'border-red-300 bg-red-50' : 'border-slate-300 bg-white'
+                    }`}
+                    placeholder="Enter your full name"
+                    value={formData.name}
+                    onChange={handleChange}
+                    disabled={loading}
+                  />
+                  {fieldErrors.name && (
+                    <motion.p
+                      initial={{ opacity: 0, y: -10 }}
+                      animate={{ opacity: 1, y: 0 }}
+                      className="mt-1 text-sm text-red-600"
+                    >
+                      {fieldErrors.name}
+                    </motion.p>
+                  )}
+                </div>
+
+                <div>
+                  <label htmlFor="email" className="block text-sm font-medium text-slate-700 mb-2">
+                    Email Address
+                  </label>
+                  <motion.input
+                    whileFocus={{ scale: 1.01 }}
+                    id="email"
+                    name="email"
+                    type="email"
+                    autoComplete="email"
+                    required
+                    className={`w-full px-4 py-3 border rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all duration-200 ${
+                      fieldErrors.email ? 'border-red-300 bg-red-50' : 'border-slate-300 bg-white'
+                    }`}
+                    placeholder="Enter your email"
+                    value={formData.email}
+                    onChange={handleChange}
+                    disabled={loading}
+                  />
+                  {fieldErrors.email && (
+                    <motion.p
+                      initial={{ opacity: 0, y: -10 }}
+                      animate={{ opacity: 1, y: 0 }}
+                      className="mt-1 text-sm text-red-600"
+                    >
+                      {fieldErrors.email}
+                    </motion.p>
+                  )}
+                </div>
+
+                <div>
+                  <label className="block text-sm font-medium text-slate-700 mb-3">
+                    I want to join as:
+                  </label>
+                  <div className="grid grid-cols-1 gap-3">
+                    {roles.map((role) => {
+                      const IconComponent = role.icon;
+                      return (
+                        <motion.label
+                          key={role.value}
+                          whileHover={{ scale: 1.02 }}
+                          whileTap={{ scale: 0.98 }}
+                          className={`relative border-2 rounded-xl p-4 cursor-pointer transition-all duration-200 ${
+                            formData.role === role.value
+                              ? `border-${role.color}-500 bg-${role.color}-50 shadow-md`
+                              : 'border-slate-200 hover:border-slate-300 bg-white'
+                          }`}
+                        >
+                          <input
+                            type="radio"
+                            name="role"
+                            value={role.value}
+                            checked={formData.role === role.value}
+                            onChange={handleChange}
+                            className="sr-only"
+                          />
+                          <div className="flex items-center">
+                            <div className={`w-10 h-10 rounded-lg flex items-center justify-center mr-4 ${
+                              formData.role === role.value
+                                ? `bg-${role.color}-500 text-white`
+                                : 'bg-slate-100 text-slate-600'
+                            }`}>
+                              <IconComponent className="w-5 h-5" />
+                            </div>
+                            <div className="flex-1">
+                              <div className="font-semibold text-slate-900">{role.label}</div>
+                              <div className="text-sm text-slate-600">{role.description}</div>
+                            </div>
+                            {formData.role === role.value && (
+                              <div className={`w-6 h-6 rounded-full bg-${role.color}-500 flex items-center justify-center`}>
+                                <FaCheck className="w-3 h-3 text-white" />
+                              </div>
+                            )}
+                          </div>
+                        </motion.label>
+                      );
+                    })}
+                  </div>
+                  <p className="mt-2 text-sm text-slate-600">
+                    {getRoleHelperText()}
+                  </p>
+                </div>
+
+                <div>
+                  <label htmlFor="password" className="block text-sm font-medium text-slate-700 mb-2">
+                    Password
+                  </label>
+                  <div className="relative">
+                    <motion.input
+                      whileFocus={{ scale: 1.01 }}
+                      id="password"
+                      name="password"
+                      type={showPassword ? 'text' : 'password'}
+                      required
+                      className={`w-full px-4 py-3 pr-12 border rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all duration-200 ${
+                        fieldErrors.password ? 'border-red-300 bg-red-50' : 'border-slate-300 bg-white'
+                      }`}
+                      placeholder="Create a password"
+                      value={formData.password}
+                      onChange={handleChange}
+                      disabled={loading}
+                    />
+                    <button
+                      type="button"
+                      className="absolute inset-y-0 right-0 pr-3 flex items-center text-slate-400 hover:text-slate-600"
+                      onClick={() => setShowPassword(!showPassword)}
+                    >
+                      {showPassword ? <FaEyeSlash /> : <FaEye />}
+                    </button>
+                  </div>
+                  {fieldErrors.password && (
+                    <motion.p
+                      initial={{ opacity: 0, y: -10 }}
+                      animate={{ opacity: 1, y: 0 }}
+                      className="mt-1 text-sm text-red-600"
+                    >
+                      {fieldErrors.password}
+                    </motion.p>
+                  )}
+                </div>
+
+                <div>
+                  <label htmlFor="confirmPassword" className="block text-sm font-medium text-slate-700 mb-2">
+                    Confirm Password
+                  </label>
+                  <div className="relative">
+                    <motion.input
+                      whileFocus={{ scale: 1.01 }}
+                      id="confirmPassword"
+                      name="confirmPassword"
+                      type={showConfirmPassword ? 'text' : 'password'}
+                      required
+                      className={`w-full px-4 py-3 pr-12 border rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all duration-200 ${
+                        fieldErrors.confirmPassword ? 'border-red-300 bg-red-50' : 'border-slate-300 bg-white'
+                      }`}
+                      placeholder="Confirm your password"
+                      value={formData.confirmPassword}
+                      onChange={handleChange}
+                      disabled={loading}
+                    />
+                    <button
+                      type="button"
+                      className="absolute inset-y-0 right-0 pr-3 flex items-center text-slate-400 hover:text-slate-600"
+                      onClick={() => setShowConfirmPassword(!showConfirmPassword)}
+                    >
+                      {showConfirmPassword ? <FaEyeSlash /> : <FaEye />}
+                    </button>
+                  </div>
+                  {fieldErrors.confirmPassword && (
+                    <motion.p
+                      initial={{ opacity: 0, y: -10 }}
+                      animate={{ opacity: 1, y: 0 }}
+                      className="mt-1 text-sm text-red-600"
+                    >
+                      {fieldErrors.confirmPassword}
+                    </motion.p>
+                  )}
+                </div>
+              </div>
+
+              <div className="flex items-start">
+                <input
+                  type="checkbox"
+                  id="terms"
+                  className="h-4 w-4 text-blue-600 focus:ring-blue-500 border-slate-300 rounded mt-1"
+                  checked={agreedToTerms}
+                  onChange={(e) => setAgreedToTerms(e.target.checked)}
+                />
+                <label htmlFor="terms" className="ml-3 text-sm text-slate-600">
+                  I agree to the{' '}
+                  <Link to="/terms" className="text-blue-600 hover:text-blue-500 font-medium">
+                    Terms of Service
+                  </Link>{' '}
+                  and{' '}
+                  <Link to="/privacy" className="text-blue-600 hover:text-blue-500 font-medium">
+                    Privacy Policy
+                  </Link>
+                </label>
+              </div>
+
+              <motion.button
+                whileHover={{ scale: 1.02 }}
+                whileTap={{ scale: 0.98 }}
+                type="submit"
+                disabled={loading || !agreedToTerms || Object.keys(fieldErrors).length > 0}
+                className="w-full flex items-center justify-center px-4 py-3 border border-transparent text-base font-medium rounded-lg text-white bg-gradient-to-r from-blue-600 to-blue-700 hover:from-blue-700 hover:to-blue-800 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 disabled:opacity-50 disabled:cursor-not-allowed transition-all duration-200 shadow-lg hover:shadow-xl"
+              >
+                {loading ? (
+                  <div className="w-5 h-5 border-2 border-white border-t-transparent rounded-full animate-spin" />
+                ) : (
+                  <>
+                    Create Account
+                    <FaArrowRight className="ml-2 w-4 h-4" />
+                  </>
+                )}
+              </motion.button>
+
+              <div className="relative">
+                <div className="absolute inset-0 flex items-center">
+                  <div className="w-full border-t border-slate-300" />
+                </div>
+                <div className="relative flex justify-center text-sm">
+                  <span className="px-2 bg-white text-slate-500">Or sign up with</span>
+                </div>
+              </div>
+
+              <div className="grid grid-cols-2 gap-3">
+                <motion.button
+                  whileHover={{ scale: 1.02 }}
+                  whileTap={{ scale: 0.98 }}
+                  type="button"
+                  className="w-full inline-flex justify-center items-center px-4 py-3 border border-slate-300 rounded-lg shadow-sm bg-white text-sm font-medium text-slate-700 hover:bg-slate-50 transition-all duration-200"
+                >
+                  <FaGoogle className="w-4 h-4 text-red-500 mr-2" />
+                  Google
+                </motion.button>
+                <motion.button
+                  whileHover={{ scale: 1.02 }}
+                  whileTap={{ scale: 0.98 }}
+                  type="button"
+                  className="w-full inline-flex justify-center items-center px-4 py-3 border border-slate-300 rounded-lg shadow-sm bg-white text-sm font-medium text-slate-700 hover:bg-slate-50 transition-all duration-200"
+                >
+                  <FaLinkedin className="w-4 h-4 text-blue-600 mr-2" />
+                  LinkedIn
+                </motion.button>
+              </div>
+
+              <div className="text-center">
+                <span className="text-sm text-slate-600">
+                  Already have an account?{' '}
+                  <Link
+                    to="/login"
+                    className="font-medium text-blue-600 hover:text-blue-500 transition-colors"
+                  >
+                    Sign in
+                  </Link>
+                </span>
+              </div>
+
+              <div className="text-center">
+                <p className="text-xs text-slate-500">
+                  🔒 Your data is protected with enterprise-grade security
+                </p>
+              </div>
+            </form>
+          </motion.div>
+        </div>
       </div>
     </div>
   );

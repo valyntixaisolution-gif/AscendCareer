@@ -32,21 +32,24 @@ const Register = () => {
       label: 'Student', 
       description: 'Start learning & building skills',
       icon: FaUser,
-      color: 'blue'
+      color: 'blue',
+      gradient: 'from-blue-500 to-blue-600'
     },
     { 
       value: 'trainer', 
       label: 'Trainer', 
       description: 'Teach, mentor, and earn',
       icon: FaChalkboardTeacher,
-      color: 'green'
+      color: 'green',
+      gradient: 'from-green-500 to-green-600'
     },
     { 
       value: 'company', 
       label: 'Company', 
       description: 'Hire verified talent',
       icon: FaBuilding,
-      color: 'purple'
+      color: 'purple',
+      gradient: 'from-purple-500 to-purple-600'
     }
   ];
 
@@ -319,15 +322,12 @@ const Register = () => {
                     className="w-full p-4 border-2 border-slate-200 rounded-xl bg-white hover:border-slate-300 hover:shadow-md transition-all duration-200 text-left"
                   >
                     <div className="flex items-center">
-                      {(() => {
-                        const roleInfo = getRoleInfo();
-                        const IconComponent = roleInfo.icon;
-                        return (
-                          <div className={`w-12 h-12 rounded-xl flex items-center justify-center mr-4 bg-gradient-to-r ${roleInfo.gradient} text-white shadow-lg`}>
-                            <IconComponent className="w-6 h-6" />
-                          </div>
-                        );
-                      })()}
+                      <div className={`w-12 h-12 rounded-xl flex items-center justify-center mr-4 bg-gradient-to-r ${getRoleInfo().gradient} text-white shadow-lg`}>
+                        {(() => {
+                          const IconComponent = getRoleInfo().icon;
+                          return <IconComponent className="w-6 h-6" />;
+                        })()}
+                      </div>
                       <div className="flex-1">
                         <h3 className="font-semibold text-slate-900 text-lg">
                           {getRoleInfo().label}

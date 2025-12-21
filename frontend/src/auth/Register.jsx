@@ -3,6 +3,7 @@ import { Link, useNavigate } from 'react-router-dom';
 import { motion } from 'framer-motion';
 import { FaGoogle, FaLinkedin, FaEye, FaEyeSlash, FaArrowRight, FaUser, FaChalkboardTeacher, FaBuilding, FaCheck } from 'react-icons/fa';
 import { useAuth } from '../context/AuthContext';
+import AccountTypeModal from '../components/common/AccountTypeModal';
 
 const Register = () => {
   const [formData, setFormData] = useState({
@@ -20,6 +21,7 @@ const Register = () => {
   const [error, setError] = useState('');
   const [loading, setLoading] = useState(false);
   const [fieldErrors, setFieldErrors] = useState({});
+  const [showRoleModal, setShowRoleModal] = useState(true);
   
   const { register } = useAuth();
   const navigate = useNavigate();
@@ -156,9 +158,14 @@ const Register = () => {
     }
   };
 
-  const getRoleHelperText = () => {
+  const handleRoleSelect = (roleValue) => {
+    setFormData(prev => ({ ...prev, role: roleValue }));
+    setShowRoleModal(false);
+  };
+
+  const getRoleInfo = () => {
     const selectedRole = roles.find(role => role.value === formData.role);
-    return selectedRole ? selectedRole.description : '';
+    return selectedRole || roles[0];
   };
 
   return (
@@ -302,54 +309,42 @@ const Register = () => {
 
                 <div>
                   <label className="block text-sm font-medium text-slate-700 mb-3">
-                    I want to join as:
+                    Account Type
                   </label>
-                  <div className="grid grid-cols-1 gap-3">
-                    {roles.map((role) => {
-                      const IconComponent = role.icon;
-                      return (
-                        <motion.label
-                          key={role.value}
-                          whileHover={{ scale: 1.02 }}
-                          whileTap={{ scale: 0.98 }}
-                          className={`relative border-2 rounded-xl p-4 cursor-pointer transition-all duration-200 ${
-                            formData.role === role.value
-                              ? `border-${role.color}-500 bg-${role.color}-50 shadow-md`
-                              : 'border-slate-200 hover:border-slate-300 bg-white'
-                          }`}
-                        >
-                          <input
-                            type="radio"
-                            name="role"
-                            value={role.value}
-                            checked={formData.role === role.value}
-                            onChange={handleChange}
-                            className="sr-only"
-                          />
-                          <div className="flex items-center">
-                            <div className={`w-10 h-10 rounded-lg flex items-center justify-center mr-4 ${
-                              formData.role === role.value
-                                ? `bg-${role.color}-500 text-white`
-                                : 'bg-slate-100 text-slate-600'
-                            }`}>
-                              <IconComponent className="w-5 h-5" />
-                            </div>
-                            <div className="flex-1">
-                              <div className="font-semibold text-slate-900">{role.label}</div>
-                              <div className="text-sm text-slate-600">{role.description}</div>
-                            </div>
-                            {formData.role === role.value && (
-                              <div className={`w-6 h-6 rounded-full bg-${role.color}-500 flex items-center justify-center`}>
-                                <FaCheck className="w-3 h-3 text-white" />
-                              </div>
-                            )}
+                  <motion.button
+                    type="button"
+                    whileHover={{ scale: 1.02 }}
+                    whileTap={{ scale: 0.98 }}
+                    onClick={() => setShowRoleModal(true)}
+                    className="w-full p-4 border-2 border-slate-200 rounded-xl bg-white hover:border-slate-300 hover:shadow-md transition-all duration-200 text-left"
+                  >
+                    <div className="flex items-center">
+                      {(() => {
+                        const roleInfo = getRoleInfo();
+                        const IconComponent = roleInfo.icon;
+                        return (
+                          <div className={`w-12 h-12 rounded-xl flex items-center justify-center mr-4 bg-gradient-to-r ${roleInfo.gradient} text-white shadow-lg`}>
+                            <IconComponent className="w-6 h-6" />
                           </div>
-                        </motion.label>
-                      );
-                    })}
-                  </div>
-                  <p className="mt-2 text-sm text-slate-600">
-                    {getRoleHelperText()}
+                        );
+                      })()}
+                      <div className="flex-1">
+                        <h3 className="font-semibold text-slate-900 text-lg">
+                          {getRoleInfo().label}
+                        </h3>
+                        <p className="text-slate-600 text-sm">
+                          {getRoleInfo().description}
+                        </p>
+                      </div>
+                      <div className="text-slate-400">
+                        <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
+                        </svg>
+                      </div>
+                    </div>
+                  </motion.button>
+                  <p className="mt-2 text-sm text-slate-500">
+                    Click to change your account type
                   </p>
                 </div>
 
@@ -518,6 +513,14 @@ const Register = () => {
           </motion.div>
         </div>
       </div>
+      
+      {/* Account Type Modal */}
+      <AccountTypeModal
+        isOpen={showRoleModal}
+        onClose={() => setShowRoleModal(false)}
+        onSelect={handleRoleSelect}
+        selectedRole={formData.role}
+      />
     </div>
   );
 };

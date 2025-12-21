@@ -16,6 +16,7 @@ import TrainerAssignments from './pages/trainer/Assignments';
 import TrainerStudents from './pages/trainer/Students';
 import CompanyDashboard from './pages/company/Dashboard';
 import AdminDashboard from './pages/admin/Dashboard';
+import NotFound from './pages/NotFound';
 
 function App() {
   return (
@@ -73,14 +74,7 @@ function App() {
           } />
 
           {/* 404 route */}
-          <Route path="*" element={
-            <div className="min-h-screen flex items-center justify-center">
-              <div className="text-center">
-                <h1 className="text-4xl font-bold mb-4">404</h1>
-                <p className="text-gray-600">Page not found</p>
-              </div>
-            </div>
-          } />
+          <Route path="*" element={<NotFound />} />
         </Routes>
       </Router>
     </AuthProvider>

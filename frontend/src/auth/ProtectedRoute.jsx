@@ -1,7 +1,6 @@
-// src/auth/ProtectedRoute.jsx
-import React from 'react';
 import { Navigate } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
+import { isAuthenticated, hasAnyRole, getUnauthorizedRedirect } from '../utils/helpers';
 
 const ProtectedRoute = ({ children, allowedRoles = [] }) => {
   const { user, loading } = useAuth();
@@ -9,30 +8,17 @@ const ProtectedRoute = ({ children, allowedRoles = [] }) => {
   if (loading) {
     return (
       <div className="min-h-screen flex items-center justify-center">
-        <div className="text-lg">Loading...</div>
+        <div className="animate-spin rounded-full h-32 w-32 border-b-2 border-blue-600"></div>
       </div>
     );
   }
 
-  if (!user) {
-    return <Navigate to="/login" />;
+  if (!isAuthenticated(user)) {
+    return <Navigate to="/login" replace />;
   }
 
-  // Check if user's role is allowed
-  if (allowedRoles.length > 0 && !allowedRoles.includes(user.role)) {
-    // Redirect to appropriate dashboard or show unauthorized
-    switch(user.role) {
-      case 'student':
-        return <Navigate to="/student/dashboard" />;
-      case 'trainer':
-        return <Navigate to="/trainer/dashboard" />;
-      case 'company':
-        return <Navigate to="/company/dashboard" />;
-      case 'admin':
-        return <Navigate to="/admin/dashboard" />;
-      default:
-        return <Navigate to="/" />;
-    }
+  if (allowedRoles.length > 0 && !hasAnyRole(user, allowedRoles)) {
+    return <Navigate to={getUnauthorizedRedirect(user)} replace />;
   }
 
   return children;

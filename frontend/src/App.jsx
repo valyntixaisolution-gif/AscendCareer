@@ -1,11 +1,11 @@
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import { AuthProvider } from './context/AuthContext';
+import PublicHome from './pages/PublicHome';
 import PublicNavbar from './components/navbar/PublicNavbar';
 import StudentNavbar from './components/navbar/StudentNavbar';
 import TrainerNavbar from './components/navbar/TrainerNavbar';
 import CompanyNavbar from './components/navbar/CompanyNavbar';
 import AdminSidebar from './components/navbar/AdminSidebar';
-import LandingPage from './pages/LandingPage';
 import Login from './auth/Login';
 import Register from './auth/Register';
 import ProtectedRoute from './auth/ProtectedRoute';
@@ -28,7 +28,7 @@ function App() {
           <Route path="/" element={
             <>
               <PublicNavbar />
-              <LandingPage />
+              <PublicHome />
             </>
           } />
           <Route path="/login" element={

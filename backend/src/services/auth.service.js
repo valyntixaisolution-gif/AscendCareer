@@ -10,6 +10,7 @@ import {
 import {
   createUser,
   findUserByEmail,
+  deleteRefreshToken,
 } from '../repositories/auth.repository.js';
 import sendVerificationEmail from '../lib/send-email.lib.js';
 import jwtLib from '../lib/jwt.lib.js';
@@ -138,4 +139,24 @@ export async function loginService(bodyData) {
     accessToken,
     refreshToken,
   };
+}
+
+export async function logoutService(token) {
+  if (!token) {
+    logger.warn('No refresh token provided for logout', {
+      label: 'LogoutService',
+    });
+    throw new APIError(400, 'No refresh token provided for logout');
+  }
+
+  const deleteToken = await deleteRefreshToken(token);
+
+  if (!deleteToken.acknowledged) {
+    logger.error('Failed to delete refresh token during logout', {
+      label: 'LogoutService',
+    });
+    throw new APIError(500, 'Failed to logout user');
+  }
+
+  return true;
 }

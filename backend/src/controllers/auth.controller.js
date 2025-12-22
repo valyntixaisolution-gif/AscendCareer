@@ -1,7 +1,13 @@
 import cookieLib from '../lib/cookie.lib.js';
 import logger from '../lib/logger.lib.js';
-import { loginService, registerService } from '../services/auth.service.js';
+import {
+  loginService,
+  registerService,
+  logoutService,
+} from '../services/auth.service.js';
 import { successResponse } from '../utils/index.util.js';
+import APIError from '../lib/api-error.lib.js';
+import jwtLib from '../lib/jwt.lib.js';
 
 export async function registerController(req, res) {
   const newUser = await registerService(req.body);
@@ -30,9 +36,36 @@ export async function loginController(req, res) {
     accessToken,
   });
 }
-// export const logoutController = (req, res, next) => {
-//   /* implementation */
-// };
+export async function logoutController(req, res, next) {
+  const refreshToken = cookieLib.getCookie(req, 'refreshToken');
+
+  if (!refreshToken) {
+    logger.warn('No refresh token found in cookies', {
+      label: 'LogoutController',
+    });
+    return next(new APIError(400, 'No refresh token found in cookies'));
+  }
+
+  const payload = jwtLib.verifyRefreshToken(refreshToken);
+
+  const logout = await logoutService(refreshToken);
+
+  if (!logout) {
+    logger.error('Error during logout process', {
+      label: 'LogoutController',
+    });
+    return next(new APIError(500, 'Error during logout process'));
+  }
+
+  cookieLib.clearCookie(res, 'refreshToken');
+
+  logger.info('User logged out successfully', {
+    label: 'LogoutController',
+    userId: payload.userId,
+  });
+
+  successResponse(res, 200, 'User logged out successfully');
+}
 // export const refreshController = (req, res, next) => {
 //   /* implementation */
 // };

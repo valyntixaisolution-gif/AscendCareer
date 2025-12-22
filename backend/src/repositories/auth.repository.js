@@ -12,3 +12,7 @@ export async function createUser(userData) {
 export async function findUserByEmail(email) {
   return await User.findOne({ email }).select('+password');
 }
+
+export async function deleteRefreshToken(refreshToken) {
+  return await User.deleteOne({ refreshToken });
+}

@@ -4,8 +4,8 @@ export const registerSchema = {
   body: z
     .object({
       fullName: z.object({
-        first: z.string().min(1, 'First name is required'),
-        last: z.string().min(1, 'Last name is required'),
+        firstName: z.string().min(1, 'First name is required'),
+        lastName: z.string().min(1, 'Last name is required'),
       }),
       email: z.string().email('Invalid email address'),
       password: z
@@ -19,4 +19,11 @@ export const registerSchema = {
       message: 'Passwords do not match',
       path: ['confirmPassword'],
     }),
+};
+
+export const loginSchema = {
+  body: z.object({
+    email: z.email('Invalid email address'),
+    password: z.string().min(8, 'Password must be at least 8 characters long'),
+  }),
 };

@@ -27,6 +27,9 @@ const userSchema = new mongoose.Schema(
     password: {
       type: String,
       required: true,
+      trim: true,
+      minlength: 8,
+      select: false,
     },
 
     isVerified: {
@@ -34,11 +37,11 @@ const userSchema = new mongoose.Schema(
       default: false,
     },
 
-    emailVerificationCode: {
+    emailVerificationToken: {
       type: String,
     },
 
-    emailVerificationExpires: {
+    emailVerificationTokenExpiry: {
       type: Date,
     },
 

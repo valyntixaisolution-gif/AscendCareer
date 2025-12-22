@@ -1,17 +1,30 @@
-import {Router} from "express";
+import { Router } from 'express';
+import { registerController } from '../controllers/auth.controller';
+import { authRateLimiter } from '../middlewares/rate-limiting.middleware';
+import asyncHandlerMiddleware from '../middlewares/async-handler.middleware';
+import { registerSchema } from '../validator/auth.validator';
+import validateRequestMiddleware from '../middlewares/validate-request.middleware';
 
+const router = Router();
 
-const router= Router();
-
-router.route("/register",registerController);
-router.route("/login",loginController);
-router.route("/logout",logoutController);
-router.route("/refresh",refreshController);
-router.route("/verify-email",verifyEmailController);
-router.route("/forgot-password",forgotPasswordController);
-router.route("/reset-password",resetPasswordController);
-router.route("/me",meController);
-
-
+router.route(
+  '/register',
+  authRateLimiter,
+  validateRequestMiddleware(registerSchema),
+  asyncHandlerMiddleware(registerController)
+);
+// router.route('/login', asyncHandlerMiddleware(loginController));
+// router.route('/logout', asyncHandlerMiddleware(logoutController));
+// router.route('/refresh', asyncHandlerMiddleware(refreshController));
+// router.route('/verify-email', asyncHandlerMiddleware(verifyEmailController));
+// router.route(
+//   '/forgot-password',
+//   asyncHandlerMiddleware(forgotPasswordController)
+// );
+// router.route(
+//   '/reset-password',
+//   asyncHandlerMiddleware(resetPasswordController)
+// );
+// router.route('/me', asyncHandlerMiddleware(meController));
 
 export default router;

@@ -8,7 +8,7 @@ import authRoute from './auth.route.js';
 
 const router = Router();
 
-router.route('/', (req, res, next) => {
+router.route('/').get((req, res, next) => {
   try {
     successResponse(res, 200, 'AscendCareer API is running successfully', {
       appName: 'AscendCareer API',
@@ -26,7 +26,7 @@ router.route('/', (req, res, next) => {
   }
 });
 
-router.route('/health', (req, res, next) => {
+router.route('/health').get((req, res, next) => {
   try {
     const dbState =
       mongoose.connection.readyState === 1 ? 'Connected' : 'Disconnected';

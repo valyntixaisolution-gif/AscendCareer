@@ -72,7 +72,7 @@ export function verificationEmailTemplate(name = 'User', verifyLink = '') {
     <div class="content">
       <p style="margin:0 0 16px 0;">Hi ${name},</p>
       <p style="margin:0 0 20px 0;">Thanks for creating an account. Please verify your email address by clicking the button below. This link will expire in 15 minutes.</p>
-      <p style="text-align:center; margin:0 0 20px 0;">
+      <p style="text-align:center; margin:0 0 20px 0; color:#ffffff;">
         <a href="${verifyLink}" class="btn">Verify Email</a>
       </p>
       <p class="muted" style="margin:0 0 12px 0;">If the button doesn't work, copy and paste the URL below into your browser:</p>

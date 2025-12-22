@@ -12,7 +12,12 @@ function validatePart(part, schema, req, next) {
       type: 'ValidateRequestMiddleware',
       issues,
     });
-    next(new APIError('Validation Error', 400, issues));
+    next(
+      new APIError(400, 'Validation Error', {
+        type: 'ValidateRequestMiddleware',
+        issues,
+      })
+    );
     return false;
   }
 
@@ -32,7 +37,7 @@ const validateRequestMiddleware = (schema) => (req, res, next) => {
       type: 'ValidateRequestMiddleware',
       error,
     });
-    next(new APIError('Internal Server Error', 500));
+    next(new APIError(500, 'Internal Server Error'));
   }
 };
 

@@ -1,4 +1,4 @@
-import { isUserExiistByEmail } from '../repositories/auth.repository.js';
+import { isUserExistByEmail } from '../repositories/auth.repository.js';
 import logger from '../lib/logger.lib.js';
 import APIError from '../lib/api-error.lib.js';
 import {
@@ -7,15 +7,15 @@ import {
   verifyTokenUrl,
   verificationEmailTemplate,
 } from '../utils/index.util.js';
-import { createUser } from '../repositories/auth.repository.js';
+import {
+  createUser,
+  findUserByEmail,
+} from '../repositories/auth.repository.js';
 import sendVerificationEmail from '../lib/send-email.lib.js';
+import jwtLib from '../lib/jwt.lib.js';
 
-export const registerService = async (
-  fullName,
-  email,
-  password,
-  confirmPassword
-) => {
+export async function registerService(bodyData) {
+  const { fullName, email, password, confirmPassword } = bodyData;
   const { firstName, lastName } = fullName;
 
   if (password !== confirmPassword) {
@@ -23,7 +23,7 @@ export const registerService = async (
       label: 'RegisterService',
       email,
     });
-    return new APIError(400, 'Passwords do not match', {
+    throw new APIError(400, 'Passwords do not match', {
       type: 'ValidationError',
       details: [
         { field: 'confirmPassword', message: 'Passwords do not match' },
@@ -31,14 +31,14 @@ export const registerService = async (
     });
   }
 
-  const isUserExist = await isUserExiistByEmail(email);
+  const isUserExist = await isUserExistByEmail(email);
 
   if (isUserExist) {
     logger.error('User already exists with email: ', {
       label: 'RegisterService',
       email,
     });
-    return new APIError(400, 'User already exists with this email', {
+    throw new APIError(400, 'User already exists with this email', {
       type: 'ValidationError',
       details: [
         { field: 'email', message: 'User already exists with this email' },
@@ -50,8 +50,10 @@ export const registerService = async (
   const verificationTokenExpiry = generateVerificationExpiry();
 
   const newUser = await createUser({
-    firstName,
-    lastName,
+    fullName: {
+      firstName,
+      lastName,
+    },
     email,
     password,
     emailVerificationToken: verificationToken,
@@ -67,4 +69,73 @@ export const registerService = async (
   );
 
   return newUser;
-};
+}
+
+export async function loginService(bodyData) {
+  const { email, password } = bodyData;
+
+  const user = await findUserByEmail(email);
+
+  if (!user) {
+    logger.error('Invalid email or password', {
+      label: 'LoginService',
+      email,
+    });
+    throw new APIError(401, 'Invalid email or password', {
+      type: 'AuthenticationError',
+    });
+  }
+
+  if (!user.isVerified) {
+    logger.warn(`Unverified email login attempt for email: ${email}`, {
+      label: 'AuthService',
+    });
+
+    throw new APIError(401, 'Please verify your email before logging in', {
+      type: 'AuthenticationError',
+      details: [
+        {
+          field: 'email',
+          message: 'Email not verified',
+        },
+      ],
+    });
+  }
+
+  const isPasswordValid = await user.comparePassword(password);
+
+  if (!isPasswordValid) {
+    logger.warn(`Invalid password attempt for email: ${email}`, {
+      label: 'AuthService',
+    });
+
+    throw new APIError(401, 'Invalid email or password', {
+      type: 'AuthenticationError',
+      details: [
+        {
+          field: 'password',
+          message: 'Incorrect password',
+        },
+      ],
+    });
+  }
+
+  const accessToken = jwtLib.generateAccessToken({
+    userId: user._id,
+    role: user.role,
+  });
+
+  const refreshToken = jwtLib.generateRefreshToken({
+    userId: user._id,
+    role: user.role,
+  });
+
+  user.refreshToken = refreshToken;
+  await user.save();
+
+  return {
+    user,
+    accessToken,
+    refreshToken,
+  };
+}

@@ -1,17 +1,10 @@
+import cookieLib from '../lib/cookie.lib.js';
 import logger from '../lib/logger.lib.js';
-import { registerService } from '../services/auth.service.js';
-import APIError from '../lib/api-error.lib.js';
+import { loginService, registerService } from '../services/auth.service.js';
 import { successResponse } from '../utils/index.util.js';
 
-export const registerController = async (req, res, next) => {
+export async function registerController(req, res) {
   const newUser = await registerService(req.body);
-
-  if (!newUser) {
-    logger.error('Registration failed', {
-      label: 'RegisterController',
-    });
-    return next(new APIError(500, 'Registration failed'));
-  }
 
   logger.info('User registered successfully', {
     label: 'RegisterController',
@@ -20,10 +13,23 @@ export const registerController = async (req, res, next) => {
   });
 
   successResponse(res, 201, 'User registered successfully', newUser);
-};
-// export const loginController = (req, res, next) => {
-//   /* implementation */
-// };
+}
+export async function loginController(req, res) {
+  const { user, accessToken, refreshToken } = await loginService(req.body);
+
+  cookieLib.setCookie(res, 'refreshToken', refreshToken);
+
+  logger.info('User logged in successfully. Please verify your email.', {
+    label: 'LoginController',
+    userId: user._id,
+    email: user.email,
+  });
+
+  successResponse(res, 200, 'User logged in successfully', {
+    user,
+    accessToken,
+  });
+}
 // export const logoutController = (req, res, next) => {
 //   /* implementation */
 // };

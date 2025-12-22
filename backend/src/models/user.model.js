@@ -31,6 +31,11 @@ const userSchema = new mongoose.Schema(
       minlength: 8,
       select: false,
     },
+    role: {
+      type: String,
+      enum: ['student', 'trainer', 'company', 'admin', 'super-admin'],
+      required: true,
+    },
 
     isVerified: {
       type: Boolean,
@@ -60,7 +65,7 @@ userSchema.pre('save', async function () {
   this.password = await bcrypt.hash(this.password, salt);
 });
 
-userSchema.methods.isPasswordValid = async function (password) {
+userSchema.methods.comparePassword = async function (password) {
   return await bcrypt.compare(password, this.password);
 };
 

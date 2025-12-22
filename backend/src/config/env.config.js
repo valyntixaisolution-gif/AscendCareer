@@ -13,6 +13,9 @@ const envConfig = {
   JWT_REFRESH_TOKEN_EXPIRATION: process.env.JWT_REFRESH_TOKEN_EXPIRATION,
   DATABASE_URL: process.env.DATABASE_URL,
   APP_VERSION: process.env.APP_VERSION,
+  EMAIL_HOST: process.env.EMAIL_HOST,
+  EMAIL_USER: process.env.EMAIL_USER,
+  EMAIL_PASSWORD: process.env.EMAIL_PASSWORD,
 };
 
 const config = validateEnv(envSchema, envConfig);

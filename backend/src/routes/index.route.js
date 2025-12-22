@@ -4,6 +4,7 @@ import config from '../config/env.config.js';
 import logger from '../lib/logger.lib.js';
 import mongoose from 'mongoose';
 import APIError from '../lib/api-error.lib.js';
+import authRoute from './auth.route.js';
 
 const router = Router();
 
@@ -47,6 +48,8 @@ router.route('/health', (req, res, next) => {
     next(new APIError(500, 'Internal Server Error'));
   }
 });
+
+router.use('/api/v1/auth', authRoute);
 
 router.use((req, res, next) => {
   logger.warn(`Route not found: ${req.originalUrl}`, {

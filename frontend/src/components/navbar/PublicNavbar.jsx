@@ -60,6 +60,7 @@ const PublicNavbar = () => {
                 className="nav-link dropdown-trigger"
                 onClick={() => setIsExploreOpen(!isExploreOpen)}
                 onMouseEnter={() => setIsExploreOpen(true)}
+                onMouseLeave={() => setIsExploreOpen(false)}
                 aria-expanded={isExploreOpen}
                 aria-haspopup="true"
               >

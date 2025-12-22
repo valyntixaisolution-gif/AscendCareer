@@ -34,7 +34,6 @@
 }
 
 .brand-logo:hover {
-  transform: translateY(-1px);
   color: #1e40af;
 }
 
@@ -243,7 +242,6 @@
 }
 
 .btn-primary:hover {
-  transform: translateY(-2px);
   box-shadow: 0 8px 20px rgba(59, 130, 246, 0.4);
   background: linear-gradient(135deg, #2563eb 0%, #1d4ed8 100%);
 }
@@ -257,7 +255,6 @@
 .btn-secondary:hover {
   background: #f3f4f6;
   border-color: #d1d5db;
-  transform: translateY(-1px);
 }
 
 .btn-text {

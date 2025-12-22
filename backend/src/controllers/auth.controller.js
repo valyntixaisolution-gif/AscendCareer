@@ -8,6 +8,7 @@ import {
   refreshTokenService,
   forgotPasswordService,
   resetPasswordService,
+  meService,
 } from '../services/auth.service.js';
 import { successResponse } from '../utils/index.util.js';
 import APIError from '../lib/api-error.lib.js';
@@ -24,6 +25,7 @@ export async function registerController(req, res) {
 
   successResponse(res, 201, 'User registered successfully', newUser);
 }
+
 export async function loginController(req, res) {
   const { user, accessToken, refreshToken } = await loginService(req.body);
 
@@ -40,6 +42,7 @@ export async function loginController(req, res) {
     accessToken,
   });
 }
+
 export async function logoutController(req, res, next) {
   const refreshToken = cookieLib.getCookie(req, 'refreshToken');
 
@@ -70,6 +73,7 @@ export async function logoutController(req, res, next) {
 
   successResponse(res, 200, 'User logged out successfully');
 }
+
 export async function verifyEmailController(req, res) {
   const verifyUser = await verifyEmailService(req.query);
 
@@ -81,6 +85,7 @@ export async function verifyEmailController(req, res) {
 
   successResponse(res, 200, 'Email verified successfully', verifyUser);
 }
+
 export async function refreshController(req, res, next) {
   const refreshToken = cookieLib.getCookie(req, 'refreshToken');
 
@@ -104,6 +109,7 @@ export async function refreshController(req, res, next) {
     accessToken: newAccessToken,
   });
 }
+
 export async function forgotPasswordController(req, res) {
   const forgotPassword = await forgotPasswordService(req.body);
 
@@ -119,6 +125,7 @@ export async function forgotPasswordController(req, res) {
     forgotPassword
   );
 }
+
 export async function resetPasswordController(req, res) {
   const resetPassword = await resetPasswordService(req.body);
 
@@ -129,6 +136,17 @@ export async function resetPasswordController(req, res) {
 
   successResponse(res, 200, 'Password reset successfully', resetPassword);
 }
-// export const meController = (req, res, next) => {
-//   /* implementation */
-// };
+
+export async function meController(req, res) {
+  const { userId } = req.user;
+
+  const user = await meService(userId);
+
+  logger.info('Fetched current user details successfully', {
+    label: 'MeController',
+    userId: user._id,
+    email: user.email,
+  });
+
+  successResponse(res, 200, 'Fetched current user details successfully', user);
+}

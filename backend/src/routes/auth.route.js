@@ -7,6 +7,7 @@ import {
   refreshController,
   forgotPasswordController,
   resetPasswordController,
+  meController,
 } from '../controllers/auth.controller.js';
 import { authRateLimiter } from '../middlewares/rate-limiting.middleware.js';
 import asyncHandlerMiddleware from '../middlewares/async-handler.middleware.js';
@@ -68,6 +69,12 @@ router
     validateRequestMiddleware(resetPasswordSchema),
     asyncHandlerMiddleware(resetPasswordController)
   );
-// router.route('/me', asyncHandlerMiddleware(meController));
+router
+  .route('/me')
+  .get(
+    authRateLimiter,
+    authenticateMiddleware(),
+    asyncHandlerMiddleware(meController)
+  );
 
 export default router;

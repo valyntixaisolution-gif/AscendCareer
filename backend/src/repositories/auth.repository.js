@@ -25,16 +25,19 @@ export async function findEmailWithTokenAndExpiryDate(token) {
 }
 
 export async function isTokenExist(refreshToken) {
-  const token = await User.exists({ refreshToken });
+  const token = await User.exists({ refreshToken }).select('+refreshToken');
   return Boolean(token);
 }
 
 export async function deleteOldRefreshToken(token) {
-  return await User.deleteOne({ refreshToken: token });
+  return await User.deleteOne({ refreshToken: token }).select('+refreshToken');
 }
 
 export async function createNewRefreshToken(userId, newRefreshToken) {
-  return await User.create({ _id: userId, refreshToken: newRefreshToken });
+  return await User.create({
+    _id: userId,
+    refreshToken: newRefreshToken,
+  }).select('+refreshToken');
 }
 
 export async function findUserByResetTokenAndExpiryDate(token) {
@@ -42,4 +45,8 @@ export async function findUserByResetTokenAndExpiryDate(token) {
     resetPasswordToken: token,
     resetPasswordTokenExpiry: { $gt: Date.now() },
   });
+}
+
+export async function findUserById(userId) {
+  return await User.findById(userId);
 }

@@ -1,7 +1,7 @@
-import logger from '../lib/logger.lib';
-import { registerService } from '../services/auth.service';
-import APIError from '../lib/api-error.lib';
-import { successResponse } from '../utils/index.util';
+import logger from '../lib/logger.lib.js';
+import { registerService } from '../services/auth.service.js';
+import APIError from '../lib/api-error.lib.js';
+import { successResponse } from '../utils/index.util.js';
 
 export const registerController = async (req, res, next) => {
   const newUser = await registerService(req.body);

@@ -1,7 +1,7 @@
 import crypto from 'node:crypto';
-import config from '../config/env.config';
-import logger from '../lib/logger.lib';
-import APIError from '../lib/api-error.lib';
+import config from '../config/env.config.js';
+import logger from '../lib/logger.lib.js';
+import APIError from '../lib/api-error.lib.js';
 
 export function successResponse(res, statusCode, message, data) {
   res.status(statusCode).json({
@@ -12,14 +12,14 @@ export function successResponse(res, statusCode, message, data) {
   });
 }
 
-function formatIssues(issues) {
+export function formatIssues(issues) {
   return issues.map((issue) => ({
     field: issue.path.join('.'),
     message: issue.message,
   }));
 }
 
-export const validateEnv = (schema, config) => {
+export function validateEnv(schema, config) {
   const parsedEnv = schema.safeParse(config);
   if (!parsedEnv.success) {
     const issues = formatIssues(parsedEnv.error.issues);
@@ -34,7 +34,7 @@ export const validateEnv = (schema, config) => {
   }
 
   return parsedEnv.data;
-};
+}
 
 export function generateVerificationToken() {
   return crypto.randomBytes(32).toString('hex');

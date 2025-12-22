@@ -1,6 +1,6 @@
 import 'dotenv/config';
 import { validateEnv } from '../utils/index.util.js';
-import { envSchema } from '../validator/env.validator.js';
+import envSchema from '../validator/env.validator.js';
 
 const envConfig = {
   PORT: process.env.PORT,
@@ -19,6 +19,7 @@ const envConfig = {
   BASE_URL: process.env.BASE_URL,
 };
 
+// Now, use the validateEnv function from utils/index.util.js
 const config = validateEnv(envSchema, envConfig);
 
 export default config;

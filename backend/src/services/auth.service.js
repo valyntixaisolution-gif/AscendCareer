@@ -1,14 +1,14 @@
-import { isUserExiistByEmail } from '../repositories/auth.repository';
-import logger from '../lib/logger.lib';
-import APIError from '../lib/api-error.lib';
+import { isUserExiistByEmail } from '../repositories/auth.repository.js';
+import logger from '../lib/logger.lib.js';
+import APIError from '../lib/api-error.lib.js';
 import {
   generateVerificationToken,
   generateVerificationExpiry,
   verifyTokenUrl,
   verificationEmailTemplate,
-} from '../utils/index.util';
-import { createUser } from '../repositories/auth.repository';
-import sendVerificationEmail from '../lib/send-email.lib';
+} from '../utils/index.util.js';
+import { createUser } from '../repositories/auth.repository.js';
+import sendVerificationEmail from '../lib/send-email.lib.js';
 
 export const registerService = async (
   fullName,

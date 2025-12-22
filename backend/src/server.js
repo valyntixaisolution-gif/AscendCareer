@@ -23,4 +23,4 @@ async function startServer() {
   }
 }
 
-await startServer();
+export default startServer;

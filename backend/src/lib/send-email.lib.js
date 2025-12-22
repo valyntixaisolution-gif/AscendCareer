@@ -1,7 +1,7 @@
-import emailConfig from '../config/email.config';
-import config from '../config/env.config';
-import APIError from './api-error.lib';
-import logger from './logger.lib';
+import emailConfig from '../config/email.config.js';
+import config from '../config/env.config.js';
+import APIError from './api-error.lib.js';
+import logger from './logger.lib.js';
 
 async function sendVerificationEmail(to, subject, html) {
   try {

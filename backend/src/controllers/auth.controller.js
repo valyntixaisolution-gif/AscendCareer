@@ -7,6 +7,7 @@ import {
   verifyEmailService,
   refreshTokenService,
   forgotPasswordService,
+  resetPasswordService,
 } from '../services/auth.service.js';
 import { successResponse } from '../utils/index.util.js';
 import APIError from '../lib/api-error.lib.js';
@@ -104,18 +105,30 @@ export async function refreshController(req, res, next) {
   });
 }
 export async function forgotPasswordController(req, res) {
-  const password = await forgotPasswordService(req.body);
+  const forgotPassword = await forgotPasswordService(req.body);
 
   logger.info('Password reset link sent successfully', {
     label: 'ForgotPasswordController',
     email: req.body.email,
   });
 
-  successResponse(res, 200, 'Password reset link sent successfully', password);
+  successResponse(
+    res,
+    200,
+    'Password reset link sent successfully',
+    forgotPassword
+  );
 }
-// export const resetPasswordController = (req, res, next) => {
-//   /* implementation */
-// };
+export async function resetPasswordController(req, res) {
+  const resetPassword = await resetPasswordService(req.body);
+
+  logger.info('Password reset successfully', {
+    label: 'ResetPasswordController',
+    email: req.body.email,
+  });
+
+  successResponse(res, 200, 'Password reset successfully', resetPassword);
+}
 // export const meController = (req, res, next) => {
 //   /* implementation */
 // };

@@ -17,6 +17,7 @@ import {
   isTokenExist,
   deleteOldRefreshToken,
   createNewRefreshToken,
+  findUserByResetTokenAndExpiryDate,
 } from '../repositories/auth.repository.js';
 import sendVerificationEmail from '../lib/send-email.lib.js';
 import jwtLib from '../lib/jwt.lib.js';
@@ -256,6 +257,40 @@ export async function forgotPasswordService(bodyData) {
       resetPasswordUrl(resetPasswordToken)
     )
   );
+
+  return true;
+}
+
+export async function resetPasswordService(bodyData) {
+  const { token, newPassword, confirmNewPassword } = bodyData;
+
+  if (newPassword !== confirmNewPassword) {
+    logger.error('Passwords do not match', {
+      label: 'ResetPasswordService',
+      token,
+    });
+    throw new APIError(400, 'Passwords do not match', {
+      type: 'ValidationError',
+      details: [
+        { field: 'confirmNewPassword', message: 'Passwords do not match' },
+      ],
+    });
+  }
+
+  const user = await findUserByResetTokenAndExpiryDate(token);
+
+  if (!user) {
+    logger.error('Invalid or expired reset password token', {
+      label: 'ResetPasswordService',
+    });
+    throw new APIError(400, 'Invalid or expired reset password token');
+  }
+
+  user.password = newPassword;
+  user.resetPasswordToken = null;
+  user.resetPasswordTokenExpiry = null;
+
+  await user.save();
 
   return true;
 }

@@ -6,6 +6,7 @@ import {
   verifyEmailController,
   refreshController,
   forgotPasswordController,
+  resetPasswordController,
 } from '../controllers/auth.controller.js';
 import { authRateLimiter } from '../middlewares/rate-limiting.middleware.js';
 import asyncHandlerMiddleware from '../middlewares/async-handler.middleware.js';
@@ -14,6 +15,7 @@ import {
   loginSchema,
   verifyEmailSchema,
   forgotPasswordSchema,
+  resetPasswordSchema,
 } from '../validator/auth.validator.js';
 import validateRequestMiddleware from '../middlewares/validate-request.middleware.js';
 import authenticateMiddleware from '../middlewares/authenticate.middleware.js';
@@ -58,11 +60,14 @@ router
     validateRequestMiddleware(forgotPasswordSchema),
     asyncHandlerMiddleware(forgotPasswordController)
   );
-// );
-// router.route(
-//   '/reset-password',
-//   asyncHandlerMiddleware(resetPasswordController)
-// );
+
+router
+  .route('/reset-password')
+  .post(
+    authRateLimiter,
+    validateRequestMiddleware(resetPasswordSchema),
+    asyncHandlerMiddleware(resetPasswordController)
+  );
 // router.route('/me', asyncHandlerMiddleware(meController));
 
 export default router;

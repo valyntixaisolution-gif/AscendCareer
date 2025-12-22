@@ -36,3 +36,10 @@ export async function deleteOldRefreshToken(token) {
 export async function createNewRefreshToken(userId, newRefreshToken) {
   return await User.create({ _id: userId, refreshToken: newRefreshToken });
 }
+
+export async function findUserByResetTokenAndExpiryDate(token) {
+  return await User.findOne({
+    resetPasswordToken: token,
+    resetPasswordTokenExpiry: { $gt: Date.now() },
+  });
+}

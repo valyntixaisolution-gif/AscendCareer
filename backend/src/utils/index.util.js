@@ -1,3 +1,5 @@
+import crypto from 'node:crypto';
+
 export function successResponse(res, statusCode, message, data) {
   res.status(statusCode).json({
     success: true,
@@ -23,3 +25,11 @@ export const validateEnv = (schema, config) => {
 
   return parsedEnv.data;
 };
+
+export function generateVerificationToken() {
+  return crypto.randomBytes(32).toString('hex');
+}
+
+export function generateVerificationExpiry() {
+  return new Date(Date.now() + 1000 * 60 * 15);
+}

@@ -11,6 +11,7 @@ import {
   createUser,
   findUserByEmail,
   deleteRefreshToken,
+  findEmailWithTokenAndExpiryDate,
 } from '../repositories/auth.repository.js';
 import sendVerificationEmail from '../lib/send-email.lib.js';
 import jwtLib from '../lib/jwt.lib.js';
@@ -159,4 +160,25 @@ export async function logoutService(token) {
   }
 
   return true;
+}
+
+export async function verifyEmailService(queryData) {
+  const { token } = queryData;
+
+  const user = await findEmailWithTokenAndExpiryDate(token);
+
+  if (!user) {
+    logger.error('Invalid or expired email verification token', {
+      label: 'VerifyEmailService',
+    });
+    throw new APIError(400, 'Invalid or expired email verification token');
+  }
+
+  user.isVerified = true;
+  user.emailVerificationToken = null;
+  user.emailVerificationTokenExpiry = null;
+
+  await user.save();
+
+  return user;
 }

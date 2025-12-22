@@ -16,3 +16,10 @@ export async function findUserByEmail(email) {
 export async function deleteRefreshToken(refreshToken) {
   return await User.deleteOne({ refreshToken });
 }
+
+export async function findEmailWithTokenAndExpiryDate(token) {
+  return await User.findOne({
+    emailVerificationToken: token,
+    emailVerificationTokenExpiry: { $gt: Date.now() },
+  });
+}

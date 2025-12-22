@@ -4,6 +4,7 @@ import {
   loginService,
   registerService,
   logoutService,
+  verifyEmailService,
 } from '../services/auth.service.js';
 import { successResponse } from '../utils/index.util.js';
 import APIError from '../lib/api-error.lib.js';
@@ -66,10 +67,18 @@ export async function logoutController(req, res, next) {
 
   successResponse(res, 200, 'User logged out successfully');
 }
+export async function verifyEmailController(req, res) {
+  const verifyUser = await verifyEmailService(req.query);
+
+  logger.info('Email verified successfully', {
+    label: 'VerifyEmailController',
+    userId: verifyUser._id,
+    email: verifyUser.email,
+  });
+
+  successResponse(res, 200, 'Email verified successfully', verifyUser);
+}
 // export const refreshController = (req, res, next) => {
-//   /* implementation */
-// };
-// export const verifyEmailController = (req, res, next) => {
 //   /* implementation */
 // };
 // export const forgotPasswordController = (req, res, next) => {

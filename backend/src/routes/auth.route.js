@@ -3,10 +3,15 @@ import {
   registerController,
   loginController,
   logoutController,
+  verifyEmailController,
 } from '../controllers/auth.controller.js';
 import { authRateLimiter } from '../middlewares/rate-limiting.middleware.js';
 import asyncHandlerMiddleware from '../middlewares/async-handler.middleware.js';
-import { registerSchema, loginSchema } from '../validator/auth.validator.js';
+import {
+  registerSchema,
+  loginSchema,
+  verifyEmailSchema,
+} from '../validator/auth.validator.js';
 import validateRequestMiddleware from '../middlewares/validate-request.middleware.js';
 import authenticateMiddleware from '../middlewares/authenticate.middleware.js';
 
@@ -33,8 +38,14 @@ router
     authenticateMiddleware(),
     asyncHandlerMiddleware(logoutController)
   );
+router
+  .route('/verify-email')
+  .post(
+    authRateLimiter,
+    validateRequestMiddleware(verifyEmailSchema),
+    asyncHandlerMiddleware(verifyEmailController)
+  );
 // router.route('/refresh', asyncHandlerMiddleware(refreshController));
-// router.route('/verify-email', asyncHandlerMiddleware(verifyEmailController));
 // router.route(
 //   '/forgot-password',
 //   asyncHandlerMiddleware(forgotPasswordController)

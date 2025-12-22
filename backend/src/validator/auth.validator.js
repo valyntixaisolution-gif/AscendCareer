@@ -33,3 +33,9 @@ export const verifyEmailSchema = {
     token: z.string().min(1, 'Verification token is required'),
   }),
 };
+
+export const forgotPasswordSchema = {
+  body: z.object({
+    email: z.string().email('Invalid email address'),
+  }),
+};

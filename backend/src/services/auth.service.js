@@ -6,6 +6,8 @@ import {
   generateVerificationExpiry,
   verifyTokenUrl,
   verificationEmailTemplate,
+  resetPasswordUrl,
+  verificationPasswordResetTemplate,
 } from '../utils/index.util.js';
 import {
   createUser,
@@ -218,4 +220,42 @@ export async function refreshTokenService(oldToken) {
     newAccessToken,
     newRefreshToken,
   };
+}
+
+export async function forgotPasswordService(bodyData) {
+  const { email } = bodyData;
+
+  const user = await findUserByEmail(email);
+
+  if (!user) {
+    logger.error('User does not exist with email: ', {
+      label: 'ForgotPasswordService',
+      email,
+    });
+    throw new APIError(400, 'User does not exist with this email', {
+      type: 'ValidationError',
+      details: [
+        { field: 'email', message: 'User does not exist with this email' },
+      ],
+    });
+  }
+
+  const resetPasswordToken = generateVerificationToken();
+  const resetPasswordTokenExpiry = generateVerificationExpiry();
+
+  user.resetPasswordToken = resetPasswordToken;
+  user.resetPasswordTokenExpiry = resetPasswordTokenExpiry;
+
+  await user.save();
+
+  await sendVerificationEmail(
+    email,
+    'Reset your password',
+    verificationPasswordResetTemplate(
+      `${user.fullName.firstName} ${user.fullName.lastName}`,
+      resetPasswordUrl(resetPasswordToken)
+    )
+  );
+
+  return true;
 }

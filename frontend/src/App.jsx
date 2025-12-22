@@ -31,8 +31,18 @@ function App() {
               <LandingPage />
             </>
           } />
-          <Route path="/login" element={<Login />} />
-          <Route path="/register" element={<Register />} />
+          <Route path="/login" element={
+            <>
+              <PublicNavbar />
+              <Login />
+            </>
+          } />
+          <Route path="/register" element={
+            <>
+              <PublicNavbar />
+              <Register />
+            </>
+          } />
 
           {/* Protected routes */}
           <Route path="/student/dashboard" element={
@@ -75,7 +85,12 @@ function App() {
           } />
 
           {/* 404 route */}
-          <Route path="*" element={<NotFound />} />
+          <Route path="*" element={
+            <>
+              <PublicNavbar />
+              <NotFound />
+            </>
+          } />
         </Routes>
       </Router>
     </AuthProvider>

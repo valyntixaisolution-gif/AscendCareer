@@ -5,6 +5,7 @@ import {
   registerService,
   logoutService,
   verifyEmailService,
+  refreshTokenService,
 } from '../services/auth.service.js';
 import { successResponse } from '../utils/index.util.js';
 import APIError from '../lib/api-error.lib.js';
@@ -78,9 +79,29 @@ export async function verifyEmailController(req, res) {
 
   successResponse(res, 200, 'Email verified successfully', verifyUser);
 }
-// export const refreshController = (req, res, next) => {
-//   /* implementation */
-// };
+export async function refreshController(req, res, next) {
+  const refreshToken = cookieLib.getCookie(req, 'refreshToken');
+
+  if (!refreshToken) {
+    logger.warn('No refresh token found in cookies', {
+      label: 'RefreshController',
+    });
+    return next(new APIError(400, 'No refresh token found in cookies'));
+  }
+
+  const { newAccessToken, newRefreshToken } =
+    await refreshTokenService(refreshToken);
+
+  cookieLib.setCookie(res, 'refreshToken', newRefreshToken);
+
+  logger.info('Token refreshed successfully', {
+    label: 'RefreshController',
+  });
+
+  successResponse(res, 200, 'Token refreshed successfully', {
+    accessToken: newAccessToken,
+  });
+}
 // export const forgotPasswordController = (req, res, next) => {
 //   /* implementation */
 // };

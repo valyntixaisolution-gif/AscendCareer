@@ -12,6 +12,9 @@ import {
   findUserByEmail,
   deleteRefreshToken,
   findEmailWithTokenAndExpiryDate,
+  isTokenExist,
+  deleteOldRefreshToken,
+  createNewRefreshToken,
 } from '../repositories/auth.repository.js';
 import sendVerificationEmail from '../lib/send-email.lib.js';
 import jwtLib from '../lib/jwt.lib.js';
@@ -181,4 +184,38 @@ export async function verifyEmailService(queryData) {
   await user.save();
 
   return user;
+}
+
+export async function refreshTokenService(oldToken) {
+  const payload = jwtLib.verifyRefreshToken(oldToken);
+
+  const isToken = await isTokenExist(oldToken);
+
+  if (!isToken) {
+    logger.warn('Refresh token not found in database', {
+      label: 'RefreshTokenService',
+      userId: payload.userId,
+    });
+    throw new APIError(401, 'Unauthorized: Refresh token not found');
+  }
+
+  const newAccessToken = jwtLib.generateAccessToken({
+    userId: payload.userId,
+    role: payload.role,
+  });
+
+  const newRefreshToken = jwtLib.generateRefreshToken({
+    userId: payload.userId,
+    role: payload.role,
+  });
+
+  await Promise.all([
+    deleteOldRefreshToken(oldToken),
+    createNewRefreshToken(payload.userId, newRefreshToken),
+  ]);
+
+  return {
+    newAccessToken,
+    newRefreshToken,
+  };
 }

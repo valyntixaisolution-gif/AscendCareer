@@ -23,3 +23,16 @@ export async function findEmailWithTokenAndExpiryDate(token) {
     emailVerificationTokenExpiry: { $gt: Date.now() },
   });
 }
+
+export async function isTokenExist(refreshToken) {
+  const token = await User.exists({ refreshToken });
+  return Boolean(token);
+}
+
+export async function deleteOldRefreshToken(token) {
+  return await User.deleteOne({ refreshToken: token });
+}
+
+export async function createNewRefreshToken(userId, newRefreshToken) {
+  return await User.create({ _id: userId, refreshToken: newRefreshToken });
+}

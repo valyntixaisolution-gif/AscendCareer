@@ -2,7 +2,7 @@ import APIError from '../lib/api-error.lib.js';
 import jwtLib from '../lib/jwt.lib.js';
 import logger from '../lib/logger.lib.js';
 
-async function authenticateMiddleware(allowRoles = []) {
+function authenticateMiddleware(allowRoles = []) {
   return async (req, res, next) => {
     const { authorization } = req.headers;
 

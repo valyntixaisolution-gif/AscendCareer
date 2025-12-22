@@ -1,8 +1,44 @@
-export const registerController= (req,res)=>{ /* implementation */ };
-export const loginController= (req,res)=>{ /* implementation */ };
-export const logoutController= (req,res)=>{ /* implementation */ };
-export const refreshController= (req,res)=>{ /* implementation */ };
-export const verifyEmailController= (req,res)=>{ /* implementation */ };
-export const forgotPasswordController= (req,res)=>{ /* implementation */ };
-export const resetPasswordController= (req,res)=>{ /* implementation */ };
-export const meController= (req,res)=>{ /* implementation */ };
+import logger from '../lib/logger.lib';
+import { registerService } from '../services/auth.service';
+import APIError from '../lib/api-error.lib';
+import { successResponse } from '../utils/index.util';
+
+export const registerController = async (req, res, next) => {
+  const newUser = await registerService(req.body);
+
+  if (!newUser) {
+    logger.error('Registration failed', {
+      label: 'RegisterController',
+    });
+    return next(new APIError(500, 'Registration failed'));
+  }
+
+  logger.info('User registered successfully', {
+    label: 'RegisterController',
+    userId: newUser._id,
+    email: newUser.email,
+  });
+
+  successResponse(res, 201, 'User registered successfully', newUser);
+};
+// export const loginController = (req, res, next) => {
+//   /* implementation */
+// };
+// export const logoutController = (req, res, next) => {
+//   /* implementation */
+// };
+// export const refreshController = (req, res, next) => {
+//   /* implementation */
+// };
+// export const verifyEmailController = (req, res, next) => {
+//   /* implementation */
+// };
+// export const forgotPasswordController = (req, res, next) => {
+//   /* implementation */
+// };
+// export const resetPasswordController = (req, res, next) => {
+//   /* implementation */
+// };
+// export const meController = (req, res, next) => {
+//   /* implementation */
+// };

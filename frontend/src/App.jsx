@@ -1,5 +1,6 @@
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import { AuthProvider } from './context/AuthContext';
+import PublicNavbar from './components/navbar/PublicNavbar';
 import StudentNavbar from './components/navbar/StudentNavbar';
 import TrainerNavbar from './components/navbar/TrainerNavbar';
 import CompanyNavbar from './components/navbar/CompanyNavbar';
@@ -26,7 +27,7 @@ function App() {
           {/* Public routes */}
           <Route path="/" element={
             <>
-              <StudentNavbar />
+              <PublicNavbar />
               <LandingPage />
             </>
           } />

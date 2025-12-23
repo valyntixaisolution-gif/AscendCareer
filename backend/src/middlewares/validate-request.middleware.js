@@ -3,7 +3,6 @@ import logger from '../lib/logger.lib.js';
 import { formatIssues } from '../utils/index.util.js';
 
 function validatePart(part, schema, req) {
-  console.log('Validating part:', req[part]);
   if (!schema) return;
 
   const parsedPart = schema.safeParse(req[part]);

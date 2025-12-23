@@ -1,8 +1,8 @@
 import passport from 'passport';
 import { Strategy as GoogleStrategy } from 'passport-google-oauth20';
-import config from '../config/env.config';
-import logger from './logger.lib';
-import { googleService } from '../services/auth.service';
+import config from '../config/env.config.js';
+import logger from './logger.lib.js';
+import { googleService } from '../services/auth.service.js';
 
 passport.use(
   new GoogleStrategy(
@@ -10,9 +10,18 @@ passport.use(
       clientID: config.GOOGLE_CLIENT_ID,
       clientSecret: config.GOOGLE_CLIENT_SECRET,
       callbackURL: config.GOOGLE_REDIRECT_URI,
+      passReqToCallback: true,
     },
-    async (_accessToken, _refreshToken, profile, done) => {
+    async (req, _accessToken, _refreshToken, profile, done) => {
       try {
+        const role = req.query.state;
+
+        if (!role) {
+          logger.error('Role not provided in state parameter', {
+            label: 'PassportGoogleStrategy',
+          });
+          return done(new Error('Role not provided in state parameter'));
+        }
         const email = profile.emails?.[0].value;
         const displayName = profile.displayName;
         const avatar = profile.photos?.[0].value;
@@ -23,6 +32,7 @@ passport.use(
           displayName,
           avatar,
           googleId,
+          role,
         });
 
         return done(null, user);
@@ -36,3 +46,5 @@ passport.use(
     }
   )
 );
+
+export default passport;

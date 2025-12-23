@@ -6,27 +6,27 @@ export async function isUserExistByEmail(email) {
 }
 
 export async function createUser(userData) {
-  return await User.create(userData);
+  return User.create(userData);
 }
 
 export async function findUserByEmail(email) {
-  return await User.findOne({ email }).select('+password');
+  return User.findOne({ email }).select('+password');
 }
 
 export async function findUserByGoogleId(googleId) {
-  return await User.findOne({ googleId });
+  return User.findOne({ googleId });
 }
 
 export async function findUserByGithubId(githubId) {
-  return await User.findOne({ githubId });
+  return User.findOne({ githubId });
 }
 
 export async function deleteRefreshToken(refreshToken) {
-  return await User.deleteOne({ refreshToken });
+  return User.deleteOne({ refreshToken });
 }
 
 export async function findEmailWithTokenAndExpiryDate(token) {
-  return await User.findOne({
+  return User.findOne({
     emailVerificationToken: token,
     emailVerificationTokenExpiry: { $gt: Date.now() },
   });
@@ -38,23 +38,23 @@ export async function isTokenExist(refreshToken) {
 }
 
 export async function deleteOldRefreshToken(token) {
-  return await User.deleteOne({ refreshToken: token }).select('+refreshToken');
+  return User.deleteOne({ refreshToken: token }).select('+refreshToken');
 }
 
 export async function createNewRefreshToken(userId, newRefreshToken) {
-  return await User.create({
+  return User.create({
     _id: userId,
     refreshToken: newRefreshToken,
   }).select('+refreshToken');
 }
 
 export async function findUserByResetTokenAndExpiryDate(token) {
-  return await User.findOne({
+  return User.findOne({
     resetPasswordToken: token,
     resetPasswordTokenExpiry: { $gt: Date.now() },
   });
 }
 
 export async function findUserById(userId) {
-  return await User.findById(userId);
+  return User.findById(userId);
 }

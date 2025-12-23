@@ -8,7 +8,7 @@ const transports = [];
 const { combine, printf, timestamp } = winston.format;
 
 const logDir = path.join(process.cwd(), config.LOG_DIR);
-if (config.NODE_ENV == 'production' && !fs.existsSync(logDir)) {
+if (config.NODE_ENV === 'production' && !fs.existsSync(logDir)) {
   fs.mkdirSync(logDir);
 }
 
@@ -22,7 +22,6 @@ const customFormat = combine(
       : '';
 
     switch (level) {
-      // Different colors for different log levels
       case 'info':
         return `🟢 ${chalk.gray(timestamp)} [${chalk.green(
           level.toUpperCase()

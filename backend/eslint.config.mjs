@@ -10,6 +10,15 @@ export default defineConfig([
     languageOptions: { globals: globals.node },
     rules: {
       'no-unused-vars': ['error', { argsIgnorePattern: '^_' }],
+      'no-console': 'warn',
+      'no-undef': 'error',
+      'no-var': 'error',
+      'prefer-const': 'error',
+      eqeqeq: ['error', 'always'],
+      semi: ['error', 'always'],
+      quotes: ['error', 'single'],
+      'no-return-await': 'error',
+      'require-atomic-updates': 'error',
     },
   },
 ]);

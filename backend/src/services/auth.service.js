@@ -339,7 +339,6 @@ export async function meService(userId) {
 
 export async function googleService(googleData) {
   const { email, displayName, avatar, googleId, role } = googleData;
-  // Find by provider ID first (avoid casting provider ID to ObjectId)
   let googleUser = await findUserByGoogleId(googleId);
 
   if (googleUser) return googleUser;
@@ -375,7 +374,7 @@ export async function googleService(googleData) {
 export async function githubService(githubData) {
   const { displayName, avatar, githubId, role } = githubData;
 
-  let githubUser = await findUserByGithubId(githubId);
+  const githubUser = await findUserByGithubId(githubId);
 
   if (githubUser) return githubUser;
 

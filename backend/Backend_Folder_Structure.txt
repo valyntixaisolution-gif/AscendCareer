@@ -62,3 +62,154 @@ backend/
 ├── .env
 ├── package.json
 └── README.md
+
+
+1. user.model.js
+{
+  _id: ObjectId,
+  name: { type: String, required: true },
+  email: { type: String, required: true, unique: true },
+  password: { type: String, required: true },
+  role: { type: String, enum: ['student', 'instructor', 'admin'], default: 'student' },
+  profilePicture: { type: String }, // URL
+  bio: { type: String, default: '' },
+  phone: { type: String },
+  address: { 
+    street: String,
+    city: String,
+    state: String,
+    zip: String,
+    country: String
+  },
+  enrolledCourses: [{ type: ObjectId, ref: 'Course' }],
+  completedCourses: [{ type: ObjectId, ref: 'Course' }],
+  certificates: [{ type: ObjectId, ref: 'Certificate' }],
+  notifications: [{ type: ObjectId, ref: 'Notification' }],
+  createdAt: { type: Date, default: Date.now },
+  updatedAt: { type: Date, default: Date.now }
+}
+
+2. course.model.js
+{
+  _id: ObjectId,
+  title: { type: String, required: true },
+  description: { type: String, required: true },
+  category: { type: String, required: true },
+  instructor: { type: ObjectId, ref: 'User', required: true },
+  price: { type: Number, default: 0 },
+  duration: { type: String }, // e.g., "6 weeks"
+  level: { type: String, enum: ['Beginner', 'Intermediate', 'Advanced'], default: 'Beginner' },
+  language: { type: String, default: 'English' },
+  assignments: [{ type: ObjectId, ref: 'Assignment' }],
+  projects: [{ type: ObjectId, ref: 'Project' }],
+  studentsEnrolled: [{ type: ObjectId, ref: 'User' }],
+  ratings: [{ user: { type: ObjectId, ref: 'User' }, rating: Number }],
+  createdAt: { type: Date, default: Date.now },
+  updatedAt: { type: Date, default: Date.now }
+}
+
+3. assignment.model.js
+{
+  _id: ObjectId,
+  title: { type: String, required: true },
+  description: { type: String, required: true },
+  course: { type: ObjectId, ref: 'Course', required: true },
+  dueDate: { type: Date },
+  maxMarks: { type: Number, default: 100 },
+  submissions: [
+    {
+      student: { type: ObjectId, ref: 'User' },
+      submissionUrl: String,
+      marksObtained: Number,
+      submittedAt: Date,
+      feedback: String
+    }
+  ],
+  createdAt: { type: Date, default: Date.now },
+  updatedAt: { type: Date, default: Date.now }
+}
+
+4. project.model.js
+{
+  _id: ObjectId,
+  title: { type: String, required: true },
+  description: { type: String, required: true },
+  course: { type: ObjectId, ref: 'Course' },
+  assignedTo: [{ type: ObjectId, ref: 'User' }],
+  status: { type: String, enum: ['pending', 'in progress', 'completed'], default: 'pending' },
+  githubLink: { type: String },
+  submissionUrl: { type: String },
+  marks: { type: Number },
+  feedback: { type: String },
+  createdAt: { type: Date, default: Date.now },
+  updatedAt: { type: Date, default: Date.now }
+}
+
+5. internship.model.js
+{
+  _id: ObjectId,
+  title: { type: String, required: true },
+  company: { type: String, required: true },
+  location: { type: String },
+  duration: { type: String }, // e.g., "3 months"
+  stipend: { type: Number },
+  description: { type: String },
+  requirements: [String],
+  applicants: [{ type: ObjectId, ref: 'User' }],
+  status: { type: String, enum: ['open', 'closed'], default: 'open' },
+  createdAt: { type: Date, default: Date.now },
+  updatedAt: { type: Date, default: Date.now }
+}
+
+6. job.model.js
+{
+  _id: ObjectId,
+  title: { type: String, required: true },
+  company: { type: String, required: true },
+  location: { type: String },
+  salary: { type: Number },
+  description: { type: String },
+  requirements: [String],
+  applicants: [{ type: ObjectId, ref: 'User' }],
+  status: { type: String, enum: ['open', 'closed'], default: 'open' },
+  createdAt: { type: Date, default: Date.now },
+  updatedAt: { type: Date, default: Date.now }
+}
+
+7. certificate.model.js
+{
+  _id: ObjectId,
+  user: { type: ObjectId, ref: 'User', required: true },
+  course: { type: ObjectId, ref: 'Course', required: true },
+  certificateUrl: { type: String, required: true },
+  issuedDate: { type: Date, default: Date.now },
+  grade: { type: String }, // e.g., A, B, Pass
+  createdAt: { type: Date, default: Date.now },
+  updatedAt: { type: Date, default: Date.now }
+}
+
+8. payment.model.js
+{
+  _id: ObjectId,
+  user: { type: ObjectId, ref: 'User', required: true },
+  course: { type: ObjectId, ref: 'Course', required: true },
+  amount: { type: Number, required: true },
+  paymentMethod: { type: String, enum: ['credit_card', 'paypal', 'stripe'], required: true },
+  paymentDate: { type: Date, default: Date.now },
+  status: { type: String, enum: ['pending', 'completed', 'failed'], default: 'pending' },
+  transactionId: { type: String },
+  createdAt: { type: Date, default: Date.now },
+  updatedAt: { type: Date, default: Date.now }
+}
+
+9. notification.model.js
+{
+  _id: ObjectId,
+  user: { type: ObjectId, ref: 'User', required: true },
+  message: { type: String, required: true },
+  type: { type: String, enum: ['info', 'warning', 'success', 'error'], default: 'info' },
+  read: { type: Boolean, default: false },
+  link: { type: String }, // optional link to a course, project, or assignment
+  createdAt: { type: Date, default: Date.now },
+  updatedAt: { type: Date, default: Date.now }
+}

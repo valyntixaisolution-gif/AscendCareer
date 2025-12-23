@@ -144,7 +144,12 @@ export async function loginService(bodyData) {
   await user.save();
 
   return {
-    user,
+    user: {
+      id: user._id,
+      fullName: user.fullName,
+      email: user.email,
+      role: user.role,
+    },
     accessToken,
     refreshToken,
   };

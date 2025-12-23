@@ -42,14 +42,13 @@ export const verifyEmailSchema = {
 
 export const forgotPasswordSchema = {
   body: z.object({
-    email: z.string().email('Invalid email address'),
+    email: z.email('Invalid email address'),
   }),
 };
 
 export const resetPasswordSchema = {
   body: z
     .object({
-      token: z.string().min(1, 'Reset token is required'),
       newPassword: z
         .string()
         .min(8, 'New Password must be at least 8 characters long'),
@@ -60,4 +59,7 @@ export const resetPasswordSchema = {
     .refine((data) => data.newPassword === data.confirmNewPassword, {
       message: 'Passwords do not match',
     }),
+  query: z.object({
+    token: z.string().min(1, 'Reset password token is required'),
+  }),
 };

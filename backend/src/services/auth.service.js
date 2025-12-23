@@ -173,6 +173,13 @@ export async function logoutService(token) {
 export async function verifyEmailService(queryData) {
   const { token } = queryData;
 
+  if (!token) {
+    logger.error('Verification token is required', {
+      label: 'VerifyEmailService',
+    });
+    throw new APIError(400, 'Verification token is required');
+  }
+
   const user = await findEmailWithTokenAndExpiryDate(token);
 
   if (!user) {
@@ -260,11 +267,16 @@ export async function forgotPasswordService(bodyData) {
     )
   );
 
-  return true;
+  return {
+    userId: user._id,
+    resetPasswordToken,
+    resetPasswordTokenExpiry,
+  };
 }
 
-export async function resetPasswordService(bodyData) {
-  const { token, newPassword, confirmNewPassword } = bodyData;
+export async function resetPasswordService(bodyData, queryData) {
+  const { newPassword, confirmNewPassword } = bodyData;
+  const { token } = queryData;
 
   if (newPassword !== confirmNewPassword) {
     logger.error('Passwords do not match', {

@@ -128,14 +128,14 @@ export async function forgotPasswordController(req, res) {
 }
 
 export async function resetPasswordController(req, res) {
-  const resetPassword = await resetPasswordService(req.body);
+  await resetPasswordService(req.body, req.query);
 
   logger.info('Password reset successfully', {
     label: 'ResetPasswordController',
     email: req.body.email,
   });
 
-  successResponse(res, 200, 'Password reset successfully', resetPassword);
+  successResponse(res, 200, 'Password reset successfully');
 }
 
 export async function meController(req, res) {

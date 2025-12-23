@@ -63,3 +63,14 @@ export const resetPasswordSchema = {
     token: z.string().min(1, 'Reset password token is required'),
   }),
 };
+
+export const googleAuthSchema = {
+  query: z.object({
+    role: z.enum(['student', 'trainer', 'company', 'admin', 'super-admin'], {
+      errorMap: () => ({
+        message:
+          'Role must be one of student, trainer, company, admin, super-admin',
+      }),
+    }),
+  }),
+};

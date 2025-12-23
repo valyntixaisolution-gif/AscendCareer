@@ -19,6 +19,7 @@ import {
   verifyEmailSchema,
   forgotPasswordSchema,
   resetPasswordSchema,
+  googleAuthSchema,
 } from '../validator/auth.validator.js';
 import validateRequestMiddleware from '../middlewares/validate-request.middleware.js';
 import authenticateMiddleware from '../middlewares/authenticate.middleware.js';
@@ -87,14 +88,21 @@ router
 
 router
   .route('/google')
-  .get(passport.authenticate('google', { scope: ['profile', 'email'] }));
+  .get(validateRequestMiddleware(googleAuthSchema), (req, res, next) => {
+    const role = req.query.role;
+    passport.authenticate('google', {
+      scope: ['profile', 'email'],
+      state: role,
+    })(req, res, next);
+  });
 
 router.route('/google/callback').get(
   passport.authenticate('google', {
     session: false,
     failureRedirect: '/api/v1/auth/google/failure',
   }),
-  googleAuthController
+
+  asyncHandlerMiddleware(googleAuthController)
 );
 
 export default router;

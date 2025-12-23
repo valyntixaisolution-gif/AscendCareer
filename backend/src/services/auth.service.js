@@ -338,7 +338,7 @@ export async function meService(userId) {
 }
 
 export async function googleService(googleData) {
-  const { email, displayName, avatar, googleId } = googleData;
+  const { email, displayName, avatar, googleId, role } = googleData;
 
   let googleUser = await findUserByGoogleId(googleId);
 
@@ -352,6 +352,10 @@ export async function googleService(googleData) {
       googleUser.avatar = avatar;
       googleUser.displayName = displayName;
 
+      if (!googleUser.role) {
+        googleUser.role = role;
+      }
+
       await googleUser.save();
       return googleUser;
     }
@@ -362,6 +366,7 @@ export async function googleService(googleData) {
     displayName,
     avatar,
     googleId,
+    role,
   });
 
   return newGoogleUser;

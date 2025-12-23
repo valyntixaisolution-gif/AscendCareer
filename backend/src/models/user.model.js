@@ -6,12 +6,10 @@ const userSchema = new mongoose.Schema(
     fullName: {
       firstName: {
         type: String,
-        required: true,
         trim: true,
       },
       lastName: {
         type: String,
-        required: true,
         trim: true,
       },
     },
@@ -26,9 +24,8 @@ const userSchema = new mongoose.Schema(
 
     password: {
       type: String,
-      required: true,
       trim: true,
-      minlength: 8,
+      minlength: 6,
       select: false,
     },
     role: {

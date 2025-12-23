@@ -50,3 +50,11 @@ export async function findUserByResetTokenAndExpiryDate(token) {
 export async function findUserById(userId) {
   return await User.findById(userId);
 }
+
+export async function findUserByGoogleId(googleId) {
+  return await User.findOne({ googleId });
+}
+
+export async function createGoogleUser(googleUserData) {
+  return await User.create(googleUserData);
+}

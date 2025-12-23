@@ -1,7 +1,5 @@
 import crypto from 'node:crypto';
 import config from '../config/env.config.js';
-import logger from '../lib/logger.lib.js';
-import APIError from '../lib/api-error.lib.js';
 
 export function successResponse(res, statusCode, message, data) {
   res.status(statusCode).json({
@@ -23,14 +21,10 @@ export function validateEnv(schema, config) {
   const parsedEnv = schema.safeParse(config);
   if (!parsedEnv.success) {
     const issues = formatIssues(parsedEnv.error.issues);
-    logger.error('Environment validation failed', {
-      label: 'EnvValidator',
-      issues,
-    });
-    throw new APIError(500, 'Environment validation failed', {
-      type: 'ValidationError',
-      details: issues,
-    });
+    throw new Error(
+      'Environment validation failed. Check console output for details.',
+      issues
+    );
   }
 
   return parsedEnv.data;
@@ -48,7 +42,7 @@ export function verifyTokenUrl(token) {
   return `${config.BASE_URL}/api/v1/auth/verify-email?token=${token}`;
 }
 
-export function resetPasswordUrl(token){
+export function resetPasswordUrl(token) {
   return `${config.BASE_URL}/api/v1/auth/reset-password?token=${token}`;
 }
 
@@ -89,7 +83,10 @@ export function verificationEmailTemplate(name = 'User', verifyLink = '') {
 </html>`;
 }
 
-export function verificationPasswordResetTemplate(name = 'User', resetLink = '') {
+export function verificationPasswordResetTemplate(
+  name = 'User',
+  resetLink = ''
+) {
   return `<!doctype html>
 <html lang="en">
 <head>

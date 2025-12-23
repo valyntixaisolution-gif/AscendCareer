@@ -3,7 +3,7 @@ import jwtLib from '../lib/jwt.lib.js';
 import logger from '../lib/logger.lib.js';
 
 function authenticateMiddleware(allowRoles = []) {
-  return async (req, res, next) => {
+  return async (req, _res, next) => {
     const { authorization } = req.headers;
 
     if (!authorization) {

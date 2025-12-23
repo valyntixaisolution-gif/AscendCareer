@@ -13,6 +13,14 @@ export async function findUserByEmail(email) {
   return await User.findOne({ email }).select('+password');
 }
 
+export async function findUserByGoogleId(googleId) {
+  return await User.findOne({ googleId });
+}
+
+export async function findUserByGithubId(githubId) {
+  return await User.findOne({ githubId });
+}
+
 export async function deleteRefreshToken(refreshToken) {
   return await User.deleteOne({ refreshToken });
 }
@@ -49,12 +57,4 @@ export async function findUserByResetTokenAndExpiryDate(token) {
 
 export async function findUserById(userId) {
   return await User.findById(userId);
-}
-
-export async function findUserByGoogleId(googleId) {
-  return await User.findOne({ googleId });
-}
-
-export async function createGoogleUser(googleUserData) {
-  return await User.create(googleUserData);
 }

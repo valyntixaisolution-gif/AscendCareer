@@ -19,8 +19,8 @@ import {
   createNewRefreshToken,
   findUserByResetTokenAndExpiryDate,
   findUserById,
+  findUserByGithubId,
   findUserByGoogleId,
-  createGoogleUser,
 } from '../repositories/auth.repository.js';
 import sendVerificationEmail from '../lib/send-email.lib.js';
 import jwtLib from '../lib/jwt.lib.js';
@@ -339,7 +339,7 @@ export async function meService(userId) {
 
 export async function googleService(googleData) {
   const { email, displayName, avatar, googleId, role } = googleData;
-
+  // Find by provider ID first (avoid casting provider ID to ObjectId)
   let googleUser = await findUserByGoogleId(googleId);
 
   if (googleUser) return googleUser;
@@ -361,7 +361,7 @@ export async function googleService(googleData) {
     }
   }
 
-  const newGoogleUser = await createGoogleUser({
+  const newGoogleUser = await createUser({
     email,
     displayName,
     avatar,
@@ -370,6 +370,23 @@ export async function googleService(googleData) {
   });
 
   return newGoogleUser;
+}
+
+export async function githubService(githubData) {
+  const { displayName, avatar, githubId, role } = githubData;
+
+  let githubUser = await findUserByGithubId(githubId);
+
+  if (githubUser) return githubUser;
+
+  const newGithubUser = await createUser({
+    displayName,
+    avatar,
+    githubId,
+    role,
+  });
+
+  return newGithubUser;
 }
 
 export async function googleAuthService(payload) {
@@ -390,6 +407,42 @@ export async function googleAuthService(payload) {
       userId,
     });
     throw new APIError(404, 'User not found for Google authentication');
+  }
+
+  const accessToken = jwtLib.generateAccessToken({
+    userId,
+    role,
+  });
+
+  const refreshToken = jwtLib.generateRefreshToken({
+    userId,
+    role,
+  });
+
+  user.refreshToken = refreshToken;
+  await user.save();
+
+  return { userId: user._id, accessToken, refreshToken };
+}
+
+export async function githubAuthService(payload) {
+  const { userId, role } = payload;
+
+  if (!userId || !role) {
+    logger.error('Invalid payload for Github authentication', {
+      label: 'GithubAuthService',
+    });
+    throw new APIError(400, 'Invalid payload for Github authentication');
+  }
+
+  const user = await findUserById(userId);
+
+  if (!user) {
+    logger.error('User not found for Github authentication', {
+      label: 'GithubAuthService',
+      userId,
+    });
+    throw new APIError(404, 'User not found for Github authentication');
   }
 
   const accessToken = jwtLib.generateAccessToken({

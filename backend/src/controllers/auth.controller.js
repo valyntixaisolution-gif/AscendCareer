@@ -10,6 +10,7 @@ import {
   resetPasswordService,
   meService,
   googleAuthService,
+  githubAuthService,
 } from '../services/auth.service.js';
 import { successResponse } from '../utils/index.util.js';
 import APIError from '../lib/api-error.lib.js';
@@ -180,6 +181,38 @@ export async function googleAuthController(req, res, next) {
   });
 
   successResponse(res, 200, 'User authenticated via Google successfully', {
+    userId,
+    accessToken,
+  });
+}
+
+export async function githubAuthController(req, res, next) {
+  const user = req.user;
+
+  if (!user) {
+    logger.error('Github authentication failed', {
+      label: 'GithubAuthController',
+    });
+    return next(new APIError(500, 'Github authentication failed'));
+  }
+
+  const payload = {
+    userId: user._id,
+    role: user.role,
+  };
+
+  const { userId, accessToken, refreshToken } =
+    await githubAuthService(payload);
+
+  cookieLib.setCookie(res, 'refreshToken', refreshToken);
+
+  logger.info('User authenticated via Github successfully', {
+    label: 'GithubAuthController',
+    userId,
+    email: user.email,
+  });
+
+  successResponse(res, 200, 'User authenticated via Github successfully', {
     userId,
     accessToken,
   });

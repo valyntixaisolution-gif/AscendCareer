@@ -74,3 +74,14 @@ export const googleAuthSchema = {
     }),
   }),
 };
+
+export const githubAuthSchema = {
+  query: z.object({
+    role: z.enum(['student', 'trainer', 'company', 'admin', 'super-admin'], {
+      errorMap: () => ({
+        message:
+          'Role must be one of student, trainer, company, admin, super-admin',
+      }),
+    }),
+  }),
+};

@@ -30,6 +30,7 @@ router
     validateRequestMiddleware(registerSchema),
     asyncHandlerMiddleware(registerController)
   );
+
 router
   .route('/login')
   .post(
@@ -37,6 +38,7 @@ router
     validateRequestMiddleware(loginSchema),
     asyncHandlerMiddleware(loginController)
   );
+
 router
   .route('/logout')
   .post(
@@ -44,6 +46,7 @@ router
     authenticateMiddleware(),
     asyncHandlerMiddleware(logoutController)
   );
+
 router
   .route('/verify-email')
   .post(
@@ -51,9 +54,11 @@ router
     validateRequestMiddleware(verifyEmailSchema),
     asyncHandlerMiddleware(verifyEmailController)
   );
+
 router
   .route('/refresh-token')
   .post(authRateLimiter, asyncHandlerMiddleware(refreshController));
+
 router
   .route('/forgot-password')
   .post(
@@ -69,6 +74,7 @@ router
     validateRequestMiddleware(resetPasswordSchema),
     asyncHandlerMiddleware(resetPasswordController)
   );
+
 router
   .route('/me')
   .get(

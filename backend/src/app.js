@@ -6,6 +6,7 @@ import routes from './routes/index.route.js';
 import globalErrorHandlerMiddleware from './middlewares/global-error-handler.middleware.js';
 import compressionMiddleware from './middlewares/compression.middleware.js';
 import corsOptions from './lib/cors.lib.js';
+import passport from './lib/passport.lib.js';
 import { globalRateLimiter } from './middlewares/rate-limiting.middleware.js';
 
 const app = express();
@@ -19,6 +20,8 @@ app.use(express.urlencoded({ extended: true }));
 app.use(globalRateLimiter);
 
 app.use(routes);
+
+app.use(passport.initialize());
 
 app.use(globalErrorHandlerMiddleware);
 

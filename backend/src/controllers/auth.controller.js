@@ -21,6 +21,7 @@ export async function registerController(req, res) {
     label: 'RegisterController',
     userId: newUser._id,
     email: newUser.email,
+    role: newUser.role,
   });
 
   successResponse(res, 201, 'User registered successfully', newUser);

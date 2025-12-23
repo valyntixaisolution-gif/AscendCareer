@@ -14,6 +14,12 @@ export const registerSchema = {
       confirmPassword: z
         .string()
         .min(8, 'Confirm Password must be at least 8 characters long'),
+      role: z.enum(['student', 'trainer', 'company', 'admin', 'super-admin'], {
+        errorMap: () => ({
+          message:
+            'Role must be one of student, trainer, company, admin, super-admin',
+        }),
+      }),
     })
     .refine((data) => data.password === data.confirmPassword, {
       message: 'Passwords do not match',

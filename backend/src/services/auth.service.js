@@ -24,7 +24,7 @@ import sendVerificationEmail from '../lib/send-email.lib.js';
 import jwtLib from '../lib/jwt.lib.js';
 
 export async function registerService(bodyData) {
-  const { fullName, email, password, confirmPassword } = bodyData;
+  const { fullName, email, password, confirmPassword, role } = bodyData;
   const { firstName, lastName } = fullName;
 
   if (password !== confirmPassword) {
@@ -67,6 +67,7 @@ export async function registerService(bodyData) {
     password,
     emailVerificationToken: verificationToken,
     emailVerificationTokenExpiry: verificationTokenExpiry,
+    role,
   });
 
   const token = verifyTokenUrl(verificationToken);

@@ -58,6 +58,19 @@ const userSchema = new mongoose.Schema(
       type: Date,
     },
 
+    displayName: {
+      type: String,
+      trim: true,
+    },
+    googleId: {
+      type: String,
+      select: false,
+      sparse: true,
+      unique: true,
+    },
+    avatar: {
+      type: String,
+    },
     refreshToken: {
       type: String,
       select: false,

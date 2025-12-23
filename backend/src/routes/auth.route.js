@@ -1,4 +1,5 @@
 import { Router } from 'express';
+import passport from 'passport';
 import {
   registerController,
   loginController,
@@ -8,6 +9,7 @@ import {
   forgotPasswordController,
   resetPasswordController,
   meController,
+  googleAuthController,
 } from '../controllers/auth.controller.js';
 import { authRateLimiter } from '../middlewares/rate-limiting.middleware.js';
 import asyncHandlerMiddleware from '../middlewares/async-handler.middleware.js';
@@ -82,5 +84,17 @@ router
     authenticateMiddleware(),
     asyncHandlerMiddleware(meController)
   );
+
+router
+  .route('/google')
+  .get(passport.authenticate('google', { scope: ['profile', 'email'] }));
+
+router.route('/google/callback').get(
+  passport.authenticate('google', {
+    session: false,
+    failureRedirect: '/api/v1/auth/google/failure',
+  }),
+  googleAuthController
+);
 
 export default router;

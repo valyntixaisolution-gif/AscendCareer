@@ -19,6 +19,8 @@ import {
   createNewRefreshToken,
   findUserByResetTokenAndExpiryDate,
   findUserById,
+  findUserByGoogleId,
+  createGoogleUser,
 } from '../repositories/auth.repository.js';
 import sendVerificationEmail from '../lib/send-email.lib.js';
 import jwtLib from '../lib/jwt.lib.js';
@@ -333,4 +335,70 @@ export async function meService(userId) {
   }
 
   return user;
+}
+
+export async function googleService(googleData) {
+  const { email, displayName, avatar, googleId } = googleData;
+
+  let googleUser = await findUserByGoogleId(googleId);
+
+  if (googleUser) return googleUser;
+
+  if (email) {
+    googleUser = await findUserByEmail(email);
+
+    if (googleUser) {
+      googleUser.googleId = googleId;
+      googleUser.avatar = avatar;
+      googleUser.displayName = displayName;
+
+      await googleUser.save();
+      return googleUser;
+    }
+  }
+
+  const newGoogleUser = await createGoogleUser({
+    email,
+    displayName,
+    avatar,
+    googleId,
+  });
+
+  return newGoogleUser;
+}
+
+export async function googleAuthService(payload) {
+  const { userId, role } = payload;
+
+  if (!userId || !role) {
+    logger.error('Invalid payload for Google authentication', {
+      label: 'GoogleAuthService',
+    });
+    throw new APIError(400, 'Invalid payload for Google authentication');
+  }
+
+  const user = await findUserById(userId);
+
+  if (!user) {
+    logger.error('User not found for Google authentication', {
+      label: 'GoogleAuthService',
+      userId,
+    });
+    throw new APIError(404, 'User not found for Google authentication');
+  }
+
+  const accessToken = jwtLib.generateAccessToken({
+    userId,
+    role,
+  });
+
+  const refreshToken = jwtLib.generateRefreshToken({
+    userId,
+    role,
+  });
+
+  user.refreshToken = refreshToken;
+  await user.save();
+
+  return { userId: user._id, accessToken, refreshToken };
 }

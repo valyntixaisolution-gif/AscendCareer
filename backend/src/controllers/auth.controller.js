@@ -9,6 +9,7 @@ import {
   forgotPasswordService,
   resetPasswordService,
   meService,
+  googleAuthService,
 } from '../services/auth.service.js';
 import { successResponse } from '../utils/index.util.js';
 import APIError from '../lib/api-error.lib.js';
@@ -150,4 +151,36 @@ export async function meController(req, res) {
   });
 
   successResponse(res, 200, 'Fetched current user details successfully', user);
+}
+
+export async function googleAuthController(req, res, next) {
+  const user = req.user;
+
+  if (!user) {
+    logger.error('Google authentication failed', {
+      label: 'GoogleAuthController',
+    });
+    return next(new APIError(500, 'Google authentication failed'));
+  }
+
+  const payload = {
+    userId: user._id,
+    role: user.role,
+  };
+
+  const { userId, accessToken, refreshToken } =
+    await googleAuthService(payload);
+
+  cookieLib.setCookie(res, 'refreshToken', refreshToken);
+
+  logger.info('User authenticated via Google successfully', {
+    label: 'GoogleAuthController',
+    userId,
+    email: user.email,
+  });
+
+  successResponse(res, 200, 'User authenticated via Google successfully', {
+    userId,
+    accessToken,
+  });
 }

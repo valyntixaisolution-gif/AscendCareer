@@ -8,7 +8,6 @@ import {
   refreshController,
   forgotPasswordController,
   resetPasswordController,
-  meController,
   googleAuthController,
   githubAuthController,
 } from '../controllers/auth.controller.js';
@@ -78,14 +77,6 @@ router
     authRateLimiter,
     validateRequestMiddleware(resetPasswordSchema),
     asyncHandlerMiddleware(resetPasswordController)
-  );
-
-router
-  .route('/me')
-  .get(
-    authRateLimiter,
-    authenticateMiddleware(),
-    asyncHandlerMiddleware(meController)
   );
 
 router

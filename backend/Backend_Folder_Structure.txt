@@ -67,20 +67,20 @@ backend/
 1. user.model.js
 {
   _id: ObjectId,
-  name: { type: String, required: true },
+  fullName: { type: String, required: true },
   email: { type: String, required: true, unique: true },
   password: { type: String, required: true },
-  role: { type: String, enum: ['student', 'instructor', 'admin'], default: 'student' },
-  profilePicture: { type: String }, // URL
-  bio: { type: String, default: '' },
-  phone: { type: String },
-  address: { 
-    street: String,
-    city: String,
-    state: String,
-    zip: String,
-    country: String
-  },
+  role: { type: String, enum: ['student', 'trainer', 'company','admin','super-admin'] },
+  isVerified:{type:Boolean,default:false},
+  emailVerificationToken:{type:String},
+  emailVerificationTokenExpiry:{type:Date},
+  resetPasswordToken:{type:String},
+  resetPasswordTokenExpiry:{type: Date},
+  displayName:{type:String,trim:true},
+  googleId:{type:String,select:false,sparse:true,unique:true},
+  githubId:{type:String,select:false,sparse:true,unique:true},
+  avatar:{type:String},
+  refreshToken:{type:String,select:false},
   enrolledCourses: [{ type: ObjectId, ref: 'Course' }],
   completedCourses: [{ type: ObjectId, ref: 'Course' }],
   certificates: [{ type: ObjectId, ref: 'Certificate' }],

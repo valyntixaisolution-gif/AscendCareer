@@ -8,7 +8,6 @@ import {
   refreshTokenService,
   forgotPasswordService,
   resetPasswordService,
-  meService,
   googleAuthService,
   githubAuthService,
 } from '../services/auth.service.js';
@@ -138,20 +137,6 @@ export async function resetPasswordController(req, res) {
   });
 
   successResponse(res, 200, 'Password reset successfully');
-}
-
-export async function meController(req, res) {
-  const { userId } = req.user;
-
-  const user = await meService(userId);
-
-  logger.info('Fetched current user details successfully', {
-    label: 'MeController',
-    userId: user._id,
-    email: user.email,
-  });
-
-  successResponse(res, 200, 'Fetched current user details successfully', user);
 }
 
 export async function googleAuthController(req, res, next) {

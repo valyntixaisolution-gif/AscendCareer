@@ -146,6 +146,58 @@ const PublicNavbar = () => {
             </div>
 
             <div className="mobile-menu-content">
+              {/* Mobile Auth Buttons - Simple styled buttons */}
+              <div style={{
+                display: 'flex',
+                flexDirection: 'column',
+                gap: '12px',
+                marginBottom: '24px',
+                paddingBottom: '24px',
+                borderBottom: '1px solid #e5e7eb'
+              }}>
+                <Link 
+                  to="/login" 
+                  onClick={() => setIsMobileMenuOpen(false)}
+                  style={{
+                    display: 'flex',
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                    padding: '12px 16px',
+                    backgroundColor: 'transparent',
+                    color: '#374151',
+                    textDecoration: 'none',
+                    fontWeight: '600',
+                    fontSize: '14px',
+                    border: '2px solid #e5e7eb',
+                    borderRadius: '8px',
+                    transition: 'all 0.3s ease'
+                  }}
+                >
+                  Sign In
+                </Link>
+                <Link 
+                  to="/register" 
+                  onClick={() => setIsMobileMenuOpen(false)}
+                  style={{
+                    display: 'flex',
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                    padding: '12px 16px',
+                    background: 'linear-gradient(135deg, #3b82f6 0%, #2563eb 100%)',
+                    color: 'white',
+                    textDecoration: 'none',
+                    fontWeight: '600',
+                    fontSize: '14px',
+                    border: 'none',
+                    borderRadius: '8px',
+                    boxShadow: '0 4px 12px rgba(59, 130, 246, 0.3)',
+                    transition: 'all 0.3s ease'
+                  }}
+                >
+                  Join
+                </Link>
+              </div>
+
               {/* Explore Section */}
               <div className="mobile-section">
                 <button
@@ -182,11 +234,9 @@ const PublicNavbar = () => {
                 </div>
               </div>
 
-              {/* Mobile CTAs */}
+              {/* Additional CTA for Become Student */}
               <div className="mobile-ctas">
                 <Link to="/become-student" className="btn btn-secondary btn-block" onClick={() => setIsMobileMenuOpen(false)}>Become a Student</Link>
-                <Link to="/login" className="btn btn-text btn-block" onClick={() => setIsMobileMenuOpen(false)}>Sign In</Link>
-                <Link to="/register" className="btn btn-primary btn-block" onClick={() => setIsMobileMenuOpen(false)}>Join</Link>
               </div>
             </div>
           </div>

@@ -398,7 +398,7 @@ const PublicHome = () => {
 
 
       {/* Enhanced Trusted Companies Section */}
-      <section className="relative py-16 md:py-20 bg-white overflow-hidden">
+      <section className="relative py-8 sm:py-12 md:py-16 lg:py-20 bg-white overflow-hidden">
         {/* Animated Background */}
         <div className="absolute inset-0">
           <div className="absolute top-0 left-0 w-full h-full bg-gradient-to-r from-gray-100/10 to-gray-200/10 animate-pulse"></div>
@@ -418,9 +418,9 @@ const PublicHome = () => {
 
         <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           {/* Header Section */}
-          <div className="text-center mb-12 md:mb-16">
-            <div className="py-8 md:py-12 bg-gradient-to-r from-gray-50 to-blue-50 rounded-3xl mb-8">
-              <h2 className="text-3xl md:text-5xl font-bold text-gray-900 mb-4 md:mb-6">
+          <div className="text-center mb-8 sm:mb-10 md:mb-12 lg:mb-16">
+            <div className="py-6 sm:py-8 md:py-10 lg:py-12 bg-gradient-to-r from-gray-50 to-blue-50 rounded-2xl sm:rounded-3xl mb-6 sm:mb-8">
+              <h2 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-bold text-gray-900 mb-3 sm:mb-4 md:mb-6 px-4">
                 Trusted by Industry Leaders &
                 <span className="block bg-gradient-to-r bg-blue-600 bg-clip-text text-transparent">
                   Innovators Worldwide
@@ -456,7 +456,7 @@ const PublicHome = () => {
             </div>
 
             {/* Mobile: Touch-Friendly Grid with Stagger Animation */}
-            <div className="md:hidden grid grid-cols-2 gap-4">
+            <div className="md:hidden grid grid-cols-2 sm:grid-cols-3 gap-3 sm:gap-4">
               {filteredCompanies.slice(0, 6).map((company, index) => (
                 <div
                   key={company.name}
@@ -466,10 +466,10 @@ const PublicHome = () => {
                     animationFillMode: 'both'
                   }}
                 >
-                  <div className="relative bg-white rounded-xl p-4 border border-gray-200 hover:border-blue-400 hover:shadow-xl transition-all duration-500 active:scale-95 touch-manipulation hover:-translate-y-2 hover:bg-gradient-to-br hover:from-white hover:to-blue-50">
+                  <div className="relative bg-white rounded-lg sm:rounded-xl p-3 sm:p-4 border border-gray-200 hover:border-blue-400 hover:shadow-xl transition-all duration-500 active:scale-95 touch-manipulation hover:-translate-y-2 hover:bg-gradient-to-br hover:from-white hover:to-blue-50">
                     <div className="text-center">
-                      <company.icon className={`text-3xl ${company.color} mb-2 mx-auto filter grayscale group-hover:grayscale-0 transition-all duration-500 group-hover:scale-110`} />
-                      <span className="text-gray-900 font-medium text-sm block group-hover:text-blue-600 transition-colors duration-300">{company.name}</span>
+                      <company.icon className={`text-2xl sm:text-3xl ${company.color} mb-1 sm:mb-2 mx-auto filter grayscale group-hover:grayscale-0 transition-all duration-500 group-hover:scale-110`} />
+                      <span className="text-gray-900 font-medium text-xs sm:text-sm block group-hover:text-blue-600 transition-colors duration-300">{company.name}</span>
                     </div>
                   </div>
                 </div>
@@ -492,19 +492,19 @@ const PublicHome = () => {
           </div>
 
           {/* Featured Testimonial */}
-          <div className="mt-12 md:mt-16 text-center">
-            <div className="bg-gray-50 rounded-2xl p-6 md:p-8 border border-gray-200 max-w-4xl mx-auto">
-              <FaQuoteLeft className="text-3xl text-blue-600 mb-4 mx-auto" />
-              <p className="text-lg md:text-xl text-gray-700 mb-6 italic leading-relaxed">
+          <div className="mt-8 sm:mt-10 md:mt-12 lg:mt-16 text-center">
+            <div className="bg-gray-50 rounded-xl sm:rounded-2xl p-4 sm:p-6 md:p-8 border border-gray-200 max-w-4xl mx-auto">
+              <FaQuoteLeft className="text-2xl sm:text-3xl text-blue-600 mb-3 sm:mb-4 mx-auto" />
+              <p className="text-base sm:text-lg md:text-xl text-gray-700 mb-4 sm:mb-6 italic leading-relaxed px-2">
                 "CareerBox has transformed how we approach talent development. The quality of candidates and the comprehensive training programs have exceeded our expectations."
               </p>
-              <div className="flex items-center justify-center space-x-4">
-                <div className="w-12 h-12 bg-gradient-to-r from-blue-500 to-purple-600 rounded-full flex items-center justify-center">
-                  <FaGoogle className="text-white text-xl" />
+              <div className="flex flex-col sm:flex-row items-center justify-center space-y-3 sm:space-y-0 sm:space-x-4">
+                <div className="w-10 h-10 sm:w-12 sm:h-12 bg-gradient-to-r from-blue-500 to-purple-600 rounded-full flex items-center justify-center">
+                  <FaGoogle className="text-white text-lg sm:text-xl" />
                 </div>
-                <div className="text-left">
-                  <div className="text-gray-900 font-semibold">Sarah Chen</div>
-                  <div className="text-gray-600 text-sm">VP of Engineering, Google</div>
+                <div className="text-center sm:text-left">
+                  <div className="text-gray-900 font-semibold text-sm sm:text-base">Sarah Chen</div>
+                  <div className="text-gray-600 text-xs sm:text-sm">VP of Engineering, Google</div>
                 </div>
               </div>
             </div>
@@ -517,49 +517,49 @@ const PublicHome = () => {
 
 
       {/* Featured Courses Section */}
-      <section className="py-16 bg-gray-50">
+      <section className="py-8 sm:py-12 md:py-16 bg-gray-50">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="flex justify-between items-center mb-12">
+          <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center mb-8 sm:mb-10 md:mb-12 gap-4">
             <div>
-              <h2 className="text-3xl md:text-4xl font-bold text-gray-900 mb-2">
+              <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold text-gray-900 mb-2">
                 Featured Courses
               </h2>
-              <p className="text-gray-600">Courses that help you keep up with the latest trends</p>
+              <p className="text-gray-600 text-sm sm:text-base">Courses that help you keep up with the latest trends</p>
             </div>
-            <Link to="/courses" className="text-blue-600 hover:text-blue-700 font-semibold flex items-center whitespace-nowrap">
+            <Link to="/courses" className="text-blue-600 hover:text-blue-700 font-semibold flex items-center whitespace-nowrap text-sm sm:text-base">
               View all <FaArrowRight className="ml-2" />
             </Link>
           </div>
 
-          <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4 sm:gap-6">
             {featuredCourses.map((course) => (
               <div key={course.id} className="bg-white rounded-xl shadow-md hover:shadow-xl transition-all duration-300 overflow-hidden group">
                 <div className="relative">
-                  <img src={course.image} alt={course.title} className="w-full h-48 object-cover" />
+                  <img src={course.image} alt={course.title} className="w-full h-40 sm:h-48 object-cover" />
                   {course.bestseller && (
-                    <span className="absolute top-3 left-3 bg-orange-500 text-white text-xs font-bold px-2 py-1 rounded">
+                    <span className="absolute top-2 sm:top-3 left-2 sm:left-3 bg-orange-500 text-white text-xs font-bold px-2 py-1 rounded">
                       Bestseller
                     </span>
                   )}
-                  <button className="absolute top-3 right-3 p-2 bg-white rounded-full shadow-md opacity-0 group-hover:opacity-100 transition-opacity">
-                    <FaHeart className="text-gray-400 hover:text-red-500" />
+                  <button className="absolute top-2 sm:top-3 right-2 sm:right-3 p-2 bg-white rounded-full shadow-md opacity-0 group-hover:opacity-100 transition-opacity">
+                    <FaHeart className="text-gray-400 hover:text-red-500 text-sm" />
                   </button>
                   <div className="absolute inset-0 bg-black bg-opacity-0 group-hover:bg-opacity-20 transition-all duration-300 flex items-center justify-center">
-                    <button className="bg-white rounded-full p-3 opacity-0 group-hover:opacity-100 transform scale-75 group-hover:scale-100 transition-all duration-300">
-                      <FaPlay className="text-blue-600" />
+                    <button className="bg-white rounded-full p-2 sm:p-3 opacity-0 group-hover:opacity-100 transform scale-75 group-hover:scale-100 transition-all duration-300">
+                      <FaPlay className="text-blue-600 text-sm sm:text-base" />
                     </button>
                   </div>
                 </div>
                 
-                <div className="p-4">
-                  <h3 className="font-bold text-gray-900 mb-2 line-clamp-2 group-hover:text-blue-600 transition-colors">
+                <div className="p-3 sm:p-4">
+                  <h3 className="font-bold text-gray-900 mb-2 line-clamp-2 group-hover:text-blue-600 transition-colors text-sm sm:text-base">
                     {course.title}
                   </h3>
-                  <p className="text-gray-600 text-sm mb-2">{course.instructor}</p>
+                  <p className="text-gray-600 text-xs sm:text-sm mb-2">{course.instructor}</p>
                   
                   <div className="flex items-center mb-2">
                     <div className="flex items-center mr-2">
-                      <span className="text-orange-500 font-bold text-sm mr-1">{course.rating}</span>
+                      <span className="text-orange-500 font-bold text-xs sm:text-sm mr-1">{course.rating}</span>
                       <div className="flex">
                         {[...Array(5)].map((_, i) => (
                           <FaStar key={i} className={`text-xs ${i < Math.floor(course.rating) ? 'text-orange-500' : 'text-gray-300'}`} />
@@ -584,8 +584,8 @@ const PublicHome = () => {
                   
                   <div className="flex items-center justify-between">
                     <div>
-                      <span className="text-lg font-bold text-gray-900">${course.price}</span>
-                      <span className="text-sm text-gray-500 line-through ml-2">${course.originalPrice}</span>
+                      <span className="text-base sm:text-lg font-bold text-gray-900">${course.price}</span>
+                      <span className="text-xs sm:text-sm text-gray-500 line-through ml-2">${course.originalPrice}</span>
                     </div>
                     <span className={`px-2 py-1 rounded text-xs font-medium ${
                       course.level === 'Beginner' ? 'bg-green-100 text-green-800' :
@@ -607,64 +607,64 @@ const PublicHome = () => {
 
 
       {/* AI-Personalized Course Marketplace */}
-      <section className="relative py-16 md:py-24 bg-gradient-to-br from-slate-50 via-blue-50 to-indigo-100 overflow-hidden">
+      <section className="relative py-8 sm:py-12 md:py-16 lg:py-24 bg-gradient-to-br from-slate-50 via-blue-50 to-indigo-100 overflow-hidden">
         <div className="absolute inset-0">
-          <div className="absolute top-10 right-10 w-96 h-96 bg-blue-200/30 rounded-full mix-blend-multiply filter blur-3xl animate-float"></div>
+          <div className="absolute top-10 right-10 w-48 sm:w-64 md:w-96 h-48 sm:h-64 md:h-96 bg-blue-200/30 rounded-full mix-blend-multiply filter blur-3xl animate-float"></div>
         </div>
 
         <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="text-center mb-12">
-            <div className="inline-flex items-center px-4 py-2 bg-gradient-to-r from-blue-100 to-indigo-100 rounded-full border border-blue-200 mb-6">
-              <FaRobot className="text-blue-600 mr-2" />
-              <span className="text-blue-800 text-sm font-medium">AI-Powered Recommendations</span>
+          <div className="text-center mb-8 sm:mb-10 md:mb-12">
+            <div className="inline-flex items-center px-3 sm:px-4 py-2 bg-gradient-to-r from-blue-100 to-indigo-100 rounded-full border border-blue-200 mb-4 sm:mb-6">
+              <FaRobot className="text-blue-600 mr-2 text-sm sm:text-base" />
+              <span className="text-blue-800 text-xs sm:text-sm font-medium">AI-Powered Recommendations</span>
             </div>
             
-            <h2 className="text-4xl md:text-6xl font-bold text-gray-900 mb-6">
+            <h2 className="text-2xl sm:text-3xl md:text-4xl lg:text-6xl font-bold text-gray-900 mb-4 sm:mb-6 px-4">
               Personalized Course
               <span className="block bg-gradient-to-r from-blue-600 to-indigo-600 bg-clip-text text-transparent">
                 Marketplace
               </span>
             </h2>
             
-            <p className="text-xl text-gray-600 max-w-3xl mx-auto mb-8">
+            <p className="text-base sm:text-lg md:text-xl text-gray-600 max-w-3xl mx-auto mb-6 sm:mb-8 px-4">
               AI-curated courses with real-time metrics, skill gap analysis, and career impact predictions
             </p>
 
-            <div className="flex flex-wrap justify-center gap-3 mb-8">
+            <div className="flex flex-wrap justify-center gap-2 sm:gap-3 mb-6 sm:mb-8 px-4">
               {courseFilters.map((filter) => (
                 <button
                   key={filter.id}
                   onClick={() => setSelectedCourseFilter(filter.id)}
-                  className={`flex items-center px-4 py-2 rounded-full font-medium transition-all duration-300 text-sm ${
+                  className={`flex items-center px-3 sm:px-4 py-2 rounded-full font-medium transition-all duration-300 text-xs sm:text-sm ${
                     selectedCourseFilter === filter.id
                       ? 'bg-gradient-to-r from-blue-600 to-indigo-600 text-white shadow-lg'
                       : 'bg-white/70 text-gray-700 hover:bg-white border border-gray-200'
                   }`}
                 >
-                  <filter.icon className="mr-2" />
+                  <filter.icon className="mr-1 sm:mr-2 text-xs sm:text-sm" />
                   {filter.name}
                 </button>
               ))}
             </div>
           </div>
 
-          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6 mb-12">
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6 mb-8 sm:mb-10 md:mb-12">
             {getFilteredCourses().map((course, index) => (
               <div
                 key={course.id}
-                className="group relative bg-white/80 backdrop-blur-md rounded-3xl p-6 shadow-xl border border-white/50 hover:shadow-2xl transition-all duration-500 transform hover:-translate-y-3"
+                className="group relative bg-white/80 backdrop-blur-md rounded-2xl sm:rounded-3xl p-4 sm:p-6 shadow-xl border border-white/50 hover:shadow-2xl transition-all duration-500 transform hover:-translate-y-3"
               >
                 {course.featured && (
-                  <div className="absolute -top-3 -right-3">
-                    <div className="bg-gradient-to-r from-yellow-500 to-orange-500 text-white px-3 py-1 rounded-full text-xs font-bold">
+                  <div className="absolute -top-2 sm:-top-3 -right-2 sm:-right-3">
+                    <div className="bg-gradient-to-r from-yellow-500 to-orange-500 text-white px-2 sm:px-3 py-1 rounded-full text-xs font-bold">
                       Featured
                     </div>
                   </div>
                 )}
 
-                <div className="absolute -top-2 right-4">
-                  <div className="relative w-16 h-16">
-                    <svg className="w-16 h-16 transform -rotate-90" viewBox="0 0 64 64">
+                <div className="absolute -top-1 sm:-top-2 right-3 sm:right-4">
+                  <div className="relative w-12 h-12 sm:w-16 sm:h-16">
+                    <svg className="w-12 h-12 sm:w-16 sm:h-16 transform -rotate-90" viewBox="0 0 64 64">
                       <circle cx="32" cy="32" r="28" fill="none" stroke="#e5e7eb" strokeWidth="4"/>
                       <circle 
                         cx="32" cy="32" r="28" fill="none" 
@@ -679,15 +679,15 @@ const PublicHome = () => {
                   </div>
                 </div>
 
-                <div className="relative mb-6 mt-8">
+                <div className="relative mb-4 sm:mb-6 mt-6 sm:mt-8">
                   <img 
                     src={course.thumbnail} 
                     alt={course.title}
-                    className="w-full h-48 object-cover rounded-2xl"
+                    className="w-full h-36 sm:h-48 object-cover rounded-xl sm:rounded-2xl"
                   />
-                  <div className="absolute inset-0 bg-gradient-to-t from-black/50 to-transparent rounded-2xl opacity-0 group-hover:opacity-100 transition-opacity duration-300">
-                    <div className="absolute bottom-4 left-4 right-4">
-                      <button className="w-full bg-white/90 text-gray-900 font-semibold py-2 px-4 rounded-lg">
+                  <div className="absolute inset-0 bg-gradient-to-t from-black/50 to-transparent rounded-xl sm:rounded-2xl opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                    <div className="absolute bottom-3 sm:bottom-4 left-3 sm:left-4 right-3 sm:right-4">
+                      <button className="w-full bg-white/90 text-gray-900 font-semibold py-2 px-3 sm:px-4 rounded-lg text-sm">
                         <FaPlay className="inline mr-2" />
                         Preview Course
                       </button>
@@ -696,33 +696,33 @@ const PublicHome = () => {
                 </div>
 
                 <div>
-                  <h3 className="text-xl font-bold text-gray-900 mb-2">
+                  <h3 className="text-lg sm:text-xl font-bold text-gray-900 mb-2">
                     {course.title}
                   </h3>
                   
-                  <div className="flex items-center mb-4">
-                    <FaStar className="text-yellow-500 mr-1" />
-                    <span className="font-semibold text-gray-900">{course.rating}</span>
-                    <span className="text-gray-500 text-sm ml-1">({course.reviews.toLocaleString()})</span>
+                  <div className="flex items-center mb-3 sm:mb-4">
+                    <FaStar className="text-yellow-500 mr-1 text-sm" />
+                    <span className="font-semibold text-gray-900 text-sm">{course.rating}</span>
+                    <span className="text-gray-500 text-xs ml-1">({course.reviews.toLocaleString()})</span>
                   </div>
 
-                  <div className="grid grid-cols-3 gap-3 mb-4">
+                  <div className="grid grid-cols-3 gap-2 sm:gap-3 mb-3 sm:mb-4">
                     <div className="text-center p-2 bg-blue-50 rounded-lg">
-                      <div className="text-lg font-bold text-blue-600">{course.careerImpact}%</div>
+                      <div className="text-sm sm:text-lg font-bold text-blue-600">{course.careerImpact}%</div>
                       <div className="text-xs text-blue-700">Impact</div>
                     </div>
                     <div className="text-center p-2 bg-green-50 rounded-lg">
-                      <div className="text-lg font-bold text-green-600">{course.completionRate}%</div>
+                      <div className="text-sm sm:text-lg font-bold text-green-600">{course.completionRate}%</div>
                       <div className="text-xs text-green-700">Complete</div>
                     </div>
                     <div className="text-center p-2 bg-purple-50 rounded-lg">
-                      <div className="text-lg font-bold text-purple-600">{course.roi}%</div>
+                      <div className="text-sm sm:text-lg font-bold text-purple-600">{course.roi}%</div>
                       <div className="text-xs text-purple-700">ROI</div>
                     </div>
                   </div>
 
-                  <div className="mb-4">
-                    <h4 className="text-sm font-semibold text-gray-700 mb-2">Skill Gaps:</h4>
+                  <div className="mb-3 sm:mb-4">
+                    <h4 className="text-xs sm:text-sm font-semibold text-gray-700 mb-2">Skill Gaps:</h4>
                     <div className="flex flex-wrap gap-1">
                       {course.skillGaps.map((skill, idx) => (
                         <span key={idx} className="bg-red-100 text-red-800 text-xs px-2 py-1 rounded-full">
@@ -732,26 +732,26 @@ const PublicHome = () => {
                     </div>
                   </div>
 
-                  <div className="flex items-center justify-between mb-4">
+                  <div className="flex items-center justify-between mb-3 sm:mb-4">
                     <div>
-                      <span className="text-2xl font-bold text-gray-900">${course.price}</span>
-                      <span className="text-lg text-gray-500 line-through ml-2">${course.originalPrice}</span>
+                      <span className="text-xl sm:text-2xl font-bold text-gray-900">${course.price}</span>
+                      <span className="text-sm sm:text-lg text-gray-500 line-through ml-2">${course.originalPrice}</span>
                     </div>
                     <div className="text-right">
-                      <div className="text-lg font-bold text-green-600">+{course.avgSalaryIncrease}%</div>
+                      <div className="text-sm sm:text-lg font-bold text-green-600">+{course.avgSalaryIncrease}%</div>
                     </div>
                   </div>
 
                   <div className="flex gap-2">
                     <Link
                       to="/courses"
-                      className="flex-1 bg-gradient-to-r from-blue-600 to-indigo-600 text-white font-semibold py-3 px-4 rounded-xl text-center text-sm"
+                      className="flex-1 bg-gradient-to-r from-blue-600 to-indigo-600 text-white font-semibold py-2 sm:py-3 px-3 sm:px-4 rounded-xl text-center text-xs sm:text-sm"
                     >
                       Enroll Now
                     </Link>
                     <button
                       onClick={() => toggleCourseComparison(course)}
-                      className="px-4 py-3 border border-gray-300 text-gray-700 rounded-xl text-sm"
+                      className="px-3 sm:px-4 py-2 sm:py-3 border border-gray-300 text-gray-700 rounded-xl text-xs sm:text-sm"
                     >
                       Compare
                     </button>
@@ -762,18 +762,18 @@ const PublicHome = () => {
           </div>
 
           <div className="text-center">
-            <div className="bg-gradient-to-r from-blue-600 to-indigo-600 rounded-3xl p-8 text-white">
-              <h3 className="text-3xl font-bold mb-4">
+            <div className="bg-gradient-to-r from-blue-600 to-indigo-600 rounded-2xl sm:rounded-3xl p-6 sm:p-8 text-white">
+              <h3 className="text-2xl sm:text-3xl font-bold mb-3 sm:mb-4">
                 Calculate Your Learning ROI
               </h3>
-              <p className="text-xl mb-8 opacity-90">
+              <p className="text-lg sm:text-xl mb-6 sm:mb-8 opacity-90">
                 See how our courses can boost your career and salary potential
               </p>
               <Link
                 to="/courses"
-                className="inline-flex items-center px-8 py-4 bg-white text-blue-600 font-bold rounded-xl"
+                className="inline-flex items-center px-6 sm:px-8 py-3 sm:py-4 bg-white text-blue-600 font-bold rounded-xl text-sm sm:text-base"
               >
-                <FaChartLine className="mr-3" />
+                <FaChartLine className="mr-2 sm:mr-3" />
                 Browse All Courses
               </Link>
             </div>
@@ -782,37 +782,40 @@ const PublicHome = () => {
       </section>
 
       {/* Dynamic Role Switcher Section */}
-      <section className="py-16 md:py-24 bg-gradient-to-br from-gray-50 to-blue-50">
+      <section className="py-12 sm:py-16 md:py-20 lg:py-24 bg-gradient-to-br from-gray-50 to-blue-50">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="text-center mb-12">
-            <h2 className="text-4xl md:text-5xl font-bold text-gray-900 mb-6">
+          <div className="text-center mb-8 sm:mb-10 md:mb-12">
+            <h2 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-bold text-gray-900 mb-4 sm:mb-6 px-4">
               Choose Your <span className="text-blue-600">Journey</span>
             </h2>
-            <p className="text-xl text-gray-600 max-w-2xl mx-auto">
+            <p className="text-base sm:text-lg md:text-xl text-gray-600 max-w-2xl mx-auto px-4">
               Discover what AscendCareer can do for you based on your role
             </p>
           </div>
 
-          <div className="flex flex-col md:flex-row justify-center mb-12">
-            <div className="bg-white rounded-2xl p-2 shadow-lg border border-gray-200 inline-flex flex-col md:flex-row">
-              {Object.entries(roleData).map(([role, data]) => (
-                <button
-                  key={role}
-                  onClick={() => setActiveRole(role)}
-                  className={`flex items-center justify-center px-6 md:px-8 py-4 rounded-xl font-semibold transition-all duration-300 text-base md:text-lg min-w-[200px] ${
-                    activeRole === role
-                      ? `bg-gradient-to-r ${
-                          data.color === 'blue' ? 'from-blue-500 to-blue-600' :
-                          data.color === 'green' ? 'from-green-500 to-green-600' :
-                          'from-purple-500 to-purple-600'
-                        } text-white shadow-lg transform scale-105`
-                      : 'text-gray-600 hover:text-gray-900 hover:bg-gray-50'
-                  }`}
-                >
-                  <data.icon className="mr-3 text-xl" />
-                  {data.title}
-                </button>
-              ))}
+          <div className="flex flex-col items-center justify-center mb-8 sm:mb-10 md:mb-12">
+            <div className="bg-white rounded-xl sm:rounded-2xl p-1 sm:p-2 shadow-lg border border-gray-200 w-full max-w-4xl">
+              <div className="grid grid-cols-1 sm:grid-cols-3 gap-1 sm:gap-2">
+                {Object.entries(roleData).map(([role, data]) => (
+                  <button
+                    key={role}
+                    onClick={() => setActiveRole(role)}
+                    className={`flex items-center justify-center px-3 sm:px-4 md:px-6 lg:px-8 py-3 sm:py-4 rounded-lg sm:rounded-xl font-semibold transition-all duration-300 text-sm sm:text-base md:text-lg w-full ${
+                      activeRole === role
+                        ? `bg-gradient-to-r ${
+                            data.color === 'blue' ? 'from-blue-500 to-blue-600' :
+                            data.color === 'green' ? 'from-green-500 to-green-600' :
+                            'from-purple-500 to-purple-600'
+                          } text-white shadow-lg transform scale-105`
+                        : 'text-gray-600 hover:text-gray-900 hover:bg-gray-50'
+                    }`}
+                  >
+                    <data.icon className="mr-2 sm:mr-3 text-lg sm:text-xl" />
+                    <span className="hidden sm:inline">{data.title}</span>
+                    <span className="sm:hidden">{data.title.replace('For ', '')}</span>
+                  </button>
+                ))}
+              </div>
             </div>
           </div>
 
@@ -831,22 +834,22 @@ const PublicHome = () => {
                     data.color === 'blue' ? 'from-blue-500 to-blue-600' :
                     data.color === 'green' ? 'from-green-500 to-green-600' :
                     'from-purple-500 to-purple-600'
-                  } text-white p-8 md:p-12`}>
+                  } text-white p-4 sm:p-6 md:p-8 lg:p-12`}>
                     <div className="flex flex-col md:flex-row items-center justify-between">
                       <div className="text-center md:text-left mb-6 md:mb-0">
-                        <h3 className="text-3xl md:text-4xl font-bold mb-4">{data.title}</h3>
-                        <p className="text-xl opacity-90">{data.subtitle}</p>
+                        <h3 className="text-xl sm:text-2xl md:text-3xl lg:text-4xl font-bold mb-2 sm:mb-4">{data.title}</h3>
+                        <p className="text-sm sm:text-base md:text-lg lg:text-xl opacity-90">{data.subtitle}</p>
                       </div>
-                      <div className="w-24 h-24 bg-white/20 rounded-2xl flex items-center justify-center">
-                        <data.icon className="text-4xl text-white" />
+                      <div className="w-16 h-16 sm:w-20 sm:h-20 md:w-24 md:h-24 bg-white/20 rounded-xl sm:rounded-2xl flex items-center justify-center">
+                        <data.icon className="text-2xl sm:text-3xl md:text-4xl text-white" />
                       </div>
                     </div>
 
-                    <div className="grid grid-cols-3 gap-6 mt-8">
+                    <div className="grid grid-cols-3 gap-3 sm:gap-4 md:gap-6 mt-6 sm:mt-8">
                       {Object.entries(data.stats).map(([key, value]) => (
                         <div key={key} className="text-center">
-                          <div className="text-2xl md:text-3xl font-bold">{value}</div>
-                          <div className="text-sm opacity-80 capitalize">
+                          <div className="text-lg sm:text-xl md:text-2xl lg:text-3xl font-bold">{value}</div>
+                          <div className="text-xs sm:text-sm opacity-80 capitalize">
                             {key.replace('_', ' ')}
                           </div>
                         </div>
@@ -854,45 +857,45 @@ const PublicHome = () => {
                     </div>
                   </div>
 
-                  <div className="p-8 md:p-12">
-                    <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+                  <div className="p-4 sm:p-6 md:p-8 lg:p-12">
+                    <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6">
                       {data.features.map((feature, index) => (
                         <div
                           key={index}
-                          className="group p-6 rounded-2xl border border-gray-100 hover:border-gray-200 hover:shadow-lg transition-all duration-300 transform hover:-translate-y-1"
+                          className="group p-4 sm:p-6 rounded-xl sm:rounded-2xl border border-gray-100 hover:border-gray-200 hover:shadow-lg transition-all duration-300 transform hover:-translate-y-1"
                         >
-                          <div className={`w-12 h-12 bg-gradient-to-br ${
+                          <div className={`w-10 h-10 sm:w-12 sm:h-12 bg-gradient-to-br ${
                             data.color === 'blue' ? 'from-blue-100 to-blue-200' :
                             data.color === 'green' ? 'from-green-100 to-green-200' :
                             'from-purple-100 to-purple-200'
-                          } rounded-xl flex items-center justify-center mb-4 group-hover:scale-110 transition-transform duration-300`}>
-                            <feature.icon className={`text-xl ${
+                          } rounded-lg sm:rounded-xl flex items-center justify-center mb-3 sm:mb-4 group-hover:scale-110 transition-transform duration-300`}>
+                            <feature.icon className={`text-lg sm:text-xl ${
                               data.color === 'blue' ? 'text-blue-600' :
                               data.color === 'green' ? 'text-green-600' :
                               'text-purple-600'
                             }`} />
                           </div>
-                          <h4 className="text-lg font-bold text-gray-900 mb-2">{feature.title}</h4>
-                          <p className="text-gray-600 text-sm leading-relaxed">{feature.desc}</p>
+                          <h4 className="text-base sm:text-lg font-bold text-gray-900 mb-2">{feature.title}</h4>
+                          <p className="text-gray-600 text-xs sm:text-sm leading-relaxed">{feature.desc}</p>
                         </div>
                       ))}
                     </div>
 
-                    <div className="text-center mt-12">
+                    <div className="text-center mt-8 sm:mt-10 md:mt-12">
                       <Link
                         to={role === 'student' ? '/signup' : role === 'trainer' ? '/become-trainer' : '/enterprise'}
-                        className={`inline-flex items-center px-8 py-4 bg-gradient-to-r ${
+                        className={`inline-flex items-center px-4 sm:px-6 md:px-8 py-3 sm:py-4 bg-gradient-to-r ${
                           data.color === 'blue' ? 'from-blue-500 to-blue-600 hover:from-blue-400 hover:to-blue-500' :
                           data.color === 'green' ? 'from-green-500 to-green-600 hover:from-green-400 hover:to-green-500' :
                           'from-purple-500 to-purple-600 hover:from-purple-400 hover:to-purple-500'
-                        } text-white font-bold text-lg rounded-2xl transition-all duration-300 shadow-lg hover:shadow-xl transform hover:-translate-y-1`}
+                        } text-white font-bold text-sm sm:text-base md:text-lg rounded-xl sm:rounded-2xl transition-all duration-300 shadow-lg hover:shadow-xl transform hover:-translate-y-1 w-full sm:w-auto`}
                       >
-                        <FaRocket className="mr-3" />
+                        <FaRocket className="mr-2 sm:mr-3" />
                         {data.cta}
-                        <FaArrowRight className="ml-3" />
+                        <FaArrowRight className="ml-2 sm:ml-3" />
                       </Link>
                       
-                      <p className="text-gray-500 text-sm mt-4">
+                      <p className="text-gray-500 text-xs sm:text-sm mt-3 sm:mt-4 px-4">
                         {role === 'student' ? 'No credit card required • Start learning today' :
                          role === 'trainer' ? 'Join 50,000+ successful trainers • Earn up to $125K/year' :
                          'Trusted by 5,000+ companies • 94% satisfaction rate'}
@@ -907,47 +910,47 @@ const PublicHome = () => {
       </section>
 
       {/* Instructor Spotlight */}
-      <section className="py-20 bg-gray-50">
+      <section className="py-12 sm:py-16 md:py-20 bg-gray-50">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="text-center mb-16">
-            <h2 className="text-4xl md:text-5xl font-bold text-gray-900 mb-6">
+          <div className="text-center mb-10 sm:mb-12 md:mb-16">
+            <h2 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-bold text-gray-900 mb-4 sm:mb-6 px-4">
               Learn from <span className="text-blue-600">Industry Experts</span>
             </h2>
-            <p className="text-xl text-gray-600">World-class instructors with real-world experience</p>
+            <p className="text-base sm:text-lg md:text-xl text-gray-600 px-4">World-class instructors with real-world experience</p>
           </div>
 
-          <div className="grid md:grid-cols-3 gap-8">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 sm:gap-8">
             {instructors.map((instructor, index) => (
-              <div key={index} className="bg-white rounded-2xl p-2 md:p-8 shadow-lg hover:shadow-xl transition-all duration-300">
-                <div className="text-center mb-6">
+              <div key={index} className="bg-white rounded-xl sm:rounded-2xl p-4 sm:p-6 md:p-8 shadow-lg hover:shadow-xl transition-all duration-300">
+                <div className="text-center mb-4 sm:mb-6">
                   <img 
                     src={instructor.avatar} 
                     alt={instructor.name}
-                    className="w-24 h-24 rounded-full mx-auto mb-4 border-4 border-blue-100"
+                    className="w-20 h-20 sm:w-24 sm:h-24 rounded-full mx-auto mb-3 sm:mb-4 border-4 border-blue-100"
                   />
-                  <h3 className="text-xl font-bold text-gray-900">{instructor.name}</h3>
-                  <p className="text-blue-600 font-medium">{instructor.title}</p>
+                  <h3 className="text-lg sm:text-xl font-bold text-gray-900">{instructor.name}</h3>
+                  <p className="text-blue-600 font-medium text-sm sm:text-base">{instructor.title}</p>
                 </div>
                 
-                <div className="grid grid-cols-2 gap-4 mb-6">
+                <div className="grid grid-cols-2 gap-3 sm:gap-4 mb-4 sm:mb-6">
                   <div className="text-center">
-                    <div className="text-2xl font-bold text-gray-900">{instructor.students}</div>
-                    <div className="text-sm text-gray-500">Students</div>
+                    <div className="text-lg sm:text-xl md:text-2xl font-bold text-gray-900">{instructor.students}</div>
+                    <div className="text-xs sm:text-sm text-gray-500">Students</div>
                   </div>
                   <div className="text-center">
-                    <div className="text-2xl font-bold text-gray-900">{instructor.courses}</div>
-                    <div className="text-sm text-gray-500">Courses</div>
+                    <div className="text-lg sm:text-xl md:text-2xl font-bold text-gray-900">{instructor.courses}</div>
+                    <div className="text-xs sm:text-sm text-gray-500">Courses</div>
                   </div>
                 </div>
                 
-                <div className="flex items-center justify-center mb-4">
-                  <FaStar className="text-orange-500" />
-                  <span className="ml-1 font-bold">{instructor.rating}</span>
-                  <span className="ml-2 text-gray-500">({instructor.reviews} reviews)</span>
+                <div className="flex items-center justify-center mb-3 sm:mb-4">
+                  <FaStar className="text-orange-500 text-sm" />
+                  <span className="ml-1 font-bold text-sm sm:text-base">{instructor.rating}</span>
+                  <span className="ml-2 text-gray-500 text-xs sm:text-sm">({instructor.reviews} reviews)</span>
                 </div>
                 
-                <div className="mb-4">
-                  <div className="flex flex-wrap gap-2 justify-center">
+                <div className="mb-3 sm:mb-4">
+                  <div className="flex flex-wrap gap-1 sm:gap-2 justify-center">
                     {instructor.expertise.map((skill, idx) => (
                       <span key={idx} className="bg-blue-100 text-blue-800 text-xs px-2 py-1 rounded">
                         {skill}
@@ -956,11 +959,11 @@ const PublicHome = () => {
                   </div>
                 </div>
                 
-                <p className="text-gray-600 text-sm text-center mb-6">{instructor.bio}</p>
+                <p className="text-gray-600 text-xs sm:text-sm text-center mb-4 sm:mb-6 px-2">{instructor.bio}</p>
                 
                 <Link 
                   to="/trainers"
-                  className="w-full inline-flex items-center justify-center px-4 py-2 border border-blue-600 text-blue-600 rounded-lg hover:bg-blue-600 hover:text-white transition-all duration-300"
+                  className="w-full inline-flex items-center justify-center px-3 sm:px-4 py-2 sm:py-3 border border-blue-600 text-blue-600 rounded-lg hover:bg-blue-600 hover:text-white transition-all duration-300 text-sm sm:text-base"
                 >
                   View Profile
                 </Link>
@@ -971,22 +974,22 @@ const PublicHome = () => {
       </section>
 
       {/* Stats Section */}
-      <section className="py-20 bg-gradient-to-r from-blue-600 to-purple-700">
+      <section className="py-12 sm:py-16 md:py-20 bg-gradient-to-r from-blue-600 to-purple-700">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="text-center mb-12">
-            <h2 className="text-3xl md:text-4xl font-bold text-white mb-4">
+          <div className="text-center mb-8 sm:mb-10 md:mb-12">
+            <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold text-white mb-3 sm:mb-4 px-4">
               Transforming Lives <span className="text-blue-300">Globally</span>
             </h2>
-            <p className="text-blue-100 text-lg">Join millions of learners advancing their careers with CareerBox</p>
+            <p className="text-blue-100 text-sm sm:text-base md:text-lg px-4">Join millions of learners advancing their careers with CareerBox</p>
           </div>
           
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-8">
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-4 sm:gap-6 md:gap-8">
             {stats.map((stat, index) => (
-              <div key={index} className="text-center text-white">
-                <stat.icon className="text-4xl mx-auto mb-4 text-blue-300" />
-                <div className="text-3xl md:text-4xl font-bold mb-2">{stat.number}</div>
-                <div className="text-blue-100 font-medium mb-1">{stat.label}</div>
-                <div className="text-blue-200 text-sm">{stat.description}</div>
+              <div key={index} className="text-center text-white px-2">
+                <stat.icon className="text-2xl sm:text-3xl md:text-4xl mx-auto mb-2 sm:mb-3 md:mb-4 text-blue-300" />
+                <div className="text-xl sm:text-2xl md:text-3xl lg:text-4xl font-bold mb-1 sm:mb-2">{stat.number}</div>
+                <div className="text-blue-100 font-medium mb-1 text-xs sm:text-sm md:text-base">{stat.label}</div>
+                <div className="text-blue-200 text-xs sm:text-sm">{stat.description}</div>
               </div>
             ))}
           </div>
@@ -994,55 +997,55 @@ const PublicHome = () => {
       </section>
 
       {/* Success Stories Section */}
-      <section className="py-20 bg-white">
+      <section className="py-12 sm:py-16 md:py-20 bg-white">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="text-center mb-16">
-            <h2 className="text-4xl md:text-5xl font-bold text-gray-900 mb-6">
+          <div className="text-center mb-10 sm:mb-12 md:mb-16">
+            <h2 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-bold text-gray-900 mb-4 sm:mb-6 px-4">
               Success <span className="text-blue-600">Stories</span>
             </h2>
-            <p className="text-xl text-gray-600">Real career transformations from our community</p>
+            <p className="text-base sm:text-lg md:text-xl text-gray-600 px-4">Real career transformations from our community</p>
           </div>
 
           <div className="relative max-w-5xl mx-auto">
-            <div className="bg-gradient-to-br from-blue-50 to-purple-50 rounded-3xl p-8 md:p-12">
-              <div className="grid md:grid-cols-3 gap-8 items-center">
-                <div className="md:col-span-2">
-                  <FaQuoteLeft className="text-4xl text-blue-300 mb-6" />
-                  <p className="text-xl text-gray-700 mb-6 leading-relaxed">
+            <div className="bg-gradient-to-br from-blue-50 to-purple-50 rounded-2xl sm:rounded-3xl p-4 sm:p-6 md:p-8 lg:p-12">
+              <div className="grid grid-cols-1 md:grid-cols-3 gap-6 sm:gap-8 items-center">
+                <div className="md:col-span-2 order-2 md:order-1">
+                  <FaQuoteLeft className="text-2xl sm:text-3xl md:text-4xl text-blue-300 mb-4 sm:mb-6 mx-auto md:mx-0" />
+                  <p className="text-sm sm:text-base md:text-lg lg:text-xl text-gray-700 mb-4 sm:mb-6 leading-relaxed text-center md:text-left">
                     "{testimonials[currentTestimonial].content}"
                   </p>
-                  <div className="flex items-center mb-4">
+                  <div className="flex flex-col sm:flex-row items-center mb-3 sm:mb-4 text-center sm:text-left">
                     <img 
                       src={testimonials[currentTestimonial].avatar}
                       alt={testimonials[currentTestimonial].name}
-                      className="w-16 h-16 rounded-full mr-4 border-3 border-white shadow-lg"
+                      className="w-12 h-12 sm:w-14 sm:h-14 md:w-16 md:h-16 rounded-full mb-3 sm:mb-0 sm:mr-4 border-3 border-white shadow-lg"
                     />
                     <div>
-                      <h4 className="font-bold text-gray-900 text-lg">{testimonials[currentTestimonial].name}</h4>
-                      <p className="text-gray-600">{testimonials[currentTestimonial].role}</p>
-                      <p className="text-blue-600 font-medium">{testimonials[currentTestimonial].company}</p>
+                      <h4 className="font-bold text-gray-900 text-sm sm:text-base md:text-lg">{testimonials[currentTestimonial].name}</h4>
+                      <p className="text-gray-600 text-xs sm:text-sm md:text-base">{testimonials[currentTestimonial].role}</p>
+                      <p className="text-blue-600 font-medium text-xs sm:text-sm md:text-base">{testimonials[currentTestimonial].company}</p>
                     </div>
                   </div>
                   <div className="flex justify-center md:justify-start">
                     {[...Array(testimonials[currentTestimonial].rating)].map((_, i) => (
-                      <FaStar key={i} className="text-yellow-400 text-lg" />
+                      <FaStar key={i} className="text-yellow-400 text-sm sm:text-base md:text-lg" />
                     ))}
                   </div>
                 </div>
                 
-                <div className="text-center md:text-left">
-                  <div className="bg-white rounded-2xl p-6 shadow-lg">
-                    <h4 className="font-bold text-gray-900 mb-4">Career Impact</h4>
-                    <div className="space-y-3">
-                      <div className="flex justify-between">
+                <div className="text-center md:text-left order-1 md:order-2">
+                  <div className="bg-white rounded-xl sm:rounded-2xl p-4 sm:p-6 shadow-lg">
+                    <h4 className="font-bold text-gray-900 mb-3 sm:mb-4 text-sm sm:text-base">Career Impact</h4>
+                    <div className="space-y-2 sm:space-y-3">
+                      <div className="flex justify-between text-xs sm:text-sm">
                         <span className="text-gray-600">Courses Completed:</span>
                         <span className="font-bold text-blue-600">{testimonials[currentTestimonial].coursesTaken}</span>
                       </div>
-                      <div className="flex justify-between">
+                      <div className="flex justify-between text-xs sm:text-sm">
                         <span className="text-gray-600">Salary Increase:</span>
                         <span className="font-bold text-green-600">+{testimonials[currentTestimonial].salaryIncrease}</span>
                       </div>
-                      <div className="flex justify-between">
+                      <div className="flex justify-between text-xs sm:text-sm">
                         <span className="text-gray-600">Time to Success:</span>
                         <span className="font-bold text-purple-600">18 months</span>
                       </div>
@@ -1053,13 +1056,13 @@ const PublicHome = () => {
             </div>
 
             {/* Navigation */}
-            <div className="flex justify-center mt-8 space-x-2">
+            <div className="flex justify-center mt-6 sm:mt-8 space-x-2">
               {testimonials.map((_, index) => (
                 <button
                   key={index}
                   onClick={() => setCurrentTestimonial(index)}
-                  className={`w-3 h-3 rounded-full transition-all duration-300 ${
-                    currentTestimonial === index ? 'bg-blue-600 w-8' : 'bg-gray-300'
+                  className={`w-2 h-2 sm:w-3 sm:h-3 rounded-full transition-all duration-300 ${
+                    currentTestimonial === index ? 'bg-blue-600 w-6 sm:w-8' : 'bg-gray-300'
                   }`}
                 />
               ))}
@@ -1069,47 +1072,47 @@ const PublicHome = () => {
       </section>
 
       {/* CTA Section */}
-      <section className="py-20 bg-gradient-to-br from-blue-50 to-purple-50">
+      <section className="py-12 sm:py-16 md:py-20 bg-gradient-to-br from-blue-50 to-purple-50">
         <div className="max-w-4xl mx-auto text-center px-4 sm:px-6 lg:px-8">
-          <h2 className="text-4xl md:text-5xl font-bold text-gray-900 mb-6">
+          <h2 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-bold text-gray-900 mb-4 sm:mb-6">
             Ready to Transform Your Career?
           </h2>
-          <p className="text-xl text-gray-600 mb-10 max-w-2xl mx-auto">
+          <p className="text-base sm:text-lg md:text-xl text-gray-600 mb-8 sm:mb-10 max-w-2xl mx-auto">
             Join millions of learners and start building the skills that will advance your career today
           </p>
           
-          <div className="flex flex-col sm:flex-row gap-4 justify-center items-center mb-12">
+          <div className="flex flex-col sm:flex-row gap-3 sm:gap-4 justify-center items-center mb-8 sm:mb-10 md:mb-12">
             <Link 
               to="/signup"
-              className="inline-flex items-center px-8 py-4 bg-blue-600 text-white rounded-lg font-semibold hover:bg-blue-700 transition-all duration-300 shadow-lg hover:shadow-xl"
+              className="w-full sm:w-auto inline-flex items-center justify-center px-6 sm:px-8 py-3 sm:py-4 bg-blue-600 text-white rounded-lg font-semibold hover:bg-blue-700 transition-all duration-300 shadow-lg hover:shadow-xl text-sm sm:text-base"
             >
               Start Learning Today <FaArrowRight className="ml-2" />
             </Link>
             
             <Link 
               to="/courses"
-              className="inline-flex items-center px-8 py-4 border-2 border-blue-600 text-blue-600 rounded-lg font-semibold hover:bg-blue-600 hover:text-white transition-all duration-300"
+              className="w-full sm:w-auto inline-flex items-center justify-center px-6 sm:px-8 py-3 sm:py-4 border-2 border-blue-600 text-blue-600 rounded-lg font-semibold hover:bg-blue-600 hover:text-white transition-all duration-300 text-sm sm:text-base"
             >
               <FaPlay className="mr-2" />
               Explore Courses
             </Link>
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-8 text-gray-600">
+          <div className="grid grid-cols-1 sm:grid-cols-3 gap-6 sm:gap-8 text-gray-600">
             <div className="flex flex-col items-center">
-              <FaCheck className="text-green-500 text-2xl mb-2" />
-              <span className="font-medium">Free to get started</span>
-              <span className="text-sm">No credit card required</span>
+              <FaCheck className="text-green-500 text-xl sm:text-2xl mb-2" />
+              <span className="font-medium text-sm sm:text-base">Free to get started</span>
+              <span className="text-xs sm:text-sm">No credit card required</span>
             </div>
             <div className="flex flex-col items-center">
-              <FaCertificate className="text-blue-500 text-2xl mb-2" />
-              <span className="font-medium">Industry certificates</span>
-              <span className="text-sm">Recognized by employers</span>
+              <FaCertificate className="text-blue-500 text-xl sm:text-2xl mb-2" />
+              <span className="font-medium text-sm sm:text-base">Industry certificates</span>
+              <span className="text-xs sm:text-sm">Recognized by employers</span>
             </div>
             <div className="flex flex-col items-center">
-              <FaUsers className="text-purple-500 text-2xl mb-2" />
-              <span className="font-medium">Expert support</span>
-              <span className="text-sm">24/7 community help</span>
+              <FaUsers className="text-purple-500 text-xl sm:text-2xl mb-2" />
+              <span className="font-medium text-sm sm:text-base">Expert support</span>
+              <span className="text-xs sm:text-sm">24/7 community help</span>
             </div>
           </div>
         </div>

@@ -526,7 +526,7 @@ const PublicHome = () => {
               </h2>
               <p className="text-gray-600 text-sm sm:text-base">Courses that help you keep up with the latest trends</p>
             </div>
-            <Link to="/courses" className="text-blue-600 hover:text-blue-700 font-semibold flex items-center whitespace-nowrap text-sm sm:text-base">
+            <Link to="/login" className="text-blue-600 hover:text-blue-700 font-semibold flex items-center whitespace-nowrap text-sm sm:text-base">
               View all <FaArrowRight className="ml-2" />
             </Link>
           </div>
@@ -744,7 +744,7 @@ const PublicHome = () => {
 
                   <div className="flex gap-2">
                     <Link
-                      to="/courses"
+                      to="/login"
                       className="flex-1 bg-gradient-to-r from-blue-600 to-indigo-600 text-white font-semibold py-2 sm:py-3 px-3 sm:px-4 rounded-xl text-center text-xs sm:text-sm"
                     >
                       Enroll Now
@@ -770,7 +770,7 @@ const PublicHome = () => {
                 See how our courses can boost your career and salary potential
               </p>
               <Link
-                to="/courses"
+                to="/login"
                 className="inline-flex items-center px-6 sm:px-8 py-3 sm:py-4 bg-white text-blue-600 font-bold rounded-xl text-sm sm:text-base"
               >
                 <FaChartLine className="mr-2 sm:mr-3" />
@@ -883,7 +883,7 @@ const PublicHome = () => {
 
                     <div className="text-center mt-8 sm:mt-10 md:mt-12">
                       <Link
-                        to={role === 'student' ? '/signup' : role === 'trainer' ? '/become-trainer' : '/enterprise'}
+                        to={role === 'student' ? '/register' : role === 'trainer' ? '/register' : '/register'}
                         className={`inline-flex items-center px-4 sm:px-6 md:px-8 py-3 sm:py-4 bg-gradient-to-r ${
                           data.color === 'blue' ? 'from-blue-500 to-blue-600 hover:from-blue-400 hover:to-blue-500' :
                           data.color === 'green' ? 'from-green-500 to-green-600 hover:from-green-400 hover:to-green-500' :
@@ -962,7 +962,7 @@ const PublicHome = () => {
                 <p className="text-gray-600 text-xs sm:text-sm text-center mb-4 sm:mb-6 px-2">{instructor.bio}</p>
                 
                 <Link 
-                  to="/trainers"
+                  to="/login"
                   className="w-full inline-flex items-center justify-center px-3 sm:px-4 py-2 sm:py-3 border border-blue-600 text-blue-600 rounded-lg hover:bg-blue-600 hover:text-white transition-all duration-300 text-sm sm:text-base"
                 >
                   View Profile
@@ -1083,14 +1083,14 @@ const PublicHome = () => {
           
           <div className="flex flex-col sm:flex-row gap-3 sm:gap-4 justify-center items-center mb-8 sm:mb-10 md:mb-12">
             <Link 
-              to="/signup"
+              to="/register"
               className="w-full sm:w-auto inline-flex items-center justify-center px-6 sm:px-8 py-3 sm:py-4 bg-blue-600 text-white rounded-lg font-semibold hover:bg-blue-700 transition-all duration-300 shadow-lg hover:shadow-xl text-sm sm:text-base"
             >
               Start Learning Today <FaArrowRight className="ml-2" />
             </Link>
             
             <Link 
-              to="/courses"
+              to="/login"
               className="w-full sm:w-auto inline-flex items-center justify-center px-6 sm:px-8 py-3 sm:py-4 border-2 border-blue-600 text-blue-600 rounded-lg font-semibold hover:bg-blue-600 hover:text-white transition-all duration-300 text-sm sm:text-base"
             >
               <FaPlay className="mr-2" />

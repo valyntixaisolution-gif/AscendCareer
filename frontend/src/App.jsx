@@ -6,6 +6,7 @@ import StudentNavbar from './components/navbar/StudentNavbar';
 import TrainerNavbar from './components/navbar/TrainerNavbar';
 import CompanyNavbar from './components/navbar/CompanyNavbar';
 import AdminSidebar from './components/navbar/AdminSidebar';
+import Footer from './components/common/Footer';
 import Login from './auth/Login';
 import Register from './auth/Register';
 import ProtectedRoute from './auth/ProtectedRoute';
@@ -29,18 +30,21 @@ function App() {
             <>
               <PublicNavbar />
               <PublicHome />
+              <Footer />
             </>
           } />
           <Route path="/login" element={
             <>
               <PublicNavbar />
               <Login />
+              <Footer />
             </>
           } />
           <Route path="/register" element={
             <>
               <PublicNavbar />
               <Register />
+              <Footer />
             </>
           } />
 
@@ -50,6 +54,7 @@ function App() {
               <>
                 <StudentNavbar />
                 <StudentDashboard />
+                <Footer />
               </>
             </ProtectedRoute>
           } />
@@ -71,15 +76,19 @@ function App() {
               <>
                 <CompanyNavbar />
                 <CompanyDashboard />
+                <Footer />
               </>
             </ProtectedRoute>
           } />
 
           <Route path="/admin/dashboard" element={
             <ProtectedRoute allowedRoles={['admin']}>
-              <div className="flex">
-                <AdminSidebar />
-                <AdminDashboard />
+              <div className="flex flex-col min-h-screen">
+                <div className="flex flex-1">
+                  <AdminSidebar />
+                  <AdminDashboard />
+                </div>
+                <Footer />
               </div>
             </ProtectedRoute>
           } />
@@ -89,6 +98,7 @@ function App() {
             <>
               <PublicNavbar />
               <NotFound />
+              <Footer />
             </>
           } />
         </Routes>

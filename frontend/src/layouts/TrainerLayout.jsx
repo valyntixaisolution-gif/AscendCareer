@@ -3,6 +3,7 @@ import { useAuth } from '../context/AuthContext';
 import { hasRole, getUnauthorizedRedirect } from '../utils/helpers';
 import { ROLES } from '../utils/constants';
 import TrainerNavbar from '../components/navbar/TrainerNavbar';
+import Footer from '../components/common/Footer';
 
 const TrainerLayout = () => {
   const { user, loading } = useAuth();
@@ -20,11 +21,12 @@ const TrainerLayout = () => {
   }
 
   return (
-    <div className="min-h-screen bg-gray-50">
+    <div className="min-h-screen bg-gray-50 flex flex-col">
       <TrainerNavbar />
-      <main className="max-w-7xl mx-auto py-6 px-4 sm:px-6 lg:px-8">
+      <main className="flex-1 max-w-7xl mx-auto py-6 px-4 sm:px-6 lg:px-8">
         <Outlet />
       </main>
+      <Footer />
     </div>
   );
 };

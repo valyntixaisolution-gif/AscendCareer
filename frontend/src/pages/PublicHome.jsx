@@ -10,43 +10,37 @@ import {
   FaSearch, FaBookmark, FaCertificate, FaCode, FaPalette, FaDatabase,
   FaMobile, FaCloud, FaRobot, FaChartBar, FaCamera, FaMusic,
   FaGamepad, FaLanguage, FaHeart, FaEye, FaDownload, FaCalendarAlt,
-  FaCreditCard, FaShoppingCart, FaTimes, FaExternalLinkAlt, FaMapMarkerAlt
+  FaCreditCard, FaShoppingCart, FaTimes, FaExternalLinkAlt, FaMapMarkerAlt,
+  FaBell, FaChalkboardTeacher, FaClipboardList, FaTrophy
 } from 'react-icons/fa';
 import HeroSection from '../components/HeroSection';
-import '../styles/quiz-animations.css';
+
 
 const PublicHome = () => {
   const [activeTab, setActiveTab] = useState(0);
   const [currentTestimonial, setCurrentTestimonial] = useState(0);
-  const [selectedCategory, setSelectedCategory] = useState('all');
   const [currentCourseSlide, setCurrentCourseSlide] = useState(0);
   
-  // AI Career Quiz State
-  const [quizStarted, setQuizStarted] = useState(false);
-  const [currentQuestion, setCurrentQuestion] = useState(0);
-  const [quizAnswers, setQuizAnswers] = useState({});
-  const [isAnalyzing, setIsAnalyzing] = useState(false);
-  const [showResults, setShowResults] = useState(false);
-  const [quizProgress, setQuizProgress] = useState(0);
-  const [weeklyTakers, setWeeklyTakers] = useState(1247);
+
   
   // Trusted Companies State
-  const [selectedCompanyFilter, setSelectedCompanyFilter] = useState('all');
-  const [showCompanyModal, setShowCompanyModal] = useState(false);
-  const [selectedCompany, setSelectedCompany] = useState(null);
   const [companyCount, setCompanyCount] = useState(14000);
   const [currentCarouselIndex, setCurrentCarouselIndex] = useState(0);
   
-  // AI Career Navigator State
-  const [aiPathfinderActive, setAiPathfinderActive] = useState(false);
-  const [currentRole, setCurrentRole] = useState('');
-  const [targetRole, setTargetRole] = useState('');
-  const [timeline, setTimeline] = useState('6');
-  const [aiGenerating, setAiGenerating] = useState(false);
-  const [aiPaths, setAiPaths] = useState([]);
-  const [selectedPathFilter, setSelectedPathFilter] = useState('recommended');
-  const [showPathComparison, setShowPathComparison] = useState(false);
-  const [comparedPaths, setComparedPaths] = useState([]);
+
+  
+
+  
+  // AI Course Marketplace State
+  const [selectedCourseFilter, setSelectedCourseFilter] = useState('recommended');
+  const [courseView, setCourseView] = useState('grid');
+  const [comparedCourses, setComparedCourses] = useState([]);
+  const [showROICalculator, setShowROICalculator] = useState(false);
+  const [selectedCourse, setSelectedCourse] = useState(null);
+  const [currentSwipeIndex, setCurrentSwipeIndex] = useState(0);
+  
+  // Role Switcher State
+  const [activeRole, setActiveRole] = useState('student');
 
   useEffect(() => {
     const interval = setInterval(() => {
@@ -57,137 +51,19 @@ const PublicHome = () => {
 
   // Company logos data
   const companies = [
-    { 
-      name: 'Google', 
-      icon: FaGoogle, 
-      color: 'text-red-500',
-      category: 'tech-giant',
-      size: 'enterprise',
-      partnerSince: '2020',
-      employees: '156,000+',
-      hires: '2,847',
-      description: 'Leading technology company focusing on AI and cloud solutions',
-      testimonial: 'CareerBox has been instrumental in upskilling our engineering teams.',
-      skills: ['Cloud Computing', 'AI/ML', 'Software Engineering']
-    },
-    { 
-      name: 'Microsoft', 
-      icon: FaMicrosoft, 
-      color: 'text-blue-500',
-      category: 'tech-giant',
-      size: 'enterprise',
-      partnerSince: '2019',
-      employees: '221,000+',
-      hires: '3,156',
-      description: 'Global technology leader in productivity and cloud services',
-      testimonial: 'The quality of talent from CareerBox consistently exceeds our expectations.',
-      skills: ['Azure', 'DevOps', 'Full Stack Development']
-    },
-    { 
-      name: 'Amazon', 
-      icon: FaAmazon, 
-      color: 'text-orange-500',
-      category: 'tech-giant',
-      size: 'enterprise',
-      partnerSince: '2021',
-      employees: '1,500,000+',
-      hires: '4,923',
-      description: 'E-commerce and cloud computing giant',
-      testimonial: 'CareerBox graduates integrate seamlessly into our fast-paced environment.',
-      skills: ['AWS', 'Data Science', 'Machine Learning']
-    },
-    { 
-      name: 'Meta', 
-      icon: FaFacebook, 
-      color: 'text-blue-600',
-      category: 'tech-giant',
-      size: 'enterprise',
-      partnerSince: '2020',
-      employees: '87,000+',
-      hires: '1,834',
-      description: 'Social technology company building the metaverse',
-      testimonial: 'The innovative thinking from CareerBox alumni drives our product development.',
-      skills: ['React', 'VR/AR', 'Mobile Development']
-    },
-    { 
-      name: 'Apple', 
-      icon: FaApple, 
-      color: 'text-gray-800',
-      category: 'tech-giant',
-      size: 'enterprise',
-      partnerSince: '2022',
-      employees: '164,000+',
-      hires: '987',
-      description: 'Technology company known for innovative consumer electronics',
-      testimonial: 'CareerBox professionals bring exceptional attention to detail and innovation.',
-      skills: ['iOS Development', 'UI/UX Design', 'Hardware Engineering']
-    },
-    { 
-      name: 'Netflix', 
-      icon: FaVideo, 
-      color: 'text-red-600',
-      category: 'startup',
-      size: 'enterprise',
-      partnerSince: '2021',
-      employees: '12,800+',
-      hires: '567',
-      description: 'Streaming entertainment service with global reach',
-      testimonial: 'The data science expertise from CareerBox has enhanced our recommendation algorithms.',
-      skills: ['Data Engineering', 'Content Strategy', 'Streaming Technology']
-    },
-    {
-      name: 'Stripe',
-      icon: FaCreditCard,
-      color: 'text-purple-600',
-      category: 'startup',
-      size: 'medium',
-      partnerSince: '2023',
-      employees: '4,000+',
-      hires: '234',
-      description: 'Financial infrastructure platform for internet businesses',
-      testimonial: 'CareerBox developers understand the complexity of financial systems.',
-      skills: ['FinTech', 'API Development', 'Security']
-    },
-    {
-      name: 'Shopify',
-      icon: FaShoppingCart,
-      color: 'text-green-600',
-      category: 'startup',
-      size: 'medium',
-      partnerSince: '2022',
-      employees: '10,000+',
-      hires: '445',
-      description: 'Commerce platform enabling businesses worldwide',
-      testimonial: 'The e-commerce expertise from CareerBox has accelerated our merchant success.',
-      skills: ['E-commerce', 'Ruby on Rails', 'Product Management']
-    }
+    { name: 'Google', icon: FaGoogle, color: 'text-red-500' },
+    { name: 'Microsoft', icon: FaMicrosoft, color: 'text-blue-500' },
+    { name: 'Amazon', icon: FaAmazon, color: 'text-orange-500' },
+    { name: 'Meta', icon: FaFacebook, color: 'text-blue-600' },
+    { name: 'Apple', icon: FaApple, color: 'text-gray-800' },
+    { name: 'Netflix', icon: FaVideo, color: 'text-red-600' },
+    { name: 'Stripe', icon: FaCreditCard, color: 'text-purple-600' },
+    { name: 'Shopify', icon: FaShoppingCart, color: 'text-green-600' }
   ];
 
-  const companyFilters = [
-    { id: 'all', name: 'All Companies', count: companies.length },
-    { id: 'tech-giant', name: 'Tech Giants', count: companies.filter(c => c.category === 'tech-giant').length },
-    { id: 'startup', name: 'Startups', count: companies.filter(c => c.category === 'startup').length },
-    { id: 'enterprise', name: 'Enterprise', count: companies.filter(c => c.size === 'enterprise').length }
-  ];
+  const filteredCompanies = companies;
 
-  const filteredCompanies = selectedCompanyFilter === 'all' 
-    ? companies 
-    : companies.filter(company => 
-        company.category === selectedCompanyFilter || company.size === selectedCompanyFilter
-      );
 
-  // Categories data
-  const categories = [
-    { id: 'all', name: 'All Categories', icon: FaGlobe, count: '2000+' },
-    { id: 'development', name: 'Development', icon: FaCode, count: '500+' },
-    { id: 'design', name: 'Design', icon: FaPalette, count: '300+' },
-    { id: 'business', name: 'Business', icon: FaBriefcase, count: '400+' },
-    { id: 'data-science', name: 'Data Science', icon: FaDatabase, count: '250+' },
-    { id: 'mobile', name: 'Mobile', icon: FaMobile, count: '200+' },
-    { id: 'cloud', name: 'Cloud Computing', icon: FaCloud, count: '180+' },
-    { id: 'ai', name: 'AI & ML', icon: FaRobot, count: '150+' },
-    { id: 'marketing', name: 'Marketing', icon: FaBullseye, count: '120+' }
-  ];
 
   // Featured courses data
   const featuredCourses = [
@@ -257,158 +133,7 @@ const PublicHome = () => {
     }
   ];
 
-  // Learning paths data
-  const learningPaths = [
-    {
-      id: 1,
-      title: 'Full Stack Developer',
-      description: 'Master front-end and back-end development with AI-optimized curriculum',
-      courses: 8,
-      duration: '6 months',
-      level: 'Beginner to Advanced',
-      skills: ['HTML/CSS', 'JavaScript', 'React', 'Node.js', 'MongoDB'],
-      icon: FaCode,
-      color: 'blue',
-      aiMatch: 95,
-      marketDemand: 'high',
-      salaryRange: '$75,000 - $130,000',
-      successRate: 89,
-      jobGrowth: '+22%',
-      prerequisites: ['Basic programming knowledge'],
-      learningStyle: ['hands-on', 'project-based'],
-      timeCommitment: '15-20 hours/week',
-      difficulty: 'intermediate',
-      trending: true
-    },
-    {
-      id: 2,
-      title: 'Data Scientist',
-      description: 'Learn data analysis, ML, and AI techniques with real-world applications',
-      courses: 6,
-      duration: '4 months',
-      level: 'Intermediate',
-      skills: ['Python', 'Pandas', 'Machine Learning', 'SQL', 'Tableau'],
-      icon: FaChartLine,
-      color: 'green',
-      aiMatch: 88,
-      marketDemand: 'very-high',
-      salaryRange: '$95,000 - $150,000',
-      successRate: 92,
-      jobGrowth: '+35%',
-      prerequisites: ['Statistics', 'Basic Python'],
-      learningStyle: ['analytical', 'research-based'],
-      timeCommitment: '20-25 hours/week',
-      difficulty: 'advanced',
-      trending: true
-    },
-    {
-      id: 3,
-      title: 'UX/UI Designer',
-      description: 'Create beautiful and functional user experiences with design thinking',
-      courses: 5,
-      duration: '3 months',
-      level: 'Beginner',
-      skills: ['Figma', 'Adobe XD', 'Prototyping', 'User Research', 'Design Systems'],
-      icon: FaPalette,
-      color: 'purple',
-      aiMatch: 92,
-      marketDemand: 'high',
-      salaryRange: '$70,000 - $120,000',
-      successRate: 85,
-      jobGrowth: '+13%',
-      prerequisites: ['Creative mindset', 'Basic design principles'],
-      learningStyle: ['visual', 'creative'],
-      timeCommitment: '12-18 hours/week',
-      difficulty: 'beginner',
-      trending: false
-    },
-    {
-      id: 4,
-      title: 'Cloud Architect',
-      description: 'Design and implement scalable cloud solutions with enterprise focus',
-      courses: 7,
-      duration: '5 months',
-      level: 'Advanced',
-      skills: ['AWS', 'Azure', 'Docker', 'Kubernetes', 'DevOps'],
-      icon: FaCloud,
-      color: 'orange',
-      aiMatch: 78,
-      marketDemand: 'very-high',
-      salaryRange: '$110,000 - $180,000',
-      successRate: 87,
-      jobGrowth: '+28%',
-      prerequisites: ['System administration', 'Networking basics'],
-      learningStyle: ['technical', 'hands-on'],
-      timeCommitment: '25-30 hours/week',
-      difficulty: 'advanced',
-      trending: true
-    },
-    {
-      id: 5,
-      title: 'AI/ML Engineer',
-      description: 'Build intelligent systems and machine learning models',
-      courses: 9,
-      duration: '7 months',
-      level: 'Advanced',
-      skills: ['Python', 'TensorFlow', 'PyTorch', 'Deep Learning', 'MLOps'],
-      icon: FaRobot,
-      color: 'indigo',
-      aiMatch: 85,
-      marketDemand: 'very-high',
-      salaryRange: '$120,000 - $200,000',
-      successRate: 91,
-      jobGrowth: '+40%',
-      prerequisites: ['Advanced Python', 'Mathematics', 'Statistics'],
-      learningStyle: ['research-based', 'experimental'],
-      timeCommitment: '30+ hours/week',
-      difficulty: 'expert',
-      trending: true
-    },
-    {
-      id: 6,
-      title: 'Cybersecurity Specialist',
-      description: 'Protect digital assets and secure enterprise systems',
-      courses: 6,
-      duration: '4 months',
-      level: 'Intermediate',
-      skills: ['Network Security', 'Ethical Hacking', 'Risk Assessment', 'Compliance'],
-      icon: FaShieldAlt,
-      color: 'red',
-      aiMatch: 82,
-      marketDemand: 'high',
-      salaryRange: '$85,000 - $140,000',
-      successRate: 88,
-      jobGrowth: '+31%',
-      prerequisites: ['Networking fundamentals', 'System administration'],
-      learningStyle: ['problem-solving', 'analytical'],
-      timeCommitment: '18-22 hours/week',
-      difficulty: 'intermediate',
-      trending: true
-    }
-  ];
 
-  const pathFilters = [
-    { id: 'recommended', name: 'AI Recommended', icon: FaRobot },
-    { id: 'trending', name: 'Trending', icon: FaRocket },
-    { id: 'high-demand', name: 'High Demand', icon: FaChartLine },
-    { id: 'beginner', name: 'Beginner Friendly', icon: FaGraduationCap },
-    { id: 'advanced', name: 'Advanced', icon: FaAward }
-  ];
-
-  const getFilteredPaths = () => {
-    switch (selectedPathFilter) {
-      case 'trending':
-        return learningPaths.filter(path => path.trending);
-      case 'high-demand':
-        return learningPaths.filter(path => path.marketDemand === 'very-high');
-      case 'beginner':
-        return learningPaths.filter(path => path.difficulty === 'beginner' || path.difficulty === 'intermediate');
-      case 'advanced':
-        return learningPaths.filter(path => path.difficulty === 'advanced' || path.difficulty === 'expert');
-      default:
-        return learningPaths.sort((a, b) => b.aiMatch - a.aiMatch);
-    }
-  };
 
   // Testimonials data
   const testimonials = [
@@ -489,144 +214,9 @@ const PublicHome = () => {
     }
   ];
 
-  const filteredCourses = selectedCategory === 'all' 
-    ? featuredCourses 
-    : featuredCourses.filter(course => course.category === selectedCategory);
 
-  // AI Career Quiz Data
-  const quizQuestions = [
-    {
-      id: 1,
-      question: "What type of work environment energizes you most?",
-      options: [
-        { id: 'a', text: 'Collaborative team projects', icon: FaUsers, career: 'frontend' },
-        { id: 'b', text: 'Independent problem-solving', icon: FaLaptopCode, career: 'backend' },
-        { id: 'c', text: 'Creative design challenges', icon: FaPalette, career: 'design' },
-        { id: 'd', text: 'Data analysis & insights', icon: FaChartBar, career: 'data' }
-      ]
-    },
-    {
-      id: 2,
-      question: "Which technology area excites you most?",
-      options: [
-        { id: 'a', text: 'Artificial Intelligence & ML', icon: FaRobot, career: 'ai' },
-        { id: 'b', text: 'Cloud & Infrastructure', icon: FaCloud, career: 'cloud' },
-        { id: 'c', text: 'Mobile App Development', icon: FaMobile, career: 'mobile' },
-        { id: 'd', text: 'Web Development', icon: FaCode, career: 'web' }
-      ]
-    },
-    {
-      id: 3,
-      question: "What's your preferred learning style?",
-      options: [
-        { id: 'a', text: 'Hands-on coding projects', icon: FaLaptopCode, career: 'developer' },
-        { id: 'b', text: 'Visual design & prototyping', icon: FaPalette, career: 'designer' },
-        { id: 'c', text: 'Data analysis & research', icon: FaDatabase, career: 'analyst' },
-        { id: 'd', text: 'Strategic planning & management', icon: FaBriefcase, career: 'manager' }
-      ]
-    },
-    {
-      id: 4,
-      question: "Which career outcome appeals to you most?",
-      options: [
-        { id: 'a', text: 'Building innovative products', icon: FaRocket, career: 'product' },
-        { id: 'b', text: 'Leading technical teams', icon: FaUsers, career: 'lead' },
-        { id: 'c', text: 'Solving complex problems', icon: FaLightbulb, career: 'engineer' },
-        { id: 'd', text: 'Creating beautiful experiences', icon: FaHeart, career: 'ux' }
-      ]
-    },
-    {
-      id: 5,
-      question: "What's your ideal work-life balance?",
-      options: [
-        { id: 'a', text: 'Flexible remote work', icon: FaGlobe, career: 'remote' },
-        { id: 'b', text: 'Startup environment', icon: FaRocket, career: 'startup' },
-        { id: 'c', text: 'Corporate stability', icon: FaBuilding, career: 'corporate' },
-        { id: 'd', text: 'Freelance independence', icon: FaUserTie, career: 'freelance' }
-      ]
-    }
-  ];
 
-  const careerResults = {
-    'Full Stack Developer': {
-      match: 95,
-      salary: '$85,000 - $130,000',
-      growth: '+22% by 2030',
-      skills: ['React', 'Node.js', 'Python', 'AWS'],
-      description: 'Build end-to-end web applications with modern technologies',
-      icon: FaCode,
-      color: 'blue'
-    },
-    'Data Scientist': {
-      match: 88,
-      salary: '$95,000 - $150,000',
-      growth: '+35% by 2030',
-      skills: ['Python', 'Machine Learning', 'SQL', 'Tableau'],
-      description: 'Extract insights from data to drive business decisions',
-      icon: FaChartLine,
-      color: 'green'
-    },
-    'UX/UI Designer': {
-      match: 92,
-      salary: '$70,000 - $120,000',
-      growth: '+13% by 2030',
-      skills: ['Figma', 'User Research', 'Prototyping', 'Design Systems'],
-      description: 'Create intuitive and beautiful user experiences',
-      icon: FaPalette,
-      color: 'purple'
-    }
-  };
 
-  // Quiz Functions
-  const startQuiz = () => {
-    setQuizStarted(true);
-    setCurrentQuestion(0);
-    setQuizAnswers({});
-    setQuizProgress(0);
-  };
-
-  const handleAnswer = (questionId, answer) => {
-    const newAnswers = { ...quizAnswers, [questionId]: answer };
-    setQuizAnswers(newAnswers);
-    
-    const progress = ((currentQuestion + 1) / quizQuestions.length) * 100;
-    setQuizProgress(progress);
-    
-    if (currentQuestion < quizQuestions.length - 1) {
-      setTimeout(() => setCurrentQuestion(currentQuestion + 1), 300);
-    } else {
-      // Quiz completed, start analysis
-      setIsAnalyzing(true);
-      setTimeout(() => {
-        setIsAnalyzing(false);
-        setShowResults(true);
-      }, 3000);
-    }
-  };
-
-  const handleKeyPress = (event, questionId, answer) => {
-    if (event.key === 'Enter' || event.key === ' ') {
-      event.preventDefault();
-      handleAnswer(questionId, answer);
-    }
-  };
-
-  const resetQuiz = () => {
-    setQuizStarted(false);
-    setCurrentQuestion(0);
-    setQuizAnswers({});
-    setIsAnalyzing(false);
-    setShowResults(false);
-    setQuizProgress(0);
-  };
-
-  // Animate weekly takers counter
-  useEffect(() => {
-    const interval = setInterval(() => {
-      setWeeklyTakers(prev => prev + Math.floor(Math.random() * 3));
-    }, 5000);
-    return () => clearInterval(interval);
-  }, []);
 
   // Animate company counter
   useEffect(() => {
@@ -644,52 +234,159 @@ const PublicHome = () => {
     return () => clearInterval(interval);
   }, [filteredCompanies.length]);
 
-  // Company modal functions
-  const openCompanyModal = (company) => {
-    setSelectedCompany(company);
-    setShowCompanyModal(true);
+
+
+
+  // AI Course Marketplace Data
+  const aiCourses = [
+    {
+      id: 1,
+      title: 'Advanced React & Next.js Mastery',
+      instructor: 'Sarah Chen',
+      rating: 4.9,
+      reviews: 12847,
+      students: 89234,
+      price: 149,
+      originalPrice: 299,
+      duration: '42 hours',
+      level: 'Advanced',
+      category: 'development',
+      skills: ['React', 'Next.js', 'TypeScript', 'GraphQL'],
+      aiMatch: 96,
+      careerImpact: 94,
+      completionRate: 87,
+      avgSalaryIncrease: 35,
+      roi: 450,
+      popularity: 'trending',
+      thumbnail: 'https://images.unsplash.com/photo-1633356122544-f134324a6cee?w=400&h=225&fit=crop',
+      skillGaps: ['Advanced Hooks', 'Performance Optimization'],
+      jobMatches: ['Senior Frontend Developer', 'Full Stack Engineer'],
+      featured: true
+    },
+    {
+      id: 2,
+      title: 'Machine Learning Engineering Pipeline',
+      instructor: 'Dr. Alex Rodriguez',
+      rating: 4.8,
+      reviews: 8934,
+      students: 45678,
+      price: 199,
+      originalPrice: 399,
+      duration: '56 hours',
+      level: 'Expert',
+      category: 'ai-ml',
+      skills: ['Python', 'TensorFlow', 'MLOps', 'Docker'],
+      aiMatch: 92,
+      careerImpact: 98,
+      completionRate: 82,
+      avgSalaryIncrease: 55,
+      roi: 680,
+      popularity: 'hot',
+      thumbnail: 'https://images.unsplash.com/photo-1555949963-aa79dcee981c?w=400&h=225&fit=crop',
+      skillGaps: ['MLOps', 'Model Deployment'],
+      jobMatches: ['ML Engineer', 'Data Scientist'],
+      featured: false
+    },
+    {
+      id: 3,
+      title: 'UX/UI Design System Mastery',
+      instructor: 'Maya Patel',
+      rating: 4.7,
+      reviews: 6789,
+      students: 34567,
+      price: 129,
+      originalPrice: 249,
+      duration: '38 hours',
+      level: 'Intermediate',
+      category: 'design',
+      skills: ['Figma', 'Design Systems', 'Prototyping'],
+      aiMatch: 89,
+      careerImpact: 85,
+      completionRate: 91,
+      avgSalaryIncrease: 28,
+      roi: 320,
+      popularity: 'rising',
+      thumbnail: 'https://images.unsplash.com/photo-1561070791-2526d30994b5?w=400&h=225&fit=crop',
+      skillGaps: ['Design Systems', 'Advanced Prototyping'],
+      jobMatches: ['Senior UX Designer', 'Product Designer'],
+      featured: false
+    }
+  ];
+
+  const courseFilters = [
+    { id: 'recommended', name: 'AI Recommended', icon: FaRobot },
+    { id: 'trending', name: 'Trending', icon: FaRocket },
+    { id: 'high-roi', name: 'High ROI', icon: FaChartLine }
+  ];
+
+  const getFilteredCourses = () => {
+    switch (selectedCourseFilter) {
+      case 'trending':
+        return aiCourses.filter(course => course.popularity === 'trending' || course.popularity === 'hot');
+      case 'high-roi':
+        return aiCourses.filter(course => course.roi >= 400).sort((a, b) => b.roi - a.roi);
+      default:
+        return aiCourses.sort((a, b) => b.aiMatch - a.aiMatch);
+    }
   };
 
-  const closeCompanyModal = () => {
-    setShowCompanyModal(false);
-    setSelectedCompany(null);
+  const toggleCourseComparison = (course) => {
+    if (comparedCourses.find(c => c.id === course.id)) {
+      setComparedCourses(comparedCourses.filter(c => c.id !== course.id));
+    } else if (comparedCourses.length < 3) {
+      setComparedCourses([...comparedCourses, course]);
+    }
   };
 
-  // AI Pathfinder functions
-  const generateAIPaths = async () => {
-    if (!currentRole || !targetRole) return;
-    
-    setAiGenerating(true);
-    
-    // Simulate AI processing
-    setTimeout(() => {
-      const matchedPaths = learningPaths
-        .map(path => ({
-          ...path,
-          aiMatch: Math.max(60, Math.floor(Math.random() * 40) + 60),
-          personalizedDuration: adjustTimelineForUser(path.duration, timeline),
-          customizedSkills: path.skills.slice(0, 4)
-        }))
-        .sort((a, b) => b.aiMatch - a.aiMatch)
-        .slice(0, 3);
-      
-      setAiPaths(matchedPaths);
-      setAiGenerating(false);
-    }, 2500);
-  };
-
-  const adjustTimelineForUser = (baseDuration, userTimeline) => {
-    const baseMonths = parseInt(baseDuration);
-    const userMonths = parseInt(userTimeline);
-    const ratio = userMonths / 6; // 6 months as baseline
-    return `${Math.max(2, Math.round(baseMonths * ratio))} months`;
-  };
-
-  const togglePathComparison = (path) => {
-    if (comparedPaths.find(p => p.id === path.id)) {
-      setComparedPaths(comparedPaths.filter(p => p.id !== path.id));
-    } else if (comparedPaths.length < 3) {
-      setComparedPaths([...comparedPaths, path]);
+  // Role Switcher Data
+  const roleData = {
+    student: {
+      title: 'For Students',
+      subtitle: 'Launch your tech career with expert guidance',
+      color: 'blue',
+      icon: FaGraduationCap,
+      features: [
+        { icon: FaUsers, title: 'Learn from Industry Experts', desc: 'Access courses from top professionals' },
+        { icon: FaBriefcase, title: 'Build Portfolio Projects', desc: 'Create real-world projects for your portfolio' },
+        { icon: FaUserTie, title: 'Get Career Coaching', desc: 'Personalized guidance from career mentors' },
+        { icon: FaCertificate, title: 'Earn Certifications', desc: 'Industry-recognized certificates' },
+        { icon: FaRocket, title: 'Join Hackathons', desc: 'Compete in coding competitions' },
+        { icon: FaHandshake, title: 'Get Job Placement', desc: 'Direct connections to hiring companies' }
+      ],
+      stats: { users: '2.5M+', success: '89%', avg_salary: '$75K' },
+      cta: 'Start Learning Free'
+    },
+    trainer: {
+      title: 'For Trainers',
+      subtitle: 'Share your expertise and build your teaching business',
+      color: 'green',
+      icon: FaChalkboardTeacher,
+      features: [
+        { icon: FaVideo, title: 'Create and Sell Courses', desc: 'Build comprehensive online courses' },
+        { icon: FaCalendarAlt, title: 'Host Live Workshops', desc: 'Conduct interactive live sessions' },
+        { icon: FaUsers, title: 'Mentor Students', desc: 'Guide learners on their journey' },
+        { icon: FaChartLine, title: 'Earn Revenue', desc: 'Monetize your expertise effectively' },
+        { icon: FaAward, title: 'Build Reputation', desc: 'Establish yourself as an industry expert' },
+        { icon: FaLaptopCode, title: 'Access Teaching Tools', desc: 'Professional course creation tools' }
+      ],
+      stats: { trainers: '50K+', earnings: '$125K', rating: '4.8/5' },
+      cta: 'Become a Trainer'
+    },
+    company: {
+      title: 'For Companies',
+      subtitle: 'Scale your team with verified talent and training',
+      color: 'purple',
+      icon: FaBuilding,
+      features: [
+        { icon: FaSearch, title: 'Hire Verified Talent', desc: 'Access pre-screened candidates' },
+        { icon: FaClipboardList, title: 'Post Projects', desc: 'Find freelancers for your projects' },
+        { icon: FaTrophy, title: 'Run Competitions', desc: 'Host coding challenges and hackathons' },
+        { icon: FaGraduationCap, title: 'Train Employees', desc: 'Upskill your existing workforce' },
+        { icon: FaChartBar, title: 'Access Analytics', desc: 'Track team progress and performance' },
+        { icon: FaHandshake, title: 'Partner with Platform', desc: 'Strategic partnership opportunities' }
+      ],
+      stats: { companies: '5K+', hires: '100K+', satisfaction: '94%' },
+      cta: 'Partner with Us'
     }
   };
 
@@ -698,360 +395,17 @@ const PublicHome = () => {
       {/* Hero Section */}
       <HeroSection />
 
-      {/* AI Career Quiz Section */}
-      <section className="relative py-20 bg-gradient-to-br from-indigo-900 via-purple-900 to-black overflow-hidden">
-        {/* Animated Background Elements */}
-        <div className="absolute inset-0">
-          <div className="absolute top-20 left-10 w-72 h-72 bg-blue-500 rounded-full mix-blend-multiply filter blur-xl opacity-20 animate-pulse"></div>
-          <div className="absolute top-40 right-10 w-72 h-72 bg-purple-500 rounded-full mix-blend-multiply filter blur-xl opacity-20 animate-pulse animation-delay-2000"></div>
-          <div className="absolute -bottom-8 left-20 w-72 h-72 bg-cyan-500 rounded-full mix-blend-multiply filter blur-xl opacity-20 animate-pulse animation-delay-4000"></div>
-        </div>
 
-        <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          {!quizStarted && !showResults ? (
-            // Quiz Introduction
-            <div className="text-center mb-16 animate-fade-in">
-              <div className="inline-flex items-center px-4 py-2 bg-gradient-to-r from-blue-500/20 to-purple-500/20 rounded-full border border-blue-400/30 mb-8 backdrop-blur-sm">
-                <FaRobot className="text-cyan-400 mr-2" />
-                <span className="text-cyan-300 text-sm font-medium">AI-Powered Career Analysis</span>
-              </div>
-              
-              <h2 className="text-4xl md:text-6xl font-bold text-white mb-6 leading-tight">
-                Discover Your Perfect
-                <span className="block bg-gradient-to-r from-cyan-400 to-purple-400 bg-clip-text text-transparent">
-                  Tech Career in 60 Seconds
-                </span>
-              </h2>
-              
-              <p className="text-xl text-gray-300 max-w-3xl mx-auto mb-12 leading-relaxed">
-                Our advanced AI analyzes your preferences, skills, and goals to recommend the perfect tech career path with personalized learning roadmaps and salary insights.
-              </p>
-
-              {/* Quick Stats Showcase */}
-              <div className="grid md:grid-cols-3 gap-8 mb-12">
-                <div className="bg-white/10 backdrop-blur-md rounded-2xl p-6 border border-white/20 hover:bg-white/15 transition-all duration-300 group">
-                  <div className="flex items-center justify-center w-16 h-16 bg-gradient-to-br from-blue-500 to-cyan-500 rounded-2xl mx-auto mb-4 group-hover:scale-110 transition-transform duration-300">
-                    <FaLightbulb className="text-2xl text-white" />
-                  </div>
-                  <h3 className="text-xl font-bold text-white mb-2">Personalized Learning Path</h3>
-                  <p className="text-gray-300">Custom roadmap based on your career goals and current skills</p>
-                </div>
-                
-                <div className="bg-white/10 backdrop-blur-md rounded-2xl p-6 border border-white/20 hover:bg-white/15 transition-all duration-300 group">
-                  <div className="flex items-center justify-center w-16 h-16 bg-gradient-to-br from-green-500 to-emerald-500 rounded-2xl mx-auto mb-4 group-hover:scale-110 transition-transform duration-300">
-                    <FaChartLine className="text-2xl text-white" />
-                  </div>
-                  <h3 className="text-xl font-bold text-white mb-2">Salary Insights</h3>
-                  <p className="text-gray-300">Real market data for your recommended career path</p>
-                </div>
-                
-                <div className="bg-white/10 backdrop-blur-md rounded-2xl p-6 border border-white/20 hover:bg-white/15 transition-all duration-300 group">
-                  <div className="flex items-center justify-center w-16 h-16 bg-gradient-to-br from-purple-500 to-pink-500 rounded-2xl mx-auto mb-4 group-hover:scale-110 transition-transform duration-300">
-                    <FaBullseye className="text-2xl text-white" />
-                  </div>
-                  <h3 className="text-xl font-bold text-white mb-2">Job Match Score</h3>
-                  <p className="text-gray-300">AI-calculated compatibility with top tech roles</p>
-                </div>
-              </div>
-
-              {/* Start Quiz CTA */}
-              <div className="space-y-6">
-                <button
-                  onClick={startQuiz}
-                  className="group relative inline-flex items-center px-8 md:px-12 py-3 md:py-4 bg-gradient-to-r from-cyan-500 to-blue-600 text-white font-bold text-lg md:text-xl rounded-xl md:rounded-2xl hover:from-cyan-400 hover:to-blue-500 active:from-cyan-600 active:to-blue-700 transition-all duration-300 shadow-2xl hover:shadow-cyan-500/25 active:shadow-cyan-500/40 transform hover:-translate-y-1 active:translate-y-0 touch-manipulation"
-                  aria-label="Start AI Career Quiz - Takes 2 minutes"
-                >
-                  <FaRocket className="mr-2 md:mr-3 text-lg md:text-xl group-hover:animate-bounce" />
-                  <span className="hidden sm:inline">Start AI Career Quiz</span>
-                  <span className="sm:hidden">Start Quiz</span>
-                  <FaArrowRight className="ml-2 md:ml-3 group-hover:translate-x-1 transition-transform duration-300" />
-                  
-                  {/* Animated border */}
-                  <div className="absolute inset-0 rounded-xl md:rounded-2xl bg-gradient-to-r from-cyan-500 to-blue-600 opacity-0 group-hover:opacity-100 transition-opacity duration-300 blur-sm -z-10"></div>
-                </button>
-                
-                <div className="flex items-center justify-center space-x-4 text-gray-400">
-                  <div className="flex items-center">
-                    <FaClock className="mr-2" />
-                    <span>2 minutes</span>
-                  </div>
-                  <div className="w-1 h-1 bg-gray-500 rounded-full"></div>
-                  <div className="flex items-center">
-                    <FaUsers className="mr-2" />
-                    <span>{weeklyTakers.toLocaleString()} took this week</span>
-                  </div>
-                  <div className="w-1 h-1 bg-gray-500 rounded-full"></div>
-                  <div className="flex items-center">
-                    <FaShieldAlt className="mr-2" />
-                    <span>100% Free</span>
-                  </div>
-                </div>
-              </div>
-            </div>
-          ) : quizStarted && !isAnalyzing && !showResults ? (
-            // Quiz Interface
-            <div className="max-w-4xl mx-auto" role="main" aria-live="polite">
-              {/* Progress Bar */}
-              <div className="mb-6 md:mb-8">
-                <div className="flex flex-col sm:flex-row sm:justify-between sm:items-center mb-3 space-y-1 sm:space-y-0">
-                  <span className="text-cyan-300 font-medium text-sm md:text-base">Question {currentQuestion + 1} of {quizQuestions.length}</span>
-                  <span className="text-cyan-300 font-medium text-sm md:text-base">{Math.round(quizProgress)}% Complete</span>
-                </div>
-                <div className="w-full bg-white/20 rounded-full h-2 md:h-3 backdrop-blur-sm overflow-hidden">
-                  <div 
-                    className="bg-gradient-to-r from-cyan-500 to-blue-600 h-full rounded-full transition-all duration-500 ease-out relative"
-                    style={{ width: `${quizProgress}%` }}
-                    role="progressbar"
-                    aria-valuenow={Math.round(quizProgress)}
-                    aria-valuemin="0"
-                    aria-valuemax="100"
-                    aria-label={`Quiz progress: ${Math.round(quizProgress)}% complete`}
-                  >
-                    {/* Animated shine effect */}
-                    <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/30 to-transparent animate-shimmer"></div>
-                  </div>
-                </div>
-              </div>
-
-              {/* Question */}
-              <div className="bg-white/10 backdrop-blur-md rounded-3xl p-6 md:p-8 border border-white/20 mb-8">
-                <h3 className="text-xl md:text-3xl font-bold text-white mb-6 md:mb-8 text-center leading-tight">
-                  {quizQuestions[currentQuestion]?.question}
-                </h3>
-                
-                <div className="grid gap-3 md:grid-cols-2 md:gap-4">
-                  {quizQuestions[currentQuestion]?.options.map((option, index) => (
-                    <button
-                      key={option.id}
-                      onClick={() => handleAnswer(quizQuestions[currentQuestion].id, option)}
-                      onKeyDown={(e) => handleKeyPress(e, quizQuestions[currentQuestion].id, option)}
-                      className={`group relative p-4 md:p-6 bg-white/5 hover:bg-white/15 active:bg-white/20 border border-white/20 hover:border-cyan-400/50 active:border-cyan-400/70 focus:border-cyan-400/70 focus:outline-none focus:ring-2 focus:ring-cyan-400/50 rounded-xl md:rounded-2xl transition-all duration-300 text-left transform hover:-translate-y-1 active:scale-95 focus:-translate-y-1 hover:shadow-xl focus:shadow-xl touch-manipulation quiz-option-${index + 1}`}
-                      tabIndex={0}
-                      role="button"
-                      aria-label={`Option ${index + 1}: ${option.text}`}
-                    >
-                      <div className="flex items-center space-x-3 md:space-x-4">
-                        <div className="flex items-center justify-center w-10 h-10 md:w-12 md:h-12 bg-gradient-to-br from-cyan-500/20 to-blue-600/20 rounded-lg md:rounded-xl group-hover:from-cyan-500/40 group-hover:to-blue-600/40 group-active:from-cyan-500/60 group-active:to-blue-600/60 group-focus:from-cyan-500/40 group-focus:to-blue-600/40 transition-all duration-300 flex-shrink-0">
-                          <option.icon className="text-lg md:text-xl text-cyan-400" />
-                        </div>
-                        <span className="text-white font-medium text-base md:text-lg group-hover:text-cyan-300 group-focus:text-cyan-300 transition-colors duration-300 leading-snug">
-                          {option.text}
-                        </span>
-                        <div className="ml-auto text-xs text-gray-400 opacity-0 group-focus:opacity-100 transition-opacity duration-300">
-                          Press Enter
-                        </div>
-                      </div>
-                      
-                      {/* Mobile tap feedback */}
-                      <div className="absolute inset-0 rounded-xl md:rounded-2xl bg-gradient-to-r from-cyan-500/10 to-blue-600/10 opacity-0 group-hover:opacity-100 group-active:opacity-100 group-focus:opacity-100 transition-opacity duration-300"></div>
-                      
-                      {/* Selection indicator */}
-                      <div className="absolute top-2 right-2 md:top-4 md:right-4 w-6 h-6 border-2 border-white/30 rounded-full group-hover:border-cyan-400/50 group-focus:border-cyan-400/50 transition-colors duration-300">
-                        <div className="w-full h-full bg-cyan-400 rounded-full scale-0 group-active:scale-75 transition-transform duration-150"></div>
-                      </div>
-                    </button>
-                  ))}
-                </div>
-              </div>
-
-              {/* Back Button */}
-              {currentQuestion > 0 && (
-                <div className="text-center">
-                  <button
-                    onClick={() => setCurrentQuestion(currentQuestion - 1)}
-                    className="inline-flex items-center px-4 md:px-6 py-2 md:py-3 text-gray-300 hover:text-white focus:text-white focus:outline-none focus:ring-2 focus:ring-cyan-400/50 rounded-lg transition-colors duration-300 touch-manipulation"
-                    aria-label="Go to previous question"
-                  >
-                    <FaChevronLeft className="mr-2" />
-                    <span className="hidden sm:inline">Previous Question</span>
-                    <span className="sm:hidden">Previous</span>
-                  </button>
-                </div>
-              )}
-            </div>
-          ) : isAnalyzing ? (
-            // AI Analysis Animation
-            <div className="max-w-2xl mx-auto text-center" role="status" aria-live="polite">
-              <div className="relative mb-8">
-                {/* Animated AI Brain */}
-                <div className="relative w-24 h-24 md:w-32 md:h-32 mx-auto mb-6 md:mb-8">
-                  <div className="absolute inset-0 bg-gradient-to-r from-cyan-500 to-blue-600 rounded-full animate-pulse"></div>
-                  <div className="absolute inset-1 md:inset-2 bg-gradient-to-r from-purple-500 to-pink-500 rounded-full animate-pulse animation-delay-1000"></div>
-                  <div className="absolute inset-2 md:inset-4 bg-gradient-to-r from-indigo-500 to-cyan-500 rounded-full animate-pulse animation-delay-2000"></div>
-                  <FaRobot className="absolute inset-0 m-auto text-2xl md:text-4xl text-white z-10" />
-                </div>
-                
-                {/* Particle Animation */}
-                <div className="absolute inset-0 overflow-hidden pointer-events-none">
-                  {[...Array(15)].map((_, i) => (
-                    <div
-                      key={i}
-                      className="absolute w-1 h-1 md:w-2 md:h-2 bg-cyan-400 rounded-full animate-ping"
-                      style={{
-                        left: `${Math.random() * 100}%`,
-                        top: `${Math.random() * 100}%`,
-                        animationDelay: `${Math.random() * 2}s`,
-                        animationDuration: `${1 + Math.random() * 2}s`
-                      }}
-                    ></div>
-                  ))}
-                </div>
-              </div>
-              
-              <h3 className="text-2xl md:text-3xl font-bold text-white mb-4">AI Analyzing Your Responses</h3>
-              <p className="text-gray-300 mb-6 md:mb-8 text-sm md:text-base px-4">Processing your preferences and matching with 10,000+ career profiles...</p>
-              
-              <div className="space-y-3 md:space-y-4 text-left max-w-sm md:max-w-md mx-auto px-4">
-                {[
-                  'Analyzing personality traits...',
-                  'Matching skills and interests...',
-                  'Calculating salary projections...',
-                  'Generating learning roadmap...'
-                ].map((step, index) => (
-                  <div key={index} className="flex items-center space-x-3 text-gray-300 text-sm md:text-base">
-                    <div className="w-2 h-2 bg-cyan-400 rounded-full animate-pulse flex-shrink-0" style={{ animationDelay: `${index * 500}ms` }}></div>
-                    <span>{step}</span>
-                  </div>
-                ))}
-              </div>
-              
-              {/* Loading progress indicator */}
-              <div className="mt-6 md:mt-8">
-                <div className="w-full max-w-xs mx-auto bg-white/20 rounded-full h-1 md:h-2 backdrop-blur-sm">
-                  <div className="bg-gradient-to-r from-cyan-500 to-blue-600 h-full rounded-full animate-pulse" style={{ width: '75%' }}></div>
-                </div>
-              </div>
-            </div>
-          ) : showResults ? (
-            // Results Display
-            <div className="max-w-5xl mx-auto">
-              <div className="text-center mb-8 md:mb-12">
-                <div className="inline-flex items-center px-3 md:px-4 py-2 bg-green-500/20 rounded-full border border-green-400/30 mb-4 md:mb-6 backdrop-blur-sm">
-                  <FaCheck className="text-green-400 mr-2" />
-                  <span className="text-green-300 text-xs md:text-sm font-medium">Analysis Complete</span>
-                </div>
-                
-                <h3 className="text-2xl md:text-4xl font-bold text-white mb-3 md:mb-4 px-4">Your Perfect Career Match</h3>
-                <p className="text-gray-300 text-base md:text-lg px-4">Based on your responses, here's your personalized career recommendation</p>
-              </div>
-
-              {/* Career Recommendation Cards */}
-              <div className="grid gap-6 md:gap-8 lg:grid-cols-3 mb-8 md:mb-12 px-4">
-                {Object.entries(careerResults).map(([career, data], index) => (
-                  <div
-                    key={career}
-                    className={`relative bg-white/10 backdrop-blur-md rounded-2xl md:rounded-3xl p-6 md:p-8 border transition-all duration-500 transform hover:-translate-y-2 ${
-                      index === 0 
-                        ? 'border-cyan-400/50 bg-gradient-to-br from-cyan-500/20 to-blue-600/20 md:scale-105' 
-                        : 'border-white/20 hover:border-white/40'
-                    }`}
-                    style={{ animationDelay: `${index * 200}ms` }}
-                  >
-                    {index === 0 && (
-                      <div className="absolute -top-3 md:-top-4 left-1/2 transform -translate-x-1/2">
-                        <div className="bg-gradient-to-r from-cyan-500 to-blue-600 text-white px-3 md:px-4 py-1 md:py-2 rounded-full text-xs md:text-sm font-bold">
-                          Best Match
-                        </div>
-                      </div>
-                    )}
-                    
-                    <div className="text-center mb-4 md:mb-6">
-                      <div className={`inline-flex items-center justify-center w-16 h-16 md:w-20 md:h-20 bg-gradient-to-br from-${data.color}-500 to-${data.color}-600 rounded-xl md:rounded-2xl mb-3 md:mb-4`}>
-                        <data.icon className="text-2xl md:text-3xl text-white" />
-                      </div>
-                      <h4 className="text-xl md:text-2xl font-bold text-white mb-2">{career}</h4>
-                      <p className="text-gray-300 text-sm md:text-base leading-relaxed">{data.description}</p>
-                    </div>
-                    
-                    {/* Match Score */}
-                    <div className="mb-4 md:mb-6">
-                      <div className="flex justify-between items-center mb-2">
-                        <span className="text-gray-300 text-sm md:text-base">Match Score</span>
-                        <span className="text-cyan-400 font-bold text-sm md:text-base">{data.match}%</span>
-                      </div>
-                      <div className="w-full bg-white/20 rounded-full h-2">
-                        <div 
-                          className="bg-gradient-to-r from-cyan-500 to-blue-600 h-2 rounded-full transition-all duration-1000"
-                          style={{ width: `${data.match}%` }}
-                        ></div>
-                      </div>
-                    </div>
-                    
-                    {/* Career Details */}
-                    <div className="space-y-3 md:space-y-4 mb-4 md:mb-6">
-                      <div className="flex justify-between text-sm md:text-base">
-                        <span className="text-gray-300">Salary Range:</span>
-                        <span className="text-green-400 font-semibold">{data.salary}</span>
-                      </div>
-                      <div className="flex justify-between text-sm md:text-base">
-                        <span className="text-gray-300">Job Growth:</span>
-                        <span className="text-blue-400 font-semibold">{data.growth}</span>
-                      </div>
-                    </div>
-                    
-                    {/* Skills */}
-                    <div className="mb-4 md:mb-6">
-                      <h5 className="text-white font-semibold mb-2 md:mb-3 text-sm md:text-base">Key Skills:</h5>
-                      <div className="flex flex-wrap gap-2">
-                        {data.skills.map((skill, idx) => (
-                          <span key={idx} className="px-2 md:px-3 py-1 bg-white/20 text-cyan-300 rounded-full text-xs md:text-sm">
-                            {skill}
-                          </span>
-                        ))}
-                      </div>
-                    </div>
-                    
-                    {index === 0 && (
-                      <button className="w-full bg-gradient-to-r from-cyan-500 to-blue-600 text-white font-bold py-2 md:py-3 rounded-lg md:rounded-xl hover:from-cyan-400 hover:to-blue-500 active:from-cyan-600 active:to-blue-700 transition-all duration-300 text-sm md:text-base touch-manipulation">
-                        View Full Roadmap
-                      </button>
-                    )}
-                  </div>
-                ))}
-              </div>
-
-              {/* Action Buttons */}
-              <div className="text-center space-y-4 px-4">
-                <div className="flex flex-col sm:flex-row gap-3 md:gap-4 justify-center">
-                  <Link
-                    to="/register"
-                    className="inline-flex items-center justify-center px-6 md:px-8 py-3 md:py-4 bg-gradient-to-r from-cyan-500 to-blue-600 text-white font-bold rounded-lg md:rounded-xl hover:from-cyan-400 hover:to-blue-500 active:from-cyan-600 active:to-blue-700 transition-all duration-300 shadow-xl text-sm md:text-base touch-manipulation"
-                  >
-                    <FaRocket className="mr-2 md:mr-3" />
-                    <span className="hidden sm:inline">Start Learning Journey</span>
-                    <span className="sm:hidden">Start Learning</span>
-                  </Link>
-                  
-                  <button
-                    onClick={resetQuiz}
-                    className="inline-flex items-center justify-center px-6 md:px-8 py-3 md:py-4 border-2 border-white/30 text-white font-semibold rounded-lg md:rounded-xl hover:bg-white/10 active:bg-white/20 focus:bg-white/10 focus:outline-none focus:ring-2 focus:ring-cyan-400/50 transition-all duration-300 text-sm md:text-base touch-manipulation"
-                  >
-                    <FaArrowRight className="mr-2 md:mr-3 transform rotate-180" />
-                    Retake Quiz
-                  </button>
-                </div>
-                
-                <p className="text-gray-400 text-xs md:text-sm">
-                  Want to share your results? 
-                  <button className="text-cyan-400 hover:text-cyan-300 focus:text-cyan-300 ml-1 underline focus:outline-none">
-                    Download PDF Report
-                  </button>
-                </p>
-              </div>
-            </div>
-          ) : null}
-        </div>
-      </section>
 
       {/* Enhanced Trusted Companies Section */}
-      <section className="relative py-16 md:py-20 bg-gradient-to-br from-slate-900 via-blue-900 to-indigo-900 overflow-hidden">
+      <section className="relative py-16 md:py-20 bg-white overflow-hidden">
         {/* Animated Background */}
         <div className="absolute inset-0">
-          <div className="absolute top-0 left-0 w-full h-full bg-gradient-to-r from-blue-600/10 to-purple-600/10 animate-pulse"></div>
+          <div className="absolute top-0 left-0 w-full h-full bg-gradient-to-r from-gray-100/10 to-gray-200/10 animate-pulse"></div>
           {[...Array(30)].map((_, i) => (
             <div
               key={i}
-              className="absolute w-1 h-1 bg-blue-400/30 rounded-full animate-ping"
+              className="absolute w-1 h-1 bg-gray-400/30 rounded-full animate-ping"
               style={{
                 left: `${Math.random() * 100}%`,
                 top: `${Math.random() * 100}%`,
@@ -1065,104 +419,57 @@ const PublicHome = () => {
         <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           {/* Header Section */}
           <div className="text-center mb-12 md:mb-16">
-            <h2 className="text-3xl md:text-5xl font-bold text-white mb-4 md:mb-6">
-              Trusted by Industry Leaders &
-              <span className="block bg-gradient-to-r from-blue-400 to-purple-400 bg-clip-text text-transparent">
-                Innovators Worldwide
-              </span>
-            </h2>
-            <p className="text-lg md:text-xl text-gray-300 mb-8 max-w-3xl mx-auto">
-              Join {companyCount.toLocaleString()}+ companies who trust our platform for talent development
-            </p>
-
-            {/* Stats Bar */}
-            <div className="grid grid-cols-2 md:grid-cols-4 gap-6 md:gap-8 mb-12">
-              <div className="text-center">
-                <div className="text-2xl md:text-3xl font-bold text-blue-400 mb-2">{companyCount.toLocaleString()}+</div>
-                <div className="text-gray-300 text-sm md:text-base">Partner Companies</div>
-              </div>
-              <div className="text-center">
-                <div className="text-2xl md:text-3xl font-bold text-green-400 mb-2">98%</div>
-                <div className="text-gray-300 text-sm md:text-base">Satisfaction Rate</div>
-              </div>
-              <div className="text-center">
-                <div className="text-2xl md:text-3xl font-bold text-purple-400 mb-2">150+</div>
-                <div className="text-gray-300 text-sm md:text-base">Countries</div>
-              </div>
-              <div className="text-center">
-                <div className="text-2xl md:text-3xl font-bold text-cyan-400 mb-2">24/7</div>
-                <div className="text-gray-300 text-sm md:text-base">Global Support</div>
-              </div>
-            </div>
-
-            {/* Filter Buttons */}
-            <div className="flex flex-wrap justify-center gap-3 md:gap-4 mb-8">
-              {companyFilters.map((filter) => (
-                <button
-                  key={filter.id}
-                  onClick={() => setSelectedCompanyFilter(filter.id)}
-                  className={`px-4 md:px-6 py-2 md:py-3 rounded-full font-medium transition-all duration-300 text-sm md:text-base ${
-                    selectedCompanyFilter === filter.id
-                      ? 'bg-gradient-to-r from-blue-500 to-purple-600 text-white shadow-lg'
-                      : 'bg-white/10 text-gray-300 hover:bg-white/20 hover:text-white backdrop-blur-sm border border-white/20'
-                  }`}
-                >
-                  {filter.name}
-                  <span className="ml-2 text-xs opacity-75">({filter.count})</span>
-                </button>
-              ))}
+            <div className="py-8 md:py-12 bg-gradient-to-r from-gray-50 to-blue-50 rounded-3xl mb-8">
+              <h2 className="text-3xl md:text-5xl font-bold text-gray-900 mb-4 md:mb-6">
+                Trusted by Industry Leaders &
+                <span className="block bg-gradient-to-r bg-blue-600 bg-clip-text text-transparent">
+                  Innovators Worldwide
+                </span>
+              </h2>
             </div>
           </div>
 
           {/* Company Logos Carousel */}
           <div className="relative">
             {/* Desktop: Infinite Scroll Carousel */}
-            <div className="hidden md:block overflow-hidden">
-              <div className="flex space-x-8 animate-scroll">
-                {[...filteredCompanies, ...filteredCompanies].map((company, index) => (
+            <div className="hidden md:block overflow-hidden relative">
+              <div className="flex space-x-8 animate-infinite-scroll">
+                {[...filteredCompanies, ...filteredCompanies, ...filteredCompanies].map((company, index) => (
                   <div
                     key={`${company.name}-${index}`}
-                    onClick={() => openCompanyModal(company)}
                     className="flex-shrink-0 group cursor-pointer"
                   >
-                    <div className="relative bg-white/10 backdrop-blur-md rounded-2xl p-6 border border-white/20 hover:border-blue-400/50 transition-all duration-300 hover:-translate-y-2 hover:shadow-2xl hover:shadow-blue-500/25 w-48 h-32">
-                      {/* Partner Badge */}
-                      <div className="absolute -top-2 -right-2 bg-gradient-to-r from-green-500 to-emerald-600 text-white text-xs px-2 py-1 rounded-full font-bold">
-                        Since {company.partnerSince}
-                      </div>
-                      
+                    <div className="relative bg-white rounded-2xl p-6 border border-gray-200 hover:border-blue-400 hover:shadow-xl transition-all duration-500 hover:-translate-y-3 hover:scale-105 w-48 h-32 group-hover:bg-gradient-to-br group-hover:from-white group-hover:to-blue-50">
                       <div className="flex flex-col items-center justify-center h-full">
                         <company.icon className={`text-4xl ${company.color} group-hover:scale-110 transition-all duration-300 mb-3 filter grayscale group-hover:grayscale-0`} />
-                        <span className="text-white font-semibold text-sm group-hover:text-blue-300 transition-colors">
+                        <span className="text-gray-900 font-semibold text-sm group-hover:text-blue-600 transition-colors">
                           {company.name}
-                        </span>
-                        <span className="text-gray-400 text-xs mt-1">
-                          {company.employees} employees
                         </span>
                       </div>
                       
                       {/* Hover Glow Effect */}
-                      <div className="absolute inset-0 rounded-2xl bg-gradient-to-r from-blue-500/20 to-purple-500/20 opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+                      <div className="absolute inset-0 rounded-2xl bg-gradient-to-r from-blue-500/10 to-purple-500/10 opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
                     </div>
                   </div>
                 ))}
               </div>
             </div>
 
-            {/* Mobile: Touch-Friendly Grid */}
+            {/* Mobile: Touch-Friendly Grid with Stagger Animation */}
             <div className="md:hidden grid grid-cols-2 gap-4">
               {filteredCompanies.slice(0, 6).map((company, index) => (
                 <div
                   key={company.name}
-                  onClick={() => openCompanyModal(company)}
-                  className="group cursor-pointer"
-                  style={{ animationDelay: `${index * 100}ms` }}
+                  className="group cursor-pointer animate-fade-in-up"
+                  style={{ 
+                    animationDelay: `${index * 150}ms`,
+                    animationFillMode: 'both'
+                  }}
                 >
-                  <div className="relative bg-white/10 backdrop-blur-md rounded-xl p-4 border border-white/20 hover:border-blue-400/50 transition-all duration-300 active:scale-95 touch-manipulation">
+                  <div className="relative bg-white rounded-xl p-4 border border-gray-200 hover:border-blue-400 hover:shadow-xl transition-all duration-500 active:scale-95 touch-manipulation hover:-translate-y-2 hover:bg-gradient-to-br hover:from-white hover:to-blue-50">
                     <div className="text-center">
-                      <company.icon className={`text-3xl ${company.color} mb-2 mx-auto filter grayscale group-hover:grayscale-0 transition-all duration-300`} />
-                      <span className="text-white font-medium text-sm block">{company.name}</span>
-                      <span className="text-gray-400 text-xs">{company.hires} hires</span>
+                      <company.icon className={`text-3xl ${company.color} mb-2 mx-auto filter grayscale group-hover:grayscale-0 transition-all duration-500 group-hover:scale-110`} />
+                      <span className="text-gray-900 font-medium text-sm block group-hover:text-blue-600 transition-colors duration-300">{company.name}</span>
                     </div>
                   </div>
                 </div>
@@ -1172,13 +479,13 @@ const PublicHome = () => {
             {/* Navigation Arrows (Desktop) */}
             <button 
               onClick={() => setCurrentCarouselIndex(prev => Math.max(0, prev - 1))}
-              className="hidden md:flex absolute left-0 top-1/2 -translate-y-1/2 -translate-x-4 w-12 h-12 bg-white/10 backdrop-blur-md rounded-full items-center justify-center text-white hover:bg-white/20 transition-all duration-300 border border-white/20"
+              className="hidden md:flex absolute left-0 top-1/2 -translate-y-1/2 -translate-x-4 w-12 h-12 bg-white rounded-full items-center justify-center text-gray-600 hover:text-gray-900 hover:shadow-lg transition-all duration-300 border border-gray-200"
             >
               <FaChevronLeft />
             </button>
             <button 
               onClick={() => setCurrentCarouselIndex(prev => (prev + 1) % Math.ceil(filteredCompanies.length / 6))}
-              className="hidden md:flex absolute right-0 top-1/2 -translate-y-1/2 translate-x-4 w-12 h-12 bg-white/10 backdrop-blur-md rounded-full items-center justify-center text-white hover:bg-white/20 transition-all duration-300 border border-white/20"
+              className="hidden md:flex absolute right-0 top-1/2 -translate-y-1/2 translate-x-4 w-12 h-12 bg-white rounded-full items-center justify-center text-gray-600 hover:text-gray-900 hover:shadow-lg transition-all duration-300 border border-gray-200"
             >
               <FaChevronRight />
             </button>
@@ -1186,9 +493,9 @@ const PublicHome = () => {
 
           {/* Featured Testimonial */}
           <div className="mt-12 md:mt-16 text-center">
-            <div className="bg-white/5 backdrop-blur-md rounded-2xl p-6 md:p-8 border border-white/20 max-w-4xl mx-auto">
-              <FaQuoteLeft className="text-3xl text-blue-400 mb-4 mx-auto" />
-              <p className="text-lg md:text-xl text-gray-200 mb-6 italic leading-relaxed">
+            <div className="bg-gray-50 rounded-2xl p-6 md:p-8 border border-gray-200 max-w-4xl mx-auto">
+              <FaQuoteLeft className="text-3xl text-blue-600 mb-4 mx-auto" />
+              <p className="text-lg md:text-xl text-gray-700 mb-6 italic leading-relaxed">
                 "CareerBox has transformed how we approach talent development. The quality of candidates and the comprehensive training programs have exceeded our expectations."
               </p>
               <div className="flex items-center justify-center space-x-4">
@@ -1196,168 +503,18 @@ const PublicHome = () => {
                   <FaGoogle className="text-white text-xl" />
                 </div>
                 <div className="text-left">
-                  <div className="text-white font-semibold">Sarah Chen</div>
-                  <div className="text-gray-400 text-sm">VP of Engineering, Google</div>
+                  <div className="text-gray-900 font-semibold">Sarah Chen</div>
+                  <div className="text-gray-600 text-sm">VP of Engineering, Google</div>
                 </div>
               </div>
             </div>
           </div>
         </div>
 
-        {/* Company Detail Modal */}
-        {showCompanyModal && selectedCompany && (
-          <div className="fixed inset-0 bg-black/50 backdrop-blur-sm z-50 flex items-center justify-center p-4" onClick={closeCompanyModal}>
-            <div className="bg-white/10 backdrop-blur-md rounded-2xl p-6 md:p-8 border border-white/20 max-w-2xl w-full max-h-[90vh] overflow-y-auto" onClick={(e) => e.stopPropagation()}>
-              <div className="flex justify-between items-start mb-6">
-                <div className="flex items-center space-x-4">
-                  <selectedCompany.icon className={`text-4xl ${selectedCompany.color}`} />
-                  <div>
-                    <h3 className="text-2xl font-bold text-white">{selectedCompany.name}</h3>
-                    <p className="text-gray-300">{selectedCompany.description}</p>
-                  </div>
-                </div>
-                <button 
-                  onClick={closeCompanyModal}
-                  className="text-gray-400 hover:text-white transition-colors p-2"
-                >
-                  <FaTimes className="text-xl" />
-                </button>
-              </div>
-              
-              <div className="grid md:grid-cols-2 gap-6 mb-6">
-                <div className="space-y-4">
-                  <div className="flex justify-between">
-                    <span className="text-gray-300">Partnership Since:</span>
-                    <span className="text-blue-400 font-semibold">{selectedCompany.partnerSince}</span>
-                  </div>
-                  <div className="flex justify-between">
-                    <span className="text-gray-300">Employees:</span>
-                    <span className="text-green-400 font-semibold">{selectedCompany.employees}</span>
-                  </div>
-                  <div className="flex justify-between">
-                    <span className="text-gray-300">Hires Through Platform:</span>
-                    <span className="text-purple-400 font-semibold">{selectedCompany.hires}</span>
-                  </div>
-                </div>
-                
-                <div>
-                  <h4 className="text-white font-semibold mb-3">Key Skills They Hire:</h4>
-                  <div className="flex flex-wrap gap-2">
-                    {selectedCompany.skills.map((skill, idx) => (
-                      <span key={idx} className="px-3 py-1 bg-blue-500/20 text-blue-300 rounded-full text-sm border border-blue-400/30">
-                        {skill}
-                      </span>
-                    ))}
-                  </div>
-                </div>
-              </div>
-              
-              <div className="bg-white/5 rounded-xl p-4 mb-6">
-                <FaQuoteLeft className="text-blue-400 mb-2" />
-                <p className="text-gray-200 italic">"{selectedCompany.testimonial}"</p>
-              </div>
-              
-              <div className="flex flex-col sm:flex-row gap-3">
-                <Link 
-                  to="/jobs"
-                  className="flex-1 bg-gradient-to-r from-blue-500 to-purple-600 text-white font-semibold py-3 px-6 rounded-lg hover:from-blue-400 hover:to-purple-500 transition-all duration-300 text-center"
-                >
-                  <FaExternalLinkAlt className="inline mr-2" />
-                  View Open Positions
-                </Link>
-                <button className="flex-1 border border-white/30 text-white font-semibold py-3 px-6 rounded-lg hover:bg-white/10 transition-all duration-300">
-                  Learn More
-                </button>
-              </div>
-            </div>
-          </div>
-        )}
+
       </section>
 
-      {/* Categories Section */}
-      <section className="py-20 bg-gradient-to-br from-gray-50 to-blue-50">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="text-center mb-16">
-            <h2 className="text-4xl md:text-5xl font-bold text-gray-900 mb-6">
-              Explore Our <span className="text-blue-600">Course Categories</span>
-            </h2>
-            <p className="text-xl text-gray-600 max-w-2xl mx-auto leading-relaxed">
-              Discover world-class courses across diverse fields and advance your career with industry-relevant skills
-            </p>
-          </div>
 
-          <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-6">
-            {categories.slice(1).map((category, index) => (
-              <div
-                key={category.id}
-                onClick={() => setSelectedCategory(category.id)}
-                className={`group relative bg-white rounded-2xl p-4 sm:p-8 shadow-lg hover:shadow-2xl transition-all duration-500 cursor-pointer border-2 transform hover:-translate-y-2 ${
-                  selectedCategory === category.id
-                    ? 'border-blue-500 bg-gradient-to-br from-blue-50 to-purple-50 shadow-blue-200'
-                    : 'border-transparent hover:border-blue-200'
-                }`}
-              >
-                <div className="text-center">
-                  <div className={`inline-flex items-center justify-center w-12 h-12 sm:w-20 sm:h-20 rounded-2xl mb-3 sm:mb-6 transition-all duration-300 group-hover:scale-110 ${
-                    selectedCategory === category.id
-                      ? 'bg-gradient-to-br from-blue-500 to-purple-600 text-white shadow-lg'
-                      : 'bg-gradient-to-br from-gray-100 to-gray-200 text-gray-600 group-hover:from-blue-100 group-hover:to-purple-100 group-hover:text-blue-600'
-                  }`}>
-                    <category.icon className="text-xl sm:text-3xl" />
-                  </div>
-                  
-                  <h3 className={`text-sm sm:text-xl font-bold mb-2 sm:mb-3 transition-colors duration-300 ${
-                    selectedCategory === category.id ? 'text-blue-700' : 'text-gray-900 group-hover:text-blue-600'
-                  }`}>
-                    {category.name}
-                  </h3>
-                  
-                  <div className="flex items-center justify-center space-x-1 sm:space-x-2 mb-2 sm:mb-4">
-                    <span className={`text-lg sm:text-2xl font-bold ${
-                      selectedCategory === category.id ? 'text-blue-600' : 'text-gray-700'
-                    }`}>
-                      {category.count}
-                    </span>
-                    <span className="text-gray-500 text-xs sm:text-sm">courses</span>
-                  </div>
-                  
-                  <div className={`inline-flex items-center text-xs sm:text-sm font-medium transition-all duration-300 ${
-                    selectedCategory === category.id 
-                      ? 'text-blue-600' 
-                      : 'text-gray-500 group-hover:text-blue-600'
-                  }`}>
-                    Explore courses
-                    <FaArrowRight className="ml-1 sm:ml-2 transform group-hover:translate-x-1 transition-transform duration-300" />
-                  </div>
-                </div>
-                
-                {/* Decorative elements */}
-                <div className="absolute top-4 right-4 opacity-10 group-hover:opacity-20 transition-opacity duration-300">
-                  <category.icon className="text-4xl text-blue-500" />
-                </div>
-                
-                {selectedCategory === category.id && (
-                  <div className="absolute -top-2 -right-2 w-6 h-6 bg-blue-500 rounded-full flex items-center justify-center">
-                    <FaCheck className="text-white text-xs" />
-                  </div>
-                )}
-              </div>
-            ))}
-          </div>
-          
-          {/* View All Categories Button */}
-          <div className="text-center mt-12">
-            <Link 
-              to="/courses"
-              className="inline-flex items-center px-8 py-4 bg-gradient-to-r from-blue-600 to-purple-600 text-white font-semibold rounded-xl hover:from-blue-700 hover:to-purple-700 transition-all duration-300 shadow-lg hover:shadow-xl transform hover:-translate-y-1"
-            >
-              <FaGlobe className="mr-3" />
-              View All 2000+ Courses
-              <FaArrowRight className="ml-3" />
-            </Link>
-          </div>
-        </div>
-      </section>
 
       {/* Featured Courses Section */}
       <section className="py-16 bg-gray-50">
@@ -1375,7 +532,7 @@ const PublicHome = () => {
           </div>
 
           <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
-            {filteredCourses.map((course) => (
+            {featuredCourses.map((course) => (
               <div key={course.id} className="bg-white rounded-xl shadow-md hover:shadow-xl transition-all duration-300 overflow-hidden group">
                 <div className="relative">
                   <img src={course.image} alt={course.title} className="w-full h-48 object-cover" />
@@ -1445,235 +602,158 @@ const PublicHome = () => {
         </div>
       </section>
 
-      {/* AI-Powered Career Navigator Section */}
-      <section className="relative py-16 md:py-24 bg-gradient-to-br from-white via-blue-50 to-purple-50 overflow-hidden">
-        {/* Animated Background Elements */}
+
+
+
+
+      {/* AI-Personalized Course Marketplace */}
+      <section className="relative py-16 md:py-24 bg-gradient-to-br from-slate-50 via-blue-50 to-indigo-100 overflow-hidden">
         <div className="absolute inset-0">
-          <div className="absolute top-20 right-20 w-64 h-64 bg-blue-200 rounded-full mix-blend-multiply filter blur-xl opacity-30 animate-float"></div>
-          <div className="absolute bottom-20 left-20 w-64 h-64 bg-purple-200 rounded-full mix-blend-multiply filter blur-xl opacity-30 animate-float animation-delay-2000"></div>
+          <div className="absolute top-10 right-10 w-96 h-96 bg-blue-200/30 rounded-full mix-blend-multiply filter blur-3xl animate-float"></div>
         </div>
 
         <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          {/* Header Section */}
-          <div className="text-center mb-12 md:mb-16">
-            <div className="inline-flex items-center px-4 py-2 bg-gradient-to-r from-blue-100 to-purple-100 rounded-full border border-blue-200 mb-6">
+          <div className="text-center mb-12">
+            <div className="inline-flex items-center px-4 py-2 bg-gradient-to-r from-blue-100 to-indigo-100 rounded-full border border-blue-200 mb-6">
               <FaRobot className="text-blue-600 mr-2" />
-              <span className="text-blue-800 text-sm font-medium">AI-Powered Intelligence</span>
+              <span className="text-blue-800 text-sm font-medium">AI-Powered Recommendations</span>
             </div>
             
             <h2 className="text-4xl md:text-6xl font-bold text-gray-900 mb-6">
-              Your AI-Powered
-              <span className="block bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent">
-                Career Navigator
+              Personalized Course
+              <span className="block bg-gradient-to-r from-blue-600 to-indigo-600 bg-clip-text text-transparent">
+                Marketplace
               </span>
             </h2>
             
-            <p className="text-xl text-gray-600 max-w-4xl mx-auto mb-12 leading-relaxed">
-              Intelligent learning paths that adapt to your goals, skills, and market demands using advanced AI algorithms
+            <p className="text-xl text-gray-600 max-w-3xl mx-auto mb-8">
+              AI-curated courses with real-time metrics, skill gap analysis, and career impact predictions
             </p>
 
-            {/* AI Pathfinder Widget */}
-            <div className="max-w-4xl mx-auto mb-16">
-              <div className="bg-white/80 backdrop-blur-md rounded-3xl p-6 md:p-8 shadow-2xl border border-white/50">
-                <div className="flex items-center justify-center mb-6">
-                  <div className="flex items-center space-x-3">
-                    <div className="w-10 h-10 bg-gradient-to-r from-blue-500 to-purple-600 rounded-full flex items-center justify-center">
-                      <FaRobot className="text-white text-lg" />
-                    </div>
-                    <h3 className="text-2xl font-bold text-gray-900">Try AI Pathfinder</h3>
-                  </div>
-                </div>
-                
-                <div className="grid md:grid-cols-3 gap-4 md:gap-6 mb-6">
-                  <div>
-                    <label className="block text-sm font-semibold text-gray-700 mb-2">Current Role</label>
-                    <input
-                      type="text"
-                      value={currentRole}
-                      onChange={(e) => setCurrentRole(e.target.value)}
-                      placeholder="e.g., Marketing Coordinator"
-                      className="w-full px-4 py-3 rounded-xl border border-gray-200 focus:border-blue-500 focus:ring-2 focus:ring-blue-200 transition-all duration-300 bg-white/70"
-                    />
-                  </div>
-                  <div>
-                    <label className="block text-sm font-semibold text-gray-700 mb-2">Target Role</label>
-                    <input
-                      type="text"
-                      value={targetRole}
-                      onChange={(e) => setTargetRole(e.target.value)}
-                      placeholder="e.g., Data Scientist"
-                      className="w-full px-4 py-3 rounded-xl border border-gray-200 focus:border-blue-500 focus:ring-2 focus:ring-blue-200 transition-all duration-300 bg-white/70"
-                    />
-                  </div>
-                  <div>
-                    <label className="block text-sm font-semibold text-gray-700 mb-2">Timeline</label>
-                    <select
-                      value={timeline}
-                      onChange={(e) => setTimeline(e.target.value)}
-                      className="w-full px-4 py-3 rounded-xl border border-gray-200 focus:border-blue-500 focus:ring-2 focus:ring-blue-200 transition-all duration-300 bg-white/70"
-                    >
-                      <option value="3">3 months</option>
-                      <option value="6">6 months</option>
-                      <option value="12">1 year</option>
-                      <option value="24">2 years</option>
-                    </select>
-                  </div>
-                </div>
-                
+            <div className="flex flex-wrap justify-center gap-3 mb-8">
+              {courseFilters.map((filter) => (
                 <button
-                  onClick={generateAIPaths}
-                  disabled={!currentRole || !targetRole || aiGenerating}
-                  className="w-full md:w-auto mx-auto flex items-center justify-center px-8 py-4 bg-gradient-to-r from-blue-600 to-purple-600 text-white font-bold rounded-2xl hover:from-blue-500 hover:to-purple-500 disabled:opacity-50 disabled:cursor-not-allowed transition-all duration-300 shadow-lg hover:shadow-xl transform hover:-translate-y-1"
+                  key={filter.id}
+                  onClick={() => setSelectedCourseFilter(filter.id)}
+                  className={`flex items-center px-4 py-2 rounded-full font-medium transition-all duration-300 text-sm ${
+                    selectedCourseFilter === filter.id
+                      ? 'bg-gradient-to-r from-blue-600 to-indigo-600 text-white shadow-lg'
+                      : 'bg-white/70 text-gray-700 hover:bg-white border border-gray-200'
+                  }`}
                 >
-                  {aiGenerating ? (
-                    <>
-                      <div className="animate-spin rounded-full h-5 w-5 border-b-2 border-white mr-3"></div>
-                      AI Generating Paths...
-                    </>
-                  ) : (
-                    <>
-                      <FaRocket className="mr-3" />
-                      Generate My AI Path
-                    </>
-                  )}
+                  <filter.icon className="mr-2" />
+                  {filter.name}
                 </button>
-              </div>
+              ))}
             </div>
           </div>
 
-          {/* Path Filters */}
-          <div className="flex flex-wrap justify-center gap-3 md:gap-4 mb-12">
-            {pathFilters.map((filter) => (
-              <button
-                key={filter.id}
-                onClick={() => setSelectedPathFilter(filter.id)}
-                className={`flex items-center px-4 md:px-6 py-2 md:py-3 rounded-full font-medium transition-all duration-300 text-sm md:text-base ${
-                  selectedPathFilter === filter.id
-                    ? 'bg-gradient-to-r from-blue-600 to-purple-600 text-white shadow-lg'
-                    : 'bg-white/70 text-gray-700 hover:bg-white hover:shadow-md border border-gray-200'
-                }`}
-              >
-                <filter.icon className="mr-2" />
-                {filter.name}
-              </button>
-            ))}
-          </div>
-
-          {/* AI Generated Paths or Default Paths */}
-          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-8">
-            {(aiPaths.length > 0 ? aiPaths : getFilteredPaths()).map((path, index) => (
+          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6 mb-12">
+            {getFilteredCourses().map((course, index) => (
               <div
-                key={path.id}
-                className="group relative bg-white/80 backdrop-blur-md rounded-3xl p-6 md:p-8 shadow-xl border border-white/50 hover:shadow-2xl transition-all duration-500 transform hover:-translate-y-2"
-                style={{ animationDelay: `${index * 150}ms` }}
+                key={course.id}
+                className="group relative bg-white/80 backdrop-blur-md rounded-3xl p-6 shadow-xl border border-white/50 hover:shadow-2xl transition-all duration-500 transform hover:-translate-y-3"
               >
-                {/* AI Match Score Ring */}
-                <div className="absolute -top-4 -right-4">
+                {course.featured && (
+                  <div className="absolute -top-3 -right-3">
+                    <div className="bg-gradient-to-r from-yellow-500 to-orange-500 text-white px-3 py-1 rounded-full text-xs font-bold">
+                      Featured
+                    </div>
+                  </div>
+                )}
+
+                <div className="absolute -top-2 right-4">
                   <div className="relative w-16 h-16">
                     <svg className="w-16 h-16 transform -rotate-90" viewBox="0 0 64 64">
                       <circle cx="32" cy="32" r="28" fill="none" stroke="#e5e7eb" strokeWidth="4"/>
                       <circle 
                         cx="32" cy="32" r="28" fill="none" 
-                        stroke={path.aiMatch >= 90 ? '#10b981' : path.aiMatch >= 80 ? '#3b82f6' : '#f59e0b'}
+                        stroke={course.aiMatch >= 95 ? '#10b981' : '#3b82f6'}
                         strokeWidth="4"
-                        strokeDasharray={`${(path.aiMatch / 100) * 175.93} 175.93`}
-                        className="transition-all duration-1000"
+                        strokeDasharray={`${(course.aiMatch / 100) * 175.93} 175.93`}
                       />
                     </svg>
                     <div className="absolute inset-0 flex items-center justify-center">
-                      <span className="text-xs font-bold text-gray-700">{path.aiMatch}%</span>
+                      <span className="text-xs font-bold text-gray-700">{course.aiMatch}%</span>
                     </div>
                   </div>
                 </div>
 
-                {/* Trending Badge */}
-                {path.trending && (
-                  <div className="absolute top-4 left-4">
-                    <div className="bg-gradient-to-r from-orange-500 to-red-500 text-white px-3 py-1 rounded-full text-xs font-bold flex items-center">
-                      <FaRocket className="mr-1" />
-                      Trending
+                <div className="relative mb-6 mt-8">
+                  <img 
+                    src={course.thumbnail} 
+                    alt={course.title}
+                    className="w-full h-48 object-cover rounded-2xl"
+                  />
+                  <div className="absolute inset-0 bg-gradient-to-t from-black/50 to-transparent rounded-2xl opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                    <div className="absolute bottom-4 left-4 right-4">
+                      <button className="w-full bg-white/90 text-gray-900 font-semibold py-2 px-4 rounded-lg">
+                        <FaPlay className="inline mr-2" />
+                        Preview Course
+                      </button>
                     </div>
-                  </div>
-                )}
-
-                {/* Market Demand Indicator */}
-                <div className="absolute top-4 right-20">
-                  <div className={`px-2 py-1 rounded-full text-xs font-medium ${
-                    path.marketDemand === 'very-high' ? 'bg-green-100 text-green-800' :
-                    path.marketDemand === 'high' ? 'bg-blue-100 text-blue-800' :
-                    'bg-yellow-100 text-yellow-800'
-                  }`}>
-                    {path.marketDemand === 'very-high' ? '🔥 Very High' :
-                     path.marketDemand === 'high' ? '📈 High' : '📊 Medium'} Demand
                   </div>
                 </div>
 
-                <div className="mt-8">
-                  {/* Icon and Title */}
+                <div>
+                  <h3 className="text-xl font-bold text-gray-900 mb-2">
+                    {course.title}
+                  </h3>
+                  
                   <div className="flex items-center mb-4">
-                    <div className={`w-12 h-12 bg-gradient-to-br from-${path.color}-500 to-${path.color}-600 rounded-2xl flex items-center justify-center mr-4 group-hover:scale-110 transition-transform duration-300`}>
-                      <path.icon className="text-2xl text-white" />
+                    <FaStar className="text-yellow-500 mr-1" />
+                    <span className="font-semibold text-gray-900">{course.rating}</span>
+                    <span className="text-gray-500 text-sm ml-1">({course.reviews.toLocaleString()})</span>
+                  </div>
+
+                  <div className="grid grid-cols-3 gap-3 mb-4">
+                    <div className="text-center p-2 bg-blue-50 rounded-lg">
+                      <div className="text-lg font-bold text-blue-600">{course.careerImpact}%</div>
+                      <div className="text-xs text-blue-700">Impact</div>
                     </div>
-                    <div>
-                      <h3 className="text-xl font-bold text-gray-900 group-hover:text-blue-600 transition-colors duration-300">
-                        {path.title}
-                      </h3>
-                      <p className="text-gray-600 text-sm">{path.description}</p>
+                    <div className="text-center p-2 bg-green-50 rounded-lg">
+                      <div className="text-lg font-bold text-green-600">{course.completionRate}%</div>
+                      <div className="text-xs text-green-700">Complete</div>
+                    </div>
+                    <div className="text-center p-2 bg-purple-50 rounded-lg">
+                      <div className="text-lg font-bold text-purple-600">{course.roi}%</div>
+                      <div className="text-xs text-purple-700">ROI</div>
                     </div>
                   </div>
 
-                  {/* Key Metrics */}
-                  <div className="grid grid-cols-2 gap-4 mb-6">
-                    <div className="text-center p-3 bg-gray-50 rounded-xl">
-                      <div className="text-lg font-bold text-gray-900">{path.personalizedDuration || path.duration}</div>
-                      <div className="text-xs text-gray-600">Duration</div>
-                    </div>
-                    <div className="text-center p-3 bg-gray-50 rounded-xl">
-                      <div className="text-lg font-bold text-green-600">{path.salaryRange.split(' - ')[1]}</div>
-                      <div className="text-xs text-gray-600">Max Salary</div>
-                    </div>
-                    <div className="text-center p-3 bg-gray-50 rounded-xl">
-                      <div className="text-lg font-bold text-blue-600">{path.successRate}%</div>
-                      <div className="text-xs text-gray-600">Success Rate</div>
-                    </div>
-                    <div className="text-center p-3 bg-gray-50 rounded-xl">
-                      <div className="text-lg font-bold text-purple-600">{path.jobGrowth}</div>
-                      <div className="text-xs text-gray-600">Job Growth</div>
-                    </div>
-                  </div>
-
-                  {/* Skills Preview */}
-                  <div className="mb-6">
-                    <h4 className="text-sm font-semibold text-gray-700 mb-3">Key Skills:</h4>
-                    <div className="flex flex-wrap gap-2">
-                      {(path.customizedSkills || path.skills.slice(0, 4)).map((skill, idx) => (
-                        <span key={idx} className="bg-blue-100 text-blue-800 text-xs px-3 py-1 rounded-full font-medium">
+                  <div className="mb-4">
+                    <h4 className="text-sm font-semibold text-gray-700 mb-2">Skill Gaps:</h4>
+                    <div className="flex flex-wrap gap-1">
+                      {course.skillGaps.map((skill, idx) => (
+                        <span key={idx} className="bg-red-100 text-red-800 text-xs px-2 py-1 rounded-full">
                           {skill}
                         </span>
                       ))}
-                      {path.skills.length > 4 && (
-                        <span className="text-xs text-gray-500 px-2 py-1">+{path.skills.length - 4} more</span>
-                      )}
                     </div>
                   </div>
 
-                  {/* Action Buttons */}
-                  <div className="flex flex-col sm:flex-row gap-3">
+                  <div className="flex items-center justify-between mb-4">
+                    <div>
+                      <span className="text-2xl font-bold text-gray-900">${course.price}</span>
+                      <span className="text-lg text-gray-500 line-through ml-2">${course.originalPrice}</span>
+                    </div>
+                    <div className="text-right">
+                      <div className="text-lg font-bold text-green-600">+{course.avgSalaryIncrease}%</div>
+                    </div>
+                  </div>
+
+                  <div className="flex gap-2">
                     <Link
                       to="/courses"
-                      className="flex-1 bg-gradient-to-r from-blue-600 to-purple-600 text-white font-semibold py-3 px-4 rounded-xl hover:from-blue-500 hover:to-purple-500 transition-all duration-300 text-center text-sm"
+                      className="flex-1 bg-gradient-to-r from-blue-600 to-indigo-600 text-white font-semibold py-3 px-4 rounded-xl text-center text-sm"
                     >
-                      Start Learning
+                      Enroll Now
                     </Link>
                     <button
-                      onClick={() => togglePathComparison(path)}
-                      className={`px-4 py-3 rounded-xl font-semibold transition-all duration-300 text-sm ${
-                        comparedPaths.find(p => p.id === path.id)
-                          ? 'bg-purple-100 text-purple-700 border border-purple-300'
-                          : 'border border-gray-300 text-gray-700 hover:bg-gray-50'
-                      }`}
+                      onClick={() => toggleCourseComparison(course)}
+                      className="px-4 py-3 border border-gray-300 text-gray-700 rounded-xl text-sm"
                     >
-                      {comparedPaths.find(p => p.id === path.id) ? 'Remove' : 'Compare'}
+                      Compare
                     </button>
                   </div>
                 </div>
@@ -1681,92 +761,147 @@ const PublicHome = () => {
             ))}
           </div>
 
-          {/* Path Comparison Panel */}
-          {comparedPaths.length > 0 && (
-            <div className="mt-16">
-              <div className="bg-white/90 backdrop-blur-md rounded-3xl p-6 md:p-8 shadow-2xl border border-white/50">
-                <div className="flex items-center justify-between mb-6">
-                  <h3 className="text-2xl font-bold text-gray-900">Path Comparison</h3>
-                  <button
-                    onClick={() => setComparedPaths([])}
-                    className="text-gray-500 hover:text-gray-700 transition-colors"
-                  >
-                    <FaTimes className="text-xl" />
-                  </button>
-                </div>
-                
-                <div className="grid md:grid-cols-3 gap-6">
-                  {comparedPaths.map((path) => (
-                    <div key={path.id} className="border border-gray-200 rounded-2xl p-4">
-                      <div className="flex items-center mb-4">
-                        <path.icon className={`text-2xl text-${path.color}-600 mr-3`} />
-                        <h4 className="font-bold text-gray-900">{path.title}</h4>
+          <div className="text-center">
+            <div className="bg-gradient-to-r from-blue-600 to-indigo-600 rounded-3xl p-8 text-white">
+              <h3 className="text-3xl font-bold mb-4">
+                Calculate Your Learning ROI
+              </h3>
+              <p className="text-xl mb-8 opacity-90">
+                See how our courses can boost your career and salary potential
+              </p>
+              <Link
+                to="/courses"
+                className="inline-flex items-center px-8 py-4 bg-white text-blue-600 font-bold rounded-xl"
+              >
+                <FaChartLine className="mr-3" />
+                Browse All Courses
+              </Link>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* Dynamic Role Switcher Section */}
+      <section className="py-16 md:py-24 bg-gradient-to-br from-gray-50 to-blue-50">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="text-center mb-12">
+            <h2 className="text-4xl md:text-5xl font-bold text-gray-900 mb-6">
+              Choose Your <span className="text-blue-600">Journey</span>
+            </h2>
+            <p className="text-xl text-gray-600 max-w-2xl mx-auto">
+              Discover what AscendCareer can do for you based on your role
+            </p>
+          </div>
+
+          <div className="flex flex-col md:flex-row justify-center mb-12">
+            <div className="bg-white rounded-2xl p-2 shadow-lg border border-gray-200 inline-flex flex-col md:flex-row">
+              {Object.entries(roleData).map(([role, data]) => (
+                <button
+                  key={role}
+                  onClick={() => setActiveRole(role)}
+                  className={`flex items-center justify-center px-6 md:px-8 py-4 rounded-xl font-semibold transition-all duration-300 text-base md:text-lg min-w-[200px] ${
+                    activeRole === role
+                      ? `bg-gradient-to-r ${
+                          data.color === 'blue' ? 'from-blue-500 to-blue-600' :
+                          data.color === 'green' ? 'from-green-500 to-green-600' :
+                          'from-purple-500 to-purple-600'
+                        } text-white shadow-lg transform scale-105`
+                      : 'text-gray-600 hover:text-gray-900 hover:bg-gray-50'
+                  }`}
+                >
+                  <data.icon className="mr-3 text-xl" />
+                  {data.title}
+                </button>
+              ))}
+            </div>
+          </div>
+
+          <div className="relative overflow-hidden">
+            {Object.entries(roleData).map(([role, data]) => (
+              <div
+                key={role}
+                className={`transition-all duration-500 ease-in-out ${
+                  activeRole === role
+                    ? 'opacity-100 transform translate-x-0'
+                    : 'opacity-0 transform translate-x-full absolute inset-0'
+                }`}
+              >
+                <div className="bg-white rounded-3xl shadow-2xl border border-gray-100 overflow-hidden">
+                  <div className={`bg-gradient-to-r ${
+                    data.color === 'blue' ? 'from-blue-500 to-blue-600' :
+                    data.color === 'green' ? 'from-green-500 to-green-600' :
+                    'from-purple-500 to-purple-600'
+                  } text-white p-8 md:p-12`}>
+                    <div className="flex flex-col md:flex-row items-center justify-between">
+                      <div className="text-center md:text-left mb-6 md:mb-0">
+                        <h3 className="text-3xl md:text-4xl font-bold mb-4">{data.title}</h3>
+                        <p className="text-xl opacity-90">{data.subtitle}</p>
                       </div>
-                      
-                      <div className="space-y-3 text-sm">
-                        <div className="flex justify-between">
-                          <span className="text-gray-600">AI Match:</span>
-                          <span className="font-semibold text-blue-600">{path.aiMatch}%</span>
-                        </div>
-                        <div className="flex justify-between">
-                          <span className="text-gray-600">Duration:</span>
-                          <span className="font-semibold">{path.duration}</span>
-                        </div>
-                        <div className="flex justify-between">
-                          <span className="text-gray-600">Success Rate:</span>
-                          <span className="font-semibold text-green-600">{path.successRate}%</span>
-                        </div>
-                        <div className="flex justify-between">
-                          <span className="text-gray-600">Job Growth:</span>
-                          <span className="font-semibold text-purple-600">{path.jobGrowth}</span>
-                        </div>
+                      <div className="w-24 h-24 bg-white/20 rounded-2xl flex items-center justify-center">
+                        <data.icon className="text-4xl text-white" />
                       </div>
                     </div>
-                  ))}
-                </div>
-                
-                <div className="mt-6 p-4 bg-blue-50 rounded-xl">
-                  <div className="flex items-start">
-                    <FaRobot className="text-blue-600 text-xl mr-3 mt-1" />
-                    <div>
-                      <h4 className="font-semibold text-blue-900 mb-2">AI Recommendation</h4>
-                      <p className="text-blue-800 text-sm">
-                        Based on your comparison, <strong>{comparedPaths[0]?.title}</strong> offers the best combination of 
-                        market demand, salary potential, and success rate for your career transition.
+
+                    <div className="grid grid-cols-3 gap-6 mt-8">
+                      {Object.entries(data.stats).map(([key, value]) => (
+                        <div key={key} className="text-center">
+                          <div className="text-2xl md:text-3xl font-bold">{value}</div>
+                          <div className="text-sm opacity-80 capitalize">
+                            {key.replace('_', ' ')}
+                          </div>
+                        </div>
+                      ))}
+                    </div>
+                  </div>
+
+                  <div className="p-8 md:p-12">
+                    <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+                      {data.features.map((feature, index) => (
+                        <div
+                          key={index}
+                          className="group p-6 rounded-2xl border border-gray-100 hover:border-gray-200 hover:shadow-lg transition-all duration-300 transform hover:-translate-y-1"
+                        >
+                          <div className={`w-12 h-12 bg-gradient-to-br ${
+                            data.color === 'blue' ? 'from-blue-100 to-blue-200' :
+                            data.color === 'green' ? 'from-green-100 to-green-200' :
+                            'from-purple-100 to-purple-200'
+                          } rounded-xl flex items-center justify-center mb-4 group-hover:scale-110 transition-transform duration-300`}>
+                            <feature.icon className={`text-xl ${
+                              data.color === 'blue' ? 'text-blue-600' :
+                              data.color === 'green' ? 'text-green-600' :
+                              'text-purple-600'
+                            }`} />
+                          </div>
+                          <h4 className="text-lg font-bold text-gray-900 mb-2">{feature.title}</h4>
+                          <p className="text-gray-600 text-sm leading-relaxed">{feature.desc}</p>
+                        </div>
+                      ))}
+                    </div>
+
+                    <div className="text-center mt-12">
+                      <Link
+                        to={role === 'student' ? '/signup' : role === 'trainer' ? '/become-trainer' : '/enterprise'}
+                        className={`inline-flex items-center px-8 py-4 bg-gradient-to-r ${
+                          data.color === 'blue' ? 'from-blue-500 to-blue-600 hover:from-blue-400 hover:to-blue-500' :
+                          data.color === 'green' ? 'from-green-500 to-green-600 hover:from-green-400 hover:to-green-500' :
+                          'from-purple-500 to-purple-600 hover:from-purple-400 hover:to-purple-500'
+                        } text-white font-bold text-lg rounded-2xl transition-all duration-300 shadow-lg hover:shadow-xl transform hover:-translate-y-1`}
+                      >
+                        <FaRocket className="mr-3" />
+                        {data.cta}
+                        <FaArrowRight className="ml-3" />
+                      </Link>
+                      
+                      <p className="text-gray-500 text-sm mt-4">
+                        {role === 'student' ? 'No credit card required • Start learning today' :
+                         role === 'trainer' ? 'Join 50,000+ successful trainers • Earn up to $125K/year' :
+                         'Trusted by 5,000+ companies • 94% satisfaction rate'}
                       </p>
                     </div>
                   </div>
                 </div>
               </div>
-            </div>
-          )}
-
-          {/* CTA Section */}
-          <div className="text-center mt-16">
-            <div className="bg-gradient-to-r from-blue-600 to-purple-600 rounded-3xl p-8 md:p-12 text-white">
-              <h3 className="text-3xl md:text-4xl font-bold mb-4">
-                Ready to Start Your AI-Guided Journey?
-              </h3>
-              <p className="text-xl mb-8 opacity-90">
-                Join thousands of learners who've transformed their careers with our intelligent platform
-              </p>
-              <div className="flex flex-col sm:flex-row gap-4 justify-center">
-                <Link
-                  to="/signup"
-                  className="inline-flex items-center px-8 py-4 bg-white text-blue-600 font-bold rounded-xl hover:bg-gray-100 transition-all duration-300 shadow-lg"
-                >
-                  <FaRocket className="mr-3" />
-                  Start Free Trial
-                </Link>
-                <Link
-                  to="/courses"
-                  className="inline-flex items-center px-8 py-4 border-2 border-white text-white font-semibold rounded-xl hover:bg-white/10 transition-all duration-300"
-                >
-                  <FaEye className="mr-3" />
-                  Explore All Paths
-                </Link>
-              </div>
-            </div>
+            ))}
           </div>
         </div>
       </section>

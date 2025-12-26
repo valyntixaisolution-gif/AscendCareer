@@ -82,7 +82,7 @@ const userSchema = new mongoose.Schema(
       street: { type: String, trim: true },
       city: { type: String, trim: true },
       state: { type: String, trim: true },
-      zip: { type: String, trim: true },
+      zipCode: { type: String, trim: true },
       country: { type: String, trim: true },
     },
     refreshToken: {

@@ -38,13 +38,17 @@ const PublicNavbar = () => {
     setIsLangOpen(false);
   };
 
+  const scrollToTop = () => {
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  };
+
   return (
     <>
       <nav className="navbar" role="navigation" aria-label="Main navigation">
         <div className="navbar-container">
           {/* Left: Brand */}
           <div className="navbar-brand">
-            <Link to="/" className="brand-logo" aria-label="GlobalCareer Home">
+            <Link to="/" className="brand-logo" aria-label="GlobalCareer Home" onClick={scrollToTop}>
               <svg className="brand-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 13.255A23.931 23.931 0 0112 15c-3.183 0-6.22-.62-9-1.745M16 6V4a2 2 0 00-2-2h-4a2 2 0 00-2 2v2m4 6h.01M5 20h14a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
               </svg>
@@ -71,18 +75,18 @@ const PublicNavbar = () => {
               </button>
               {isExploreOpen && (
                 <div className="dropdown-menu" onMouseLeave={() => setIsExploreOpen(false)}>
-                  <Link to="/about" className="dropdown-item">About</Link>
-                  <Link to="/career" className="dropdown-item">Career</Link>
-                  <Link to="/contact" className="dropdown-item">Contact Us</Link>
-                  <Link to="/how-it-works" className="dropdown-item">How It Works</Link>
+                  <Link to="/about" className="dropdown-item" onClick={scrollToTop}>About</Link>
+                  <Link to="/career" className="dropdown-item" onClick={scrollToTop}>Career</Link>
+                  <Link to="/contact" className="dropdown-item" onClick={scrollToTop}>Contact Us</Link>
+                  <Link to="/how-it-works" className="dropdown-item" onClick={scrollToTop}>How It Works</Link>
                 </div>
               )}
             </div>
 
-            <Link to="/learn" className="nav-link">Learn</Link>
-            <Link to="/blog" className="nav-link">Blog</Link>
-            <Link to="/support" className="nav-link">Support</Link>
-            <Link to="/community" className="nav-link">Community</Link>
+            <Link to="/learn" className="nav-link" onClick={scrollToTop}>Learn</Link>
+            <Link to="/blog" className="nav-link" onClick={scrollToTop}>Blog</Link>
+            <Link to="/support" className="nav-link" onClick={scrollToTop}>Support</Link>
+            <Link to="/community" className="nav-link" onClick={scrollToTop}>Community</Link>
           </div>
 
           {/* Right: Language & Actions */}
@@ -110,9 +114,9 @@ const PublicNavbar = () => {
             </div>
 
             {/* CTA Buttons */}
-            <Link to="/become-student" className="btn btn-secondary">Become a Student</Link>
-            <Link to="/login" className="btn btn-text">Sign In</Link>
-            <Link to="/register" className="btn btn-primary">Join</Link>
+            <Link to="/become-student" className="btn btn-secondary" onClick={scrollToTop}>Become a Student</Link>
+            <Link to="/login" className="btn btn-text" onClick={scrollToTop}>Sign In</Link>
+            <Link to="/register" className="btn btn-primary" onClick={scrollToTop}>Join</Link>
 
             {/* Mobile Menu Toggle */}
             <button
@@ -157,7 +161,7 @@ const PublicNavbar = () => {
               }}>
                 <Link 
                   to="/login" 
-                  onClick={() => setIsMobileMenuOpen(false)}
+                  onClick={() => { setIsMobileMenuOpen(false); scrollToTop(); }}
                   style={{
                     display: 'flex',
                     alignItems: 'center',
@@ -177,7 +181,7 @@ const PublicNavbar = () => {
                 </Link>
                 <Link 
                   to="/register" 
-                  onClick={() => setIsMobileMenuOpen(false)}
+                  onClick={() => { setIsMobileMenuOpen(false); scrollToTop(); }}
                   style={{
                     display: 'flex',
                     alignItems: 'center',
@@ -211,18 +215,18 @@ const PublicNavbar = () => {
                 </button>
                 {isExploreOpen && (
                   <div className="mobile-submenu">
-                    <Link to="/about" onClick={() => setIsMobileMenuOpen(false)}>About</Link>
-                    <Link to="/career" onClick={() => setIsMobileMenuOpen(false)}>Career</Link>
-                    <Link to="/contact" onClick={() => setIsMobileMenuOpen(false)}>Contact Us</Link>
-                    <Link to="/how-it-works" onClick={() => setIsMobileMenuOpen(false)}>How It Works</Link>
+                    <Link to="/about" onClick={() => { setIsMobileMenuOpen(false); scrollToTop(); }}>About</Link>
+                    <Link to="/career" onClick={() => { setIsMobileMenuOpen(false); scrollToTop(); }}>Career</Link>
+                    <Link to="/contact" onClick={() => { setIsMobileMenuOpen(false); scrollToTop(); }}>Contact Us</Link>
+                    <Link to="/how-it-works" onClick={() => { setIsMobileMenuOpen(false); scrollToTop(); }}>How It Works</Link>
                   </div>
                 )}
               </div>
 
-              <Link to="/learn" className="mobile-link" onClick={() => setIsMobileMenuOpen(false)}>Learn</Link>
-              <Link to="/blog" className="mobile-link" onClick={() => setIsMobileMenuOpen(false)}>Blog</Link>
-              <Link to="/support" className="mobile-link" onClick={() => setIsMobileMenuOpen(false)}>Support</Link>
-              <Link to="/community" className="mobile-link" onClick={() => setIsMobileMenuOpen(false)}>Community</Link>
+              <Link to="/learn" className="mobile-link" onClick={() => { setIsMobileMenuOpen(false); scrollToTop(); }}>Learn</Link>
+              <Link to="/blog" className="mobile-link" onClick={() => { setIsMobileMenuOpen(false); scrollToTop(); }}>Blog</Link>
+              <Link to="/support" className="mobile-link" onClick={() => { setIsMobileMenuOpen(false); scrollToTop(); }}>Support</Link>
+              <Link to="/community" className="mobile-link" onClick={() => { setIsMobileMenuOpen(false); scrollToTop(); }}>Community</Link>
 
               {/* Language Selector Mobile */}
               <div className="mobile-lang">
@@ -236,7 +240,7 @@ const PublicNavbar = () => {
 
               {/* Additional CTA for Become Student */}
               <div className="mobile-ctas">
-                <Link to="/become-student" className="btn btn-secondary btn-block" onClick={() => setIsMobileMenuOpen(false)}>Become a Student</Link>
+                <Link to="/become-student" className="btn btn-secondary btn-block" onClick={() => { setIsMobileMenuOpen(false); scrollToTop(); }}>Become a Student</Link>
               </div>
             </div>
           </div>

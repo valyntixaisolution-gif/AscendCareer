@@ -526,7 +526,7 @@ const PublicHome = () => {
               </h2>
               <p className="text-gray-600 text-sm sm:text-base">Courses that help you keep up with the latest trends</p>
             </div>
-            <Link to="/login" className="text-blue-600 hover:text-blue-700 font-semibold flex items-center whitespace-nowrap text-sm sm:text-base">
+            <Link to="/login" className="text-blue-600 hover:text-blue-700 font-semibold flex items-center whitespace-nowrap text-sm sm:text-base" onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}>
               View all <FaArrowRight className="ml-2" />
             </Link>
           </div>
@@ -746,6 +746,7 @@ const PublicHome = () => {
                     <Link
                       to="/login"
                       className="flex-1 bg-gradient-to-r from-blue-600 to-indigo-600 text-white font-semibold py-2 sm:py-3 px-3 sm:px-4 rounded-xl text-center text-xs sm:text-sm"
+                      onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}
                     >
                       Enroll Now
                     </Link>
@@ -772,6 +773,7 @@ const PublicHome = () => {
               <Link
                 to="/login"
                 className="inline-flex items-center px-6 sm:px-8 py-3 sm:py-4 bg-white text-blue-600 font-bold rounded-xl text-sm sm:text-base"
+                onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}
               >
                 <FaChartLine className="mr-2 sm:mr-3" />
                 Browse All Courses
@@ -889,6 +891,7 @@ const PublicHome = () => {
                           data.color === 'green' ? 'from-green-500 to-green-600 hover:from-green-400 hover:to-green-500' :
                           'from-purple-500 to-purple-600 hover:from-purple-400 hover:to-purple-500'
                         } text-white font-bold text-sm sm:text-base md:text-lg rounded-xl sm:rounded-2xl transition-all duration-300 shadow-lg hover:shadow-xl transform hover:-translate-y-1 w-full sm:w-auto`}
+                        onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}
                       >
                         <FaRocket className="mr-2 sm:mr-3" />
                         {data.cta}
@@ -964,6 +967,7 @@ const PublicHome = () => {
                 <Link 
                   to="/login"
                   className="w-full inline-flex items-center justify-center px-3 sm:px-4 py-2 sm:py-3 border border-blue-600 text-blue-600 rounded-lg hover:bg-blue-600 hover:text-white transition-all duration-300 text-sm sm:text-base"
+                  onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}
                 >
                   View Profile
                 </Link>
@@ -1085,6 +1089,7 @@ const PublicHome = () => {
             <Link 
               to="/register"
               className="w-full sm:w-auto inline-flex items-center justify-center px-6 sm:px-8 py-3 sm:py-4 bg-blue-600 text-white rounded-lg font-semibold hover:bg-blue-700 transition-all duration-300 shadow-lg hover:shadow-xl text-sm sm:text-base"
+              onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}
             >
               Start Learning Today <FaArrowRight className="ml-2" />
             </Link>
@@ -1092,6 +1097,7 @@ const PublicHome = () => {
             <Link 
               to="/login"
               className="w-full sm:w-auto inline-flex items-center justify-center px-6 sm:px-8 py-3 sm:py-4 border-2 border-blue-600 text-blue-600 rounded-lg font-semibold hover:bg-blue-600 hover:text-white transition-all duration-300 text-sm sm:text-base"
+              onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}
             >
               <FaPlay className="mr-2" />
               Explore Courses

@@ -5,6 +5,7 @@ import {
   createCourseService,
   getCourseByIdService,
   updateCourseService,
+  deleteCourseService,
 } from '../services/course.service.js';
 
 export async function getAllCoursesController(req, res) {
@@ -32,11 +33,17 @@ export async function getCourseByIdController(req, res) {
 }
 
 export async function updateCourseController(req, res) {
-  const date = await updateCourseService(req.params, req.body, req.user);
+  const updatedDate = await updateCourseService(req.params, req.body, req.user);
 
-  logger.info(`Updated course with id: ${date.id}`);
+  logger.info(`Updated course with id: ${updatedDate.id}`);
 
-  successResponse(res, 200, 'Course updated successfully', date);
+  successResponse(res, 200, 'Course updated successfully', updatedDate);
 }
 
-// export async function deleteCourseController(req, res) {}
+export async function deleteCourseController(req, res) {
+  await deleteCourseService(req.params, req.user);
+
+  logger.info(`Deleted course with id: ${req.params.courseId}`);
+
+  successResponse(res, 200, 'Course deleted successfully');
+}

@@ -5,6 +5,7 @@ import {
   createCourse,
   getCourseById,
   getCourseByCourseId,
+  deleteCourseById,
 } from '../repositories/course.repository';
 
 export async function getAllCoursesService(queryData) {
@@ -125,4 +126,40 @@ export async function updateCourseService(paramsData, bodyData, user) {
   }
 
   return updatedCourse;
+}
+
+export async function deleteCourseService(paramsData, user) {
+  const { courseId } = paramsData;
+
+  const course = await getCourseByCourseId(courseId);
+
+  if (!course) {
+    logger.error(`Course with id: ${courseId} not found`, {
+      label: 'CourseService',
+    });
+
+    throw new APIError(404, 'Course not found');
+  }
+
+  if (user.role === 'trainer' && course.trainer.toString() !== user.id) {
+    logger.error(
+      `Trainer with id: ${user.id} is not authorized to delete this course`,
+      {
+        label: 'CourseService',
+      }
+    );
+
+    throw new APIError(403, 'You are not authorized to delete this course');
+  }
+  const deleteCourse = await deleteCourseById(courseId);
+
+  if (!deleteCourse) {
+    logger.error(`Failed to delete course with id: ${courseId}`, {
+      label: 'CourseService',
+    });
+
+    throw new APIError(500, 'Failed to delete course');
+  }
+
+  return true;
 }

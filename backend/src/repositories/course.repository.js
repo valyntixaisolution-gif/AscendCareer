@@ -33,3 +33,8 @@ export async function getCourseByCourseId(courseId) {
   const course = await Course.findById(courseId);
   return !!course;
 }
+
+export async function deleteCourseById(courseId) {
+  const result = await Course.findByIdAndDelete(courseId);
+  return !!result;
+}

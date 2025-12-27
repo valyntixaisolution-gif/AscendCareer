@@ -80,6 +80,8 @@ backend/
   googleId:{type:String,select:false,sparse:true,unique:true},
   githubId:{type:String,select:false,sparse:true,unique:true},
   avatar:{type:String},
+  bio:{type:String},
+  address:{street:{type:String,trim:true},city:{type:String,trim:true},state:{type:String,trim:true},zipCode:{type:String,trim:true},country:{type:String,trim:true}}
   refreshToken:{type:String,select:false},
   enrolledCourses: [{ type: ObjectId, ref: 'Course' }],
   completedCourses: [{ type: ObjectId, ref: 'Course' }],

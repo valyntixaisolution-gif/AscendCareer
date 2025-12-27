@@ -100,7 +100,7 @@ router
   .route('/me/courses')
   .get(
     apiRateLimiter,
-    authenticateMiddleware(),
+    authenticateMiddleware(['student']),
     asyncHandlerMiddleware(getAllUsersController)
   );
 

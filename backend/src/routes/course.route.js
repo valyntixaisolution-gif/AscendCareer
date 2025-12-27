@@ -5,11 +5,15 @@ import asyncHandlerMiddleware from '../middlewares/async-handler.middleware';
 import {
   getAllCoursesController,
   createCourseController,
+  updateCourseController,
+  deleteCourseController,
 } from '../controllers/course.controller';
 import validateRequestMiddleware from '../middlewares/validate-request.middleware';
 import {
   getAllCoursesSchema,
   createCourseSchema,
+  getCourseByIdSchema,
+  updateCourseSchema,
 } from '../validator/course.validator';
 
 const router = Router();
@@ -32,11 +36,32 @@ router
     asyncHandlerMiddleware(createCourseController)
   );
 
-router.route('/:courseId').get(apiRateLimiter);
+router
+  .route('/:courseId')
+  .get(
+    apiRateLimiter,
+    authenticateMiddleware(),
+    validateRequestMiddleware(getCourseByIdSchema),
+    asyncHandlerMiddleware()
+  );
 
-router.route('/:courseId').put();
+router
+  .route('/:courseId')
+  .put(
+    apiRateLimiter,
+    authenticateMiddleware(['trainer', 'admin', 'super-admin']),
+    validateRequestMiddleware(updateCourseSchema),
+    asyncHandlerMiddleware(updateCourseController)
+  );
 
-router.route('/:courseId').delete();
+router
+  .route('/:courseId')
+  .delete(
+    apiRateLimiter,
+    authenticateMiddleware(['admin', 'super-admin']),
+    validateRequestMiddleware(getCourseByIdSchema),
+    asyncHandlerMiddleware(deleteCourseController)
+  );
 
 router.route('/:courseId/enroll').post();
 

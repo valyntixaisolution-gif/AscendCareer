@@ -20,3 +20,16 @@ export async function getAllCourses(
 export async function createCourse(courseData) {
   return Course.create(courseData);
 }
+
+export async function getCourseById(courseId) {
+  return Course.findById(courseId)
+    .populate('trainer', 'name email')
+    .populate('assignments', 'title dueDate')
+    .populate('projects', 'title description')
+    .lean();
+}
+
+export async function getCourseByCourseId(courseId) {
+  const course = await Course.findById(courseId);
+  return !!course;
+}

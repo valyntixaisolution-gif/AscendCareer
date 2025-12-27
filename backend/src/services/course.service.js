@@ -1,6 +1,11 @@
 import APIError from '../lib/api-error.lib';
 import logger from '../lib/logger.lib';
-import { getAllCourses, createCourse } from '../repositories/course.repository';
+import {
+  getAllCourses,
+  createCourse,
+  getCourseById,
+  getCourseByCourseId,
+} from '../repositories/course.repository';
 
 export async function getAllCoursesService(queryData) {
   const { page, limit, sort, category, level, search } = queryData;
@@ -63,4 +68,61 @@ export async function createCourseService(courseData, user) {
   }
 
   return course;
+}
+
+export async function getCourseByIdService(paramsData) {
+  const { courseId } = paramsData;
+
+  const course = await getCourseById(courseId);
+
+  if (!course) {
+    logger.error(`Course with id: ${courseId} not found`, {
+      label: 'CourseService',
+    });
+
+    throw new APIError(404, 'Course not found');
+  }
+
+  return course;
+}
+
+export async function updateCourseService(paramsData, bodyData, user) {
+  const { courseId } = paramsData;
+
+  const course = await getCourseByCourseId(courseId);
+
+  if (!course) {
+    logger.error(`Course with id: ${courseId} not found`, {
+      label: 'CourseService',
+    });
+
+    throw new APIError(404, 'Course not found');
+  }
+
+  if (user.role === 'trainer' && course.trainer.toString() !== user.id) {
+    logger.error(
+      `Trainer with id: ${user.id} is not authorized to update this course`,
+      {
+        label: 'CourseService',
+      }
+    );
+
+    throw new APIError(403, 'You are not authorized to update this course');
+  }
+
+  Object.keys(bodyData).forEach((key) => {
+    course[key] = bodyData[key];
+  });
+
+  const updatedCourse = await course.save();
+
+  if (!updatedCourse) {
+    logger.error(`Failed to update course with id: ${courseId}`, {
+      label: 'CourseService',
+    });
+
+    throw new APIError(500, 'Failed to update course');
+  }
+
+  return updatedCourse;
 }

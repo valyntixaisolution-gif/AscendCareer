@@ -43,6 +43,10 @@ const courseSchema = new mongoose.Schema(
       default: 'english',
       trim: true,
     },
+    thumbnailUrl: {
+      type: String,
+      trim: true,
+    },
     assignments: [
       {
         type: mongoose.Schema.Types.ObjectId,

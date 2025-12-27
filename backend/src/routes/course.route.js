@@ -63,7 +63,13 @@ router
     asyncHandlerMiddleware(deleteCourseController)
   );
 
-router.route('/:courseId/enroll').post();
+router
+  .route('/:courseId/enroll')
+  .post(
+    apiRateLimiter,
+    authenticateMiddleware(['student']),
+    asyncHandlerMiddleware()
+  );
 
 router.route('/:courseId/students').get();
 

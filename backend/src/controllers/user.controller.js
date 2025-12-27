@@ -10,6 +10,7 @@ import {
   getUserByIdService,
   updateUserRoleService,
   deleteUserService,
+  getUserCoursesService,
 } from '../services/user.service.js';
 
 export async function meController(req, res) {
@@ -187,4 +188,16 @@ export async function deleteUserController(req, res) {
   });
 
   successResponse(res, 200, 'Deleted user successfully');
+}
+
+export async function getUserCoursesController(req, res) {
+  const data = await getUserCoursesService(req.user.userId, req.query);
+
+  logger.info('Fetched user courses successfully', {
+    label: 'GetUserCoursesController',
+    userId: req.user.userId,
+    courseCount: data.length,
+  });
+
+  successResponse(res, 200, 'Fetched user courses successfully', data);
 }

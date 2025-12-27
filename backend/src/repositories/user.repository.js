@@ -24,3 +24,29 @@ export async function findAllUsers() {
 export async function deleteUserById(userId) {
   return User.findByIdAndDelete(userId);
 }
+
+export async function getCoursesByUserId(
+  userId,
+  filterOptions,
+  sortOptions,
+  limitNumber,
+  pageNumber
+) {
+  const skip = (pageNumber - 1) * limitNumber;
+
+  const user = await User.findById(userId).populate({
+    path: 'enrolledCourses',
+    match: filterOptions,
+    options: {
+      sort: sortOptions,
+      limit: limitNumber,
+      skip: skip,
+    },
+    select:
+      'title description category instructor price duration level language assignments projects studentsEnrolled ratings createdAt updatedAt',
+  });
+
+  const totalCourse = user.enrolledCourses.length;
+
+  return { courses: user.enrolledCourses, totalCourse };
+}

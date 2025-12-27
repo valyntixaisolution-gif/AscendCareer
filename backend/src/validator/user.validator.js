@@ -26,7 +26,7 @@ export const updateUserSchema = {
 
     bio: z.string().max(500, 'Bio is too long').optional(),
 
-    avatar: z.string().url('Invalid avatar URL').optional(),
+    avatar: z.url('Invalid avatar URL').optional(),
 
     address: z
       .object({
@@ -88,5 +88,17 @@ export const updateUserByRoleSchema = {
 export const deleteUserSchema = {
   params: z.object({
     userId: z.string('User ID must be provided.'),
+  }),
+};
+
+export const getUserCoursesSchema = {
+  query: z.object({
+    page: z.coerce.number().min(1).optional(),
+    limit: z.coerce.number().min(1).optional(),
+    category: z.string().optional(),
+    level: z.enum(['beginner', 'intermediate', 'advanced']).optional(),
+    isPublished: z.coerce.boolean().optional(),
+    sort: z.string().optional(),
+    order: z.enum(['asc', 'desc']).optional(),
   }),
 };

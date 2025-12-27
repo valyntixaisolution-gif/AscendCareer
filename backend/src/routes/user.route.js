@@ -96,4 +96,12 @@ router
     asyncHandlerMiddleware(deleteUserController)
   );
 
+router
+  .route('/me/courses')
+  .get(
+    apiRateLimiter,
+    authenticateMiddleware(),
+    asyncHandlerMiddleware(getAllUsersController)
+  );
+
 export default router;

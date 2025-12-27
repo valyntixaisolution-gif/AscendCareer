@@ -89,6 +89,30 @@ const userSchema = new mongoose.Schema(
       type: String,
       select: false,
     },
+    enrolledCourses: [
+      {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'Course',
+      },
+    ],
+    completedCourses: [
+      {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'Course',
+      },
+    ],
+    certificates: [
+      {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'Certificate',
+      },
+    ],
+    notifications: [
+      {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'Notification',
+      },
+    ],
   },
   { timestamps: true }
 );

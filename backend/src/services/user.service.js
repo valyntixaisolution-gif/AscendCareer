@@ -5,6 +5,7 @@ import {
   findUserByIdAndUpdate,
   findAllUsers,
   deleteUserById,
+  getCoursesByUserId,
 } from '../repositories/user.repository';
 
 export async function meService(userId) {
@@ -136,4 +137,40 @@ export async function deleteUserService(userParams) {
   }
 
   return deletedUser;
+}
+
+export async function getUserCoursesService(userId, queryData) {
+  const { limit, page, category, level, isPublished, sort, order } = queryData;
+  const pageNumber = page || 1;
+  const limitNumber = limit || 10;
+
+  const filterOptions = {};
+  if (category) return (filterOptions.category = category);
+  if (level) return (filterOptions.level = level);
+  if (isPublished !== undefined)
+    return (filterOptions.isPublished = isPublished === 'true');
+
+  const sortOptions = {};
+  if (sort) {
+    sortOptions[sort] = order === 'asc' ? 1 : -1;
+  } else {
+    sortOptions.createdAt = -1;
+  }
+  const courses = await getCoursesByUserId(
+    userId,
+    filterOptions,
+    sortOptions,
+    limitNumber,
+    pageNumber
+  );
+
+  if (!courses) {
+    logger.error('User not found', {
+      label: 'GetUserCoursesService',
+      userId,
+    });
+    throw new APIError(404, 'User not found');
+  }
+
+  return courses;
 }

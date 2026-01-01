@@ -7,6 +7,7 @@ import {
   updateCourseService,
   deleteCourseService,
   enrollInCourseService,
+  getStudentsInCourseService,
 } from '../services/course.service.js';
 
 export async function getAllCoursesController(req, res) {
@@ -57,4 +58,12 @@ export async function enrollInCourseController(req, res) {
   );
 
   successResponse(res, 200, 'Enrolled in course successfully', data);
+}
+
+export async function getStudentsInCourseController(req, res) {
+  const data = await getStudentsInCourseService(req.params, req.user);
+
+  logger.info(`Fetched students for course with id: ${req.params.courseId}`);
+
+  successResponse(res, 200, 'Students fetched successfully', data);
 }

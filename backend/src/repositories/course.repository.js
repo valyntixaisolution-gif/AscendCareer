@@ -51,3 +51,11 @@ export async function createEnrollCourse(courseId, studentId) {
     $push: { enrolledCourses: courseId },
   });
 }
+
+export async function getCourseStudents(courseId) {
+  const course = await Course.findById(courseId).populate(
+    'students',
+    'name email'
+  );
+  return course ? course.students : [];
+}

@@ -8,6 +8,7 @@ import {
   deleteCourseById,
   isEnrollCourse,
   createEnrollCourse,
+  getCourseStudents,
 } from '../repositories/course.repository';
 
 export async function getAllCoursesService(queryData) {
@@ -207,4 +208,43 @@ export async function enrollInCourseService(paramsData, user) {
   }
 
   return enrollment;
+}
+
+export async function getStudentsInCourseService(paramsData, user) {
+  const { courseId } = paramsData;
+
+  const course = await getCourseByCourseId(courseId);
+
+  if (!course) {
+    logger.error(`Course with id: ${courseId} not found`, {
+      label: 'CourseService',
+    });
+
+    throw new APIError(404, 'Course not found');
+  }
+
+  if (user.role === 'trainer' && course.trainer.toString() !== user.id) {
+    logger.error(
+      `Trainer with id: ${user.id} is not authorized to view students of this course`,
+      {
+        label: 'CourseService',
+      }
+    );
+    throw new APIError(
+      403,
+      'You are not authorized to view students of this course'
+    );
+  }
+
+  const students = await getCourseStudents(courseId);
+
+  if (!students) {
+    logger.error(`No students found for course with id: ${courseId}`, {
+      label: 'CourseService',
+    });
+
+    throw new APIError(404, 'No students found for this course');
+  }
+
+  return students;
 }

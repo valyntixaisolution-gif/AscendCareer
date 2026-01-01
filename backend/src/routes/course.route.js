@@ -8,6 +8,7 @@ import {
   updateCourseController,
   deleteCourseController,
   enrollInCourseController,
+  getStudentsInCourseController,
 } from '../controllers/course.controller';
 import validateRequestMiddleware from '../middlewares/validate-request.middleware';
 import {
@@ -73,6 +74,13 @@ router
     asyncHandlerMiddleware(enrollInCourseController)
   );
 
-router.route('/:courseId/students').get();
+router
+  .route('/:courseId/students')
+  .get(
+    apiRateLimiter,
+    authenticateMiddleware(['trainer', 'admin', 'super-admin']),
+    validateRequestMiddleware(getCourseByIdSchema),
+    asyncHandlerMiddleware(getStudentsInCourseController)
+  );
 
 export default router;

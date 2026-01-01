@@ -6,6 +6,8 @@ import {
   getCourseById,
   getCourseByCourseId,
   deleteCourseById,
+  isEnrollCourse,
+  createEnrollCourse,
 } from '../repositories/course.repository';
 
 export async function getAllCoursesService(queryData) {
@@ -162,4 +164,47 @@ export async function deleteCourseService(paramsData, user) {
   }
 
   return true;
+}
+
+export async function enrollInCourseService(paramsData, user) {
+  const { courseId } = paramsData;
+  const studentId = user.userId;
+
+  const course = await getCourseByCourseId(courseId);
+
+  if (!course) {
+    logger.error(`Course with id: ${courseId} not found`, {
+      label: 'CourseService',
+    });
+
+    throw new APIError(404, 'Course not found');
+  }
+
+  const alreadyEnrolled = await isEnrollCourse(courseId, studentId);
+
+  if (alreadyEnrolled) {
+    logger.error(
+      `Student with id: ${studentId} already enrolled in course id: ${courseId}`,
+      {
+        label: 'CourseService',
+      }
+    );
+
+    throw new APIError(400, 'Already enrolled in this course');
+  }
+
+  const enrollment = await createEnrollCourse(courseId, studentId);
+
+  if (!enrollment) {
+    logger.error(
+      `Enrollment failed for course id: ${courseId} and student id: ${studentId}`,
+      {
+        label: 'CourseService',
+      }
+    );
+
+    throw new APIError(500, 'Enrollment failed');
+  }
+
+  return enrollment;
 }

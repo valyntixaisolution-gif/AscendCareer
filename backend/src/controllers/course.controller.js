@@ -6,6 +6,7 @@ import {
   getCourseByIdService,
   updateCourseService,
   deleteCourseService,
+  enrollInCourseService,
 } from '../services/course.service.js';
 
 export async function getAllCoursesController(req, res) {
@@ -48,4 +49,12 @@ export async function deleteCourseController(req, res) {
   successResponse(res, 200, 'Course deleted successfully');
 }
 
-export async function enrollInCourseController(req, res) {}
+export async function enrollInCourseController(req, res) {
+  const data = await enrollInCourseService(req.params, req.user);
+
+  logger.info(
+    `User with id: ${req.user.id} enrolled in course with id: ${req.params.courseId}`
+  );
+
+  successResponse(res, 200, 'Enrolled in course successfully', data);
+}

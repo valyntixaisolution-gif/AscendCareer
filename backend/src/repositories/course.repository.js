@@ -1,4 +1,5 @@
 import Course from '../models/course.model';
+import User from '../models/user.model';
 
 export async function getAllCourses(
   pageNumber,
@@ -37,4 +38,16 @@ export async function getCourseByCourseId(courseId) {
 export async function deleteCourseById(courseId) {
   const result = await Course.findByIdAndDelete(courseId);
   return !!result;
+}
+
+export async function isEnrollCourse(courseId, studentId) {
+  const course = await User.findOne({ courseId, enrolledCourses: studentId });
+  return !!course;
+}
+
+export async function createEnrollCourse(courseId, studentId) {
+  return User.create({
+    _id: studentId,
+    $push: { enrolledCourses: courseId },
+  });
 }

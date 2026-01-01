@@ -74,12 +74,13 @@ Roles: `['student', 'trainer', 'company', 'admin', 'super-admin']`
 ## 📘 3️⃣ ASSIGNMENT MODEL (`assignment.model.js`)
 
 | Method | Endpoint                         | What it does      | Roles |
-| ------ | -------------------------------- | ---------------- | ----- |
-| POST   | `/courses/:courseId/assignments` | Create assignment | trainer (own course), admin |
-| GET    | `/courses/:courseId/assignments` | List assignments  | All enrolled students, trainer (own course) |
-| GET    | `/assignments/:assignmentId`     | Get assignment    | All enrolled students, trainer (own course) |
-| PUT    | `/assignments/:assignmentId`     | Update assignment | trainer (own course), admin |
-| DELETE | `/assignments/:assignmentId`     | Delete assignment | trainer (own course), admin |
+| ------ | -------------------------------- | ----------------- | --------------------------------------------- |
+| POST   | /courses/:courseId/assignments   | Create assignment | trainer (own course), admin                   |
+| GET    | /courses/:courseId/assignments   | List assignments  | enrolled students, trainer (own course), admin|
+| GET    | /assignments/:assignmentId       | Get assignment    | enrolled students, trainer (own course), admin|
+| PUT    | /assignments/:assignmentId       | Update assignment | trainer (own course), admin                   |
+| DELETE | /assignments/:assignmentId       | Delete assignment | trainer (own course), admin                   |
+trainer (own course), admin |
 
 ### Submissions
 

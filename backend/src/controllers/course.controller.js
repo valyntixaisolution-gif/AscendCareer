@@ -47,3 +47,5 @@ export async function deleteCourseController(req, res) {
 
   successResponse(res, 200, 'Course deleted successfully');
 }
+
+export async function enrollInCourseController(req, res) {}

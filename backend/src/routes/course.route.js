@@ -7,6 +7,7 @@ import {
   createCourseController,
   updateCourseController,
   deleteCourseController,
+  enrollInCourseController,
 } from '../controllers/course.controller';
 import validateRequestMiddleware from '../middlewares/validate-request.middleware';
 import {
@@ -68,7 +69,8 @@ router
   .post(
     apiRateLimiter,
     authenticateMiddleware(['student']),
-    asyncHandlerMiddleware()
+    validateRequestMiddleware(getCourseByIdSchema),
+    asyncHandlerMiddleware(enrollInCourseController)
   );
 
 router.route('/:courseId/students').get();

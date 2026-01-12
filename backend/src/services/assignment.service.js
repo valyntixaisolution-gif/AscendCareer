@@ -4,6 +4,8 @@ import {
   getAssignmentById as getAssignmentByIdRepo,
   updateAssignment as updateAssignmentRepo,
   deleteAssignment as deleteAssignmentRepo,
+  submitAssignment as submitAssignmentRepo,
+  gradeAssignment as gradeAssignmentRepo,
 } from '../repositories/assignment.repository.js';
 
 export async function createAssignmentService(params, body) {
@@ -55,4 +57,29 @@ export async function deleteAssignmentService(params) {
   const { assignmentId } = params;
 
   await deleteAssignmentRepo(assignmentId);
+}
+
+export async function submitAssignmentService(params, body, user) {
+  const { assignmentId } = params;
+  const { submissionUrl } = body;
+
+  const submission = await submitAssignmentRepo(assignmentId, {
+    student: user._id,
+    submissionUrl,
+    submittedAt: new Date(),
+  });
+
+  return submission;
+}
+
+export async function gradeAssignmentService(params, body) {
+  const { assignmentId } = params;
+  const { studentId, marksObtained, feedback } = body;
+
+  const submission = await gradeAssignmentRepo(assignmentId, studentId, {
+    marksObtained,
+    feedback,
+  });
+
+  return submission;
 }

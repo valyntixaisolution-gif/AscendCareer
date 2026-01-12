@@ -13,6 +13,8 @@ import {
   getAssignmentById,
   updateAssignment,
   deleteAssignment,
+  submitAssignment,
+  gradeAssignment,
 } from '../controllers/assignment.controller.js';
 
 const router = Router();
@@ -57,6 +59,22 @@ router
     apiRateLimiter,
     authenticateMiddleware(),
     asyncHandlerMiddleware(deleteAssignment)
+  );
+
+router
+  .route('/assignments/:assignmentId/submit')
+  .post(
+    apiRateLimiter,
+    authenticateMiddleware(),
+    asyncHandlerMiddleware(submitAssignment)
+  );
+
+router
+  .route('/assignments/:assignmentId/grade')
+  .put(
+    apiRateLimiter,
+    authenticateMiddleware(),
+    asyncHandlerMiddleware(gradeAssignment)
   );
 
 export default router;

@@ -28,3 +28,29 @@ export async function updateAssignment(assignmentId, updateData) {
 export async function deleteAssignment(assignmentId) {
   await Assignment.findByIdAndDelete(assignmentId);
 }
+
+export async function submitAssignment(assignmentId, submissionData) {
+  const assignment = await Assignment.findByIdAndUpdate(
+    assignmentId,
+    { $push: { submissions: submissionData } },
+    { new: true }
+  );
+  return assignment;
+}
+
+export async function gradeAssignment(assignmentId, studentId, gradeData) {
+  const assignment = await Assignment.findByIdAndUpdate(
+    assignmentId,
+    {
+      $set: {
+        'submissions.$[elem].marksObtained': gradeData.marksObtained,
+        'submissions.$[elem].feedback': gradeData.feedback,
+      },
+    },
+    {
+      arrayFilters: [{ 'elem.student': studentId }],
+      new: true,
+    }
+  );
+  return assignment;
+}

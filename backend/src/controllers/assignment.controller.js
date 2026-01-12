@@ -6,6 +6,8 @@ import {
   getAssignmentByIdService,
   updateAssignmentService,
   deleteAssignmentService,
+  submitAssignmentService,
+  gradeAssignmentService,
 } from '../services/assignment.service.js';
 
 export async function createAssignment(req, res) {
@@ -46,4 +48,28 @@ export async function deleteAssignment(req, res) {
   logger.info(`Assignment deleted with ID: ${req.params.assignmentId}`);
 
   successResponse(res, 200, 'Assignment deleted successfully');
+}
+
+export async function submitAssignment(req, res) {
+  const submission = await submitAssignmentService(
+    req.params,
+    req.body,
+    req.user
+  );
+
+  logger.info(
+    `Assignment submitted for assignment ID: ${req.params.assignmentId} by student: ${req.user._id}`
+  );
+
+  successResponse(res, 201, 'Assignment submitted successfully', submission);
+}
+
+export async function gradeAssignment(req, res) {
+  const submission = await gradeAssignmentService(req.params, req.body);
+
+  logger.info(
+    `Assignment graded for assignment ID: ${req.params.assignmentId}`
+  );
+
+  successResponse(res, 200, 'Assignment graded successfully', submission);
 }

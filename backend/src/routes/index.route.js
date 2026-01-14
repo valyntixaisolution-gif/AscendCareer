@@ -9,6 +9,7 @@ import userRoute from './user.route.js';
 import courseRouter from './course.route.js';
 import assignmentRouter from './assignment.route.js';
 import projectRouter from './project.route.js';
+import internshipRouter from './internship.route.js';
 
 const router = Router();
 
@@ -58,6 +59,7 @@ router.use('/api/v1/users', userRoute);
 router.use('/api/v1/courses', courseRouter);
 router.use('/api/v1', assignmentRouter);
 router.use('/api/v1', projectRouter);
+router.use('/api/v1/internships', internshipRouter);
 
 router.use((req, res, next) => {
   logger.warn(`Route not found: ${req.originalUrl}`, {

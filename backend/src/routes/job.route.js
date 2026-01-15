@@ -6,11 +6,13 @@ import {
   listJobsSchema,
   createJobSchema,
   getJobByIdSchema,
+  updateJobSchema,
 } from '../validator/job.validator.js';
 import {
   listJobsController,
   createJobController,
   getJobByIdController,
+  updateJobController,
 } from '../controllers/job.controller.js';
 
 const router = express.Router();
@@ -37,6 +39,14 @@ router.get(
   authenticate,
   validateRequest(getJobByIdSchema),
   asyncHandler(getJobByIdController)
+);
+
+// PUT /jobs/:jobId - Update job (admin, super-admin)
+router.put(
+  '/:jobId',
+  authenticate,
+  validateRequest(updateJobSchema),
+  asyncHandler(updateJobController)
 );
 
 export default router;

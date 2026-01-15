@@ -75,3 +75,15 @@ export async function getJobByIdController(req, res) {
 
   successResponse(res, 200, 'Job fetched successfully', job);
 }
+
+export async function updateJobController(req, res) {
+  const updatedJob = await updateJobService(
+    req.params.jobId,
+    req.body,
+    req.user
+  );
+
+  logger.info(`Updated job with id: ${updatedJob._id}`);
+
+  successResponse(res, 200, 'Job updated successfully', updatedJob);
+}

@@ -108,3 +108,11 @@ export async function applyForJobController(req, res) {
 
   successResponse(res, 200, 'Applied for job successfully', job);
 }
+
+export async function getJobApplicantsController(req, res) {
+  const applicants = await getApplicantsService(req.params.jobId, req.user);
+
+  logger.info(`Fetched applicants for job ${req.params.jobId}`);
+
+  successResponse(res, 200, 'Applicants fetched successfully', applicants);
+}

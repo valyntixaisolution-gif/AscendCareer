@@ -8,6 +8,7 @@ import {
   getJobByIdSchema,
   updateJobSchema,
   applyJobSchema,
+  getJobApplicantsSchema,
 } from '../validator/job.validator.js';
 import {
   listJobsController,
@@ -16,6 +17,7 @@ import {
   updateJobController,
   deleteJobController,
   applyForJobController,
+  getJobApplicantsController,
 } from '../controllers/job.controller.js';
 
 const router = express.Router();
@@ -66,6 +68,14 @@ router.post(
   authenticate,
   validateRequest(applyJobSchema),
   asyncHandler(applyForJobController)
+);
+
+// GET /jobs/:jobId/applicants - Get applicants (admin, super-admin, company)
+router.get(
+  '/:jobId/applicants',
+  authenticate,
+  validateRequest(getJobApplicantsSchema),
+  asyncHandler(getJobApplicantsController)
 );
 
 export default router;

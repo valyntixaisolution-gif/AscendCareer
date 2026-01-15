@@ -95,3 +95,16 @@ export async function deleteJobController(req, res) {
 
   successResponse(res, 200, 'Job deleted successfully');
 }
+
+export async function applyForJobController(req, res) {
+  // Check authorization - only students can apply
+  if (req.user.role !== 'student') {
+    throw new Error('Only students can apply for jobs');
+  }
+
+  const job = await applyForJobService(req.params.jobId, req.user.id);
+
+  logger.info(`User ${req.user.id} applied for job ${req.params.jobId}`);
+
+  successResponse(res, 200, 'Applied for job successfully', job);
+}

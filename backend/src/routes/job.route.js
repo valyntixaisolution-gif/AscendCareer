@@ -7,6 +7,7 @@ import {
   createJobSchema,
   getJobByIdSchema,
   updateJobSchema,
+  applyJobSchema,
 } from '../validator/job.validator.js';
 import {
   listJobsController,
@@ -14,6 +15,7 @@ import {
   getJobByIdController,
   updateJobController,
   deleteJobController,
+  applyForJobController,
 } from '../controllers/job.controller.js';
 
 const router = express.Router();
@@ -56,6 +58,14 @@ router.delete(
   authenticate,
   validateRequest(getJobByIdSchema),
   asyncHandler(deleteJobController)
+);
+
+// POST /jobs/:jobId/apply - Apply for job (student)
+router.post(
+  '/:jobId/apply',
+  authenticate,
+  validateRequest(applyJobSchema),
+  asyncHandler(applyForJobController)
 );
 
 export default router;

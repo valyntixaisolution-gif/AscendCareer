@@ -67,3 +67,11 @@ export async function createJobController(req, res) {
 
   successResponse(res, 201, 'Job created successfully', job);
 }
+
+export async function getJobByIdController(req, res) {
+  const job = await getJobByIdService(req.params.jobId);
+
+  logger.info(`Fetched job with id: ${job._id}`);
+
+  successResponse(res, 200, 'Job fetched successfully', job);
+}

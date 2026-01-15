@@ -13,6 +13,7 @@ import {
   createJobController,
   getJobByIdController,
   updateJobController,
+  deleteJobController,
 } from '../controllers/job.controller.js';
 
 const router = express.Router();
@@ -47,6 +48,14 @@ router.put(
   authenticate,
   validateRequest(updateJobSchema),
   asyncHandler(updateJobController)
+);
+
+// DELETE /jobs/:jobId - Delete job (admin, super-admin)
+router.delete(
+  '/:jobId',
+  authenticate,
+  validateRequest(getJobByIdSchema),
+  asyncHandler(deleteJobController)
 );
 
 export default router;

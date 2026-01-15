@@ -87,3 +87,11 @@ export async function updateJobController(req, res) {
 
   successResponse(res, 200, 'Job updated successfully', updatedJob);
 }
+
+export async function deleteJobController(req, res) {
+  await deleteJobService(req.params.jobId, req.user);
+
+  logger.info(`Deleted job with id: ${req.params.jobId}`);
+
+  successResponse(res, 200, 'Job deleted successfully');
+}
